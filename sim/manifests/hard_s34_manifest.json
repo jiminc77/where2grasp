@@ -1,0 +1,238 @@
+{
+  "features": {
+    "M": 8,
+    "allow_list": [
+      "shape_yz_temporal_112",
+      "probe_shape_yz_16",
+      "proprio_terminal_pose_and_drive_8",
+      "normalized_supported_Fz"
+    ],
+    "deny_list": [
+      "setting_id",
+      "pair_id",
+      "B_eff",
+      "w",
+      "ratio",
+      "raw_vertex_count",
+      "absolute_rod_length",
+      "filename",
+      "order_index",
+      "target-derived fields"
+    ],
+    "feature_vectors": {
+      "probe_shape": 136,
+      "probe_shape_wrench": 137,
+      "proprio": 8,
+      "task_shape": 120,
+      "task_shape_wrench": 121
+    },
+    "frame_steps": [
+      60,
+      120,
+      180,
+      240,
+      300,
+      360,
+      "settled"
+    ],
+    "per_frame_dim": 16,
+    "probe_enriched_shape_dim": 128,
+    "probe_shape_dim": 16,
+    "proprio_dim": 8,
+    "ridge_reduction": "temporal mean+last-frame pooling of the (y,z) frames (task 112->32; probe-enriched 128->48)",
+    "shape_frames": 7,
+    "task_shape_dim": 112,
+    "wrench_dim": 1
+  },
+  "frozen": true,
+  "grouped_cv": {
+    "K": 3,
+    "folds": {
+      "0": [
+        "B1_w0",
+        "B3_w0",
+        "B4_w2"
+      ],
+      "1": [
+        "B1_w2",
+        "B3_w1"
+      ],
+      "2": [
+        "B2_w0",
+        "B4_w0"
+      ]
+    },
+    "rule": "lexicographic sort of TRAIN setting IDs; fold=index mod 3"
+  },
+  "history_policy": {
+    "N_hist_per_setting": 32,
+    "grasps": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "matched_CRN": true,
+    "note": "each setting: 4 grasps x 4 templates x 2 seeds = 32; ref and R share (grasp,template,seed) CRN",
+    "seeds": [
+      2000,
+      2001
+    ],
+    "templates": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "input_artifact_sha256": {
+    "calibration.json": "0fd6dcaf2743103de20b42be54a975358afc702e3d44bce1986b155ef266ff6b",
+    "hard_gate_verdict.json": "97cdf7c018ac0dccf555ccd9d92741cfc7b91bdb20b1808cc9202ce7b6bd13e4",
+    "hard_sweep_landscape.json": "f2eda399abfbac7092952245fe3dc570b9c49a9eba267b74c3a88599e6ab7bd6",
+    "hard_sweep_manifest.json": "c79165483624a6db21497435cb6de62a69606012f657db23a64fecd537609ba8",
+    "hard_sweep_results.npz": "f5bd96aae3e2d19e6c7fb0153852514f90f4bbc3210ebfcb96de82fd1bc4eca4"
+  },
+  "map_recovery": {
+    "bootstrap": {
+      "n": 2000,
+      "paired_over": "matched evaluation-seed blocks",
+      "seed": 7
+    },
+    "boundary_rule": "first tau=0.5 crossing linearly interpolated in grasp-index units; censored (excluded) if no crossing",
+    "metrics": [
+      "map_rmse",
+      "correlation",
+      "tau_boundary_index_error"
+    ],
+    "primary": true,
+    "success_rule": "probe-enriched student - blind CI95 < 0 (better) on map RMSE AND boundary error, AND probe-enriched student / teacher map-RMSE ratio <= 1.5"
+  },
+  "margins": {
+    "K": 3,
+    "tol_indiv": 0.15,
+    "tol_ratio": 0.1,
+    "tol_shape": 0.05
+  },
+  "metric": "log10-RMSE",
+  "models": {
+    "critic": {
+      "epochs": 300,
+      "hidden": [
+        32,
+        32
+      ],
+      "seed": 3403
+    },
+    "distill_epochs": 300,
+    "mlp": {
+      "epochs": 200,
+      "hidden": [
+        64,
+        64
+      ],
+      "seed": 3402
+    },
+    "phi_theta": {
+      "hidden": [
+        32
+      ],
+      "z": 4
+    },
+    "repeated_seeds": [
+      3401,
+      3411,
+      3421
+    ],
+    "ridge": {
+      "seed": 3401
+    },
+    "student_encoder": {
+      "hidden": [
+        64,
+        32
+      ],
+      "z": 4
+    }
+  },
+  "probe": {
+    "contributes": "settled-only 16-D (y,z) frame prepended to the 7 task frames",
+    "ell_probe": 0.15,
+    "exploratory_note": "probe qualification INCONCLUSIVE at interval 0.01: no candidate length keeps every kept material both Pi_g<=0.3 AND residual<5%; the softest kept material B1 has its cleanest in-regime law fit at ell=0.15 (exp 3.85, CV 2.8%, Pi_g 0.203) but residual 5.5% marginally exceeds the 5% gate. The gate is NOT relaxed; probe-enriched results are EXPLORATORY (pre-registered target ell=0.15), never a clean positive control.",
+    "qualification": "hardening/exploratory/probe_qualification.json",
+    "qualification_verdict": "INCONCLUSIVE-STOP",
+    "regime": "small-deflection",
+    "status": "EXPLORATORY-UNQUALIFIED",
+    "target_Pi_g_max": 0.3
+  },
+  "ridge_alpha_grid": [
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0,
+    100.0,
+    1000.0
+  ],
+  "schema_version": 1,
+  "splits": {
+    "final_test_pairs": [
+      [
+        "B1_w1",
+        "R0"
+      ],
+      [
+        "B3_w2",
+        "R1"
+      ],
+      [
+        "B2_w1",
+        "R2"
+      ]
+    ],
+    "test": [
+      "B1_w1",
+      "R0",
+      "B3_w2",
+      "R1",
+      "B2_w1",
+      "R2"
+    ],
+    "train": [
+      "B1_w0",
+      "B1_w2",
+      "B2_w0",
+      "B3_w0",
+      "B3_w1",
+      "B4_w0",
+      "B4_w2"
+    ],
+    "val": [
+      "B2_w2",
+      "B4_w1"
+    ]
+  },
+  "sweep_manifest": "hard_sweep_manifest.json",
+  "targets": [
+    "log10_B_eff",
+    "log10_w",
+    "log10_B_eff_over_w"
+  ],
+  "truth_table": "failed positive-control OR guard => INCONCLUSIVE; premises pass but null OR repair fails => FAIL; all pass => PASS",
+  "universe": [
+    "B1_w0",
+    "B1_w1",
+    "B1_w2",
+    "B2_w0",
+    "B2_w1",
+    "B2_w2",
+    "B3_w0",
+    "B3_w1",
+    "B3_w2",
+    "B4_w0",
+    "B4_w1",
+    "B4_w2",
+    "R0",
+    "R1",
+    "R2"
+  ]
+}
