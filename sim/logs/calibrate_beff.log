@@ -1,0 +1,29 @@
+/home/simx2204/anaconda3/envs/w2g/lib/python3.12/site-packages/quadrants/_test_tools/warnings_helper.py:11: UserWarning: cannot create weak reference to 'tuple' object. Template mapper caching disabled.
+  warnings.warn(message)
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/simx2204/where2grasp/sim/calibrate_beff.py", line 184, in <module>
+    % (p["c"], p["measured_B_eff_ratio"], p["c"], p["w_ratio"], p["Pi_g_ratio"]))
+                 ^^^^^^
+  File "/home/simx2204/where2grasp/sim/calibrate_beff.py", line 135, in main
+    per_length={m: {"w": runs[m]["w"], "ell": runs[m]["ell"].tolist(),
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (np.float64(31622776.60168379), 0.059563610506332895, 0.0780369455512189, 0.1597074329627171)
+
+[38;5;9m[Genesis] [20:50:01] [ERROR] AssertionError: (np.float64(31622776.60168379), 0.059563610506332895, 0.0780369455512189, 0.1597074329627171)[0m
+Warning
+While compiling `_kernel_add_rods_c968_3`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+=== B_eff calibration (interval=0.010, dt=2.5e-04/substeps=20) ===
+E=1e+06  B_eff=0.0067138  CV=0.97%  resid=2.02%  exp=3.93  worstPi_g=0.404  multimass=4.50%  ACCEPT
+E=2.37e+06  B_eff=0.016105  CV=1.55%  resid=3.20%  exp=3.86  worstPi_g=0.168  multimass=0.15%  ACCEPT
+E=5.62e+06  B_eff=0.038259  CV=1.78%  resid=3.63%  exp=3.83  worstPi_g=0.071  multimass=0.07%  ACCEPT
+E=1.33e+07  B_eff=0.091106  CV=1.76%  resid=3.59%  exp=3.84  worstPi_g=0.030  multimass=0.52%  ACCEPT
+E=3.16e+07  B_eff=0.21527  CV=1.84%  resid=3.95%  exp=3.83  worstPi_g=0.013  multimass=0.18%  ACCEPT
+raw_E -> B_eff slope a=6.816e-09 ; all_accepted=True
+fixed-ratio c=2.00: B_eff ratio=2.000 (target 2.00), w ratio=2.000, Pi_g ratio=1.000
+fixed-ratio c=0.50: B_eff ratio=0.500 (target 0.50), w ratio=0.500, Pi_g ratio=1.000
+RC=0

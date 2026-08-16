@@ -1,5 +1,16 @@
 # STATUS
 
+## 2026-08-16 (fast-loop Step 1): lift-and-clear task + live B/w hooks + virtual B_eff calibration — DONE
+
+- **Assets (owner-provided):** the DLO-Lab textured payload (`~/Downloads/dlo-lab.zip`) is installed at `~/DLO-Lab/genesis/assets/dlo-lab/` (gitignored by the clone → clone stays clean, 0 unrecorded diff); rendered deliverables from Step 1 on use the rope texture. Provenance in `sim/smoke/asset_note.md`.
+- **Task** (`sim/tasks/lift_and_clear.py`): horizontal-clamp lift-and-clear — straight rod; clamp welds verts 0,1 to a moving rigid link (`attach_to_rigid_link`) so the free arm starts straight+horizontal; failure plane at depth `h` below the clamp; success = settled clamp-frame tip droop `delta_tip ≤ h` (absolute clearance). Motion templates vary approach/speed but end at identical terminal clamp geometry. Batched (n_envs).
+- **Property hooks** (`sim/material.py`): live `set_bending_stiffness` (B knob) + `set_segment_mass` (w knob), varied independently, with getter read-back assertion; `segment_radius` fixed, `G` fixed, `use_inextensible=True`; four-corner stability check.
+- **Virtual B_eff calibration** (`sim/calibrate_beff.py`): batched small-deflection cantilever (5 stiffnesses × 4 free-lengths in one settle/mass), through-origin fit `delta = w·ell⁴/(8·B_eff)`, frozen integrator `dt=2.5e-4/substeps=20`, interval=0.01. **All 5 materials ACCEPTED**: `B_eff = [0.0067, 0.0161, 0.0383, 0.0911, 0.2153] N·m²` (raw-E→B_eff ≈ 6.82e-9·E, ~1.5 decades ⇒ ~2.4× in predicted `ell_max`); CV<2%, residual<4%, log-log exponent 3.83–3.93 (≈4), Pi_g≤0.40 (in-regime), multi-mass invariance ≤4.5%. **Genesis honesty:** raw `E` is a per-segment discrete stiffness ⇒ B_eff is interval-dependent (like FEM mesh stiffness), so interval is fixed study-wide; convergence is shown by the resolved ell⁴ law + load-invariance, **not** cross-interval equality. `E=1e8` excluded (stiff+long does not settle at this integrator; documented). Deliverables: `sim/manifests/calibration.json`, `sim/figures/calibration.png`, `calibration_arrays.npz`.
+- **Fixed-ratio (cB,cw) pairs** built in calibrated space: `c∈{2,0.5}` → measured B_eff ratio, w ratio, Pi_g ratio = `c`, `c`, `1.0` exactly, zero centerline offset (boundary invariant along the common-scale line — a key Step-2 cross-check).
+- **Demo mp4s** (textured, serial replay): `demo_stiff.mp4` (E=1e7, clears: delta_tip=0.0019 ≤ h=0.01, J=+0.008) vs `demo_soft.mp4` (E=1e6, fails: delta_tip=0.0196 > h, J=−0.010) — qualitatively different, non-black.
+- **Tests** (`sim/tests/test_step1.py`, all 4 PASS): synthetic B_eff recovery (<5% error, residual/CV <5%), setter read-back, real droop monotonicity (↓ with B_eff, ↑ with w), integration label-flip (success flips as h crosses the settled tip; clamp-frame delta identity).
+- Next: Step 2 — throughput gate + frozen pre-registered manifest + scouting grasp landscape + GO/NO-GO/inconclusive gate report. Step-2 grid uses raw-E ∈ [1e6, 3.16e7] via the calibration map.
+
 ## 2026-08-16 (fast-loop Step 0): environment + pinned-API smoke + headless render — GREEN
 
 - **Runner:** gjc ralplan (4-iteration consensus, Architect CLEAR + Critic OKAY) → ultragoal, on AILAB-simx-remote. Approved plan: `.gjc/…/plans/ralplan/fastloop-s0-2/pending-approval.md`.

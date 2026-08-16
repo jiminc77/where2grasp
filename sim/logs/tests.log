@@ -1,0 +1,19 @@
+[Quadrants] version 0.8.0, llvm 22.1.0, commit a22cc2de, linux, python 3.12.13
+....                                                                     [100%]
+=============================== warnings summary ===============================
+../anaconda3/envs/w2g/lib/python3.12/site-packages/torch/jit/_script.py:1480: 8 warnings
+sim/tests/test_step1.py: 4 warnings
+  /home/simx2204/anaconda3/envs/w2g/lib/python3.12/site-packages/torch/jit/_script.py:1480: DeprecationWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+sim/tests/test_step1.py::test_unit_setter_readback
+  /home/simx2204/anaconda3/envs/w2g/lib/python3.12/site-packages/quadrants/_test_tools/warnings_helper.py:11: UserWarning: cannot create weak reference to 'tuple' object. Template mapper caching disabled.
+    warnings.warn(message)
+
+sim/tests/test_step1.py::test_integration_label_flip_and_clamp_frame
+  /home/simx2204/anaconda3/envs/w2g/lib/python3.12/site-packages/quadrants/_test_tools/warnings_helper.py:11: UserWarning: cannot create weak reference to 'numpy.int32' object. Template mapper caching disabled.
+    warnings.warn(message)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+4 passed, 14 warnings in 199.11s (0:03:19)
+RC=0
