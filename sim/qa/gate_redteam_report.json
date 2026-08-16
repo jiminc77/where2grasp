@@ -1,0 +1,870 @@
+{
+  "artifact_kind": "algorithm-boundary-property-test-report",
+  "subject": "Step-2 GO adversarial independent audit",
+  "source": "sim/manifests/sweep_results.npz",
+  "methodology": "No analyze_gate.py import; winner, evaluation landscape, crossings, and decisions independently recomputed.",
+  "adversarial_cases": [
+    {
+      "case": "seed_hygiene",
+      "verdict": "PASS",
+      "selection_evaluation_overlaps": [],
+      "winner_mismatches": [],
+      "selected_evaluation_rows": 1725,
+      "expected_selected_evaluation_rows": 1725,
+      "evaluation_nonwinner_rows": 0,
+      "evidence": "Selection winner recomputed by max 3-draw selection success with lowest-template tie break; landscapes use only marked winner evaluation rows."
+    },
+    {
+      "case": "independent_rederivation",
+      "verdict": "PASS",
+      "decision": {
+        "B": "PASS",
+        "w": "PASS",
+        "R": "PASS",
+        "overall": "GO",
+        "B_adjacent": [
+          0.060000000000000026,
+          0.05999999999999994,
+          0.09000000000000008,
+          0.10499999999999998,
+          0.03,
+          0.060000000000000026,
+          0.05999999999999994,
+          0.09000000000000008,
+          0.030000000000000027,
+          0.03,
+          0.060000000000000026,
+          0.08999999999999997,
+          0.02999999999999997,
+          0.030000000000000027,
+          0.06,
+          0.06000000000000005
+        ],
+        "w_adjacent_decreases": [
+          0.03,
+          0.030000000000000027,
+          0.02999999999999997,
+          0.060000000000000026,
+          0.03,
+          0.030000000000000027,
+          0.05999999999999994,
+          0.060000000000000026,
+          0.03,
+          0.09000000000000008,
+          0.05999999999999994,
+          0.030000000000000027,
+          0.10499999999999998,
+          0.06000000000000005,
+          0.05999999999999994
+        ],
+        "ratio_offsets": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B_endpoints": [
+          0.31500000000000006,
+          0.24000000000000005,
+          0.21000000000000002,
+          0.18000000000000005
+        ],
+        "w_endpoints": [
+          0.09,
+          0.12000000000000005,
+          0.14999999999999997,
+          0.18000000000000005,
+          0.22499999999999998
+        ]
+      },
+      "max_boundary_difference_vs_reference": 0.0,
+      "boundary_differences": {
+        "B0_w0": 0.0,
+        "B0_w1": 0.0,
+        "B0_w2": 0.0,
+        "B0_w3": 0.0,
+        "B1_w0": 0.0,
+        "B1_w1": 0.0,
+        "B1_w2": 0.0,
+        "B1_w3": 0.0,
+        "B2_w0": 0.0,
+        "B2_w1": 0.0,
+        "B2_w2": 0.0,
+        "B2_w3": 0.0,
+        "B3_w0": 0.0,
+        "B3_w1": 0.0,
+        "B3_w2": 0.0,
+        "B3_w3": 0.0,
+        "B4_w0": 0.0,
+        "B4_w1": 0.0,
+        "B4_w2": 0.0,
+        "B4_w3": 0.0,
+        "R0": 0.0,
+        "R1": 0.0,
+        "R2": 0.0
+      }
+    },
+    {
+      "case": "censoring_honesty",
+      "verdict": "PASS",
+      "B4_w0": {
+        "boundary": 0.54,
+        "crossings": [],
+        "resolved": false,
+        "censored": "high"
+      },
+      "interpretation": "All sampled ell succeed, so the physical crossing is >0.54; edge substitution is a lower bound and understates B movement.",
+      "all_fail_settings": [],
+      "drop_censored_decision": {
+        "B": "PASS",
+        "w": "PASS",
+        "R": "PASS",
+        "overall": "GO",
+        "B_adjacent": [
+          0.060000000000000026,
+          0.05999999999999994,
+          0.09000000000000008,
+          0.03,
+          0.060000000000000026,
+          0.05999999999999994,
+          0.09000000000000008,
+          0.030000000000000027,
+          0.03,
+          0.060000000000000026,
+          0.08999999999999997,
+          0.02999999999999997,
+          0.030000000000000027,
+          0.06,
+          0.06000000000000005
+        ],
+        "w_adjacent_decreases": [
+          0.03,
+          0.030000000000000027,
+          0.02999999999999997,
+          0.060000000000000026,
+          0.03,
+          0.030000000000000027,
+          0.05999999999999994,
+          0.060000000000000026,
+          0.03,
+          0.09000000000000008,
+          0.05999999999999994,
+          0.030000000000000027,
+          0.06000000000000005,
+          0.05999999999999994
+        ],
+        "ratio_offsets": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B_endpoints": [
+          0.21000000000000005,
+          0.24000000000000005,
+          0.21000000000000002,
+          0.18000000000000005
+        ],
+        "w_endpoints": [
+          0.09,
+          0.12000000000000005,
+          0.14999999999999997,
+          0.18000000000000005
+        ]
+      },
+      "fully_resolved_regular_settings": 19
+    },
+    {
+      "case": "shuffle_control",
+      "verdict": "PASS",
+      "rng_seed": 20260816,
+      "decision": {
+        "B": "FAIL",
+        "w": "FAIL",
+        "R": "FAIL",
+        "overall": "NO-GO",
+        "B_adjacent": [
+          -0.12,
+          -0.09000000000000005,
+          0.0,
+          0.060000000000000026,
+          -0.060000000000000026,
+          0.37500000000000006,
+          -0.405,
+          0.20999999999999996,
+          -0.24000000000000005,
+          -0.030000000000000027,
+          0.18,
+          -0.05999999999999994,
+          0.0,
+          0.09000000000000002,
+          -0.030000000000000027,
+          0.12
+        ],
+        "w_adjacent_decreases": [
+          0.21000000000000005,
+          -0.21000000000000005,
+          0.24000000000000005,
+          0.15000000000000008,
+          -0.030000000000000027,
+          0.0,
+          -0.31500000000000006,
+          0.37500000000000006,
+          -0.12000000000000005,
+          0.09,
+          -0.20999999999999996,
+          0.08999999999999997,
+          -0.05999999999999994,
+          0.05999999999999994,
+          -0.08999999999999997
+        ],
+        "ratio_offsets": [
+          0.060000000000000026,
+          0.05999999999999994,
+          0.255
+        ],
+        "B_endpoints": [
+          -0.15000000000000002,
+          0.11999999999999997,
+          -0.15000000000000002,
+          0.18
+        ],
+        "w_endpoints": [
+          0.24000000000000005,
+          0.12000000000000005,
+          -0.060000000000000026,
+          -0.03,
+          -0.08999999999999997
+        ]
+      }
+    },
+    {
+      "case": "extractor_censor_controls",
+      "verdict": "PASS",
+      "synthetic_all_success": {
+        "boundary": null,
+        "crossings": [],
+        "resolved": false,
+        "censored": "high"
+      },
+      "synthetic_all_fail": {
+        "boundary": null,
+        "crossings": [],
+        "resolved": false,
+        "censored": "low"
+      }
+    },
+    {
+      "case": "signal_margin",
+      "verdict": "PASS",
+      "minimum_adjacent_shift": 0.02999999999999997,
+      "grid_step": 0.03,
+      "half_grid_step": 0.015,
+      "margin_over_half_step": 0.014999999999999972,
+      "note": "Smallest observed adjacent shift is 2x a single-boundary half-step uncertainty; adversarial perturbation beyond that can erase or reverse an adjacent sign."
+    },
+    {
+      "case": "convergence",
+      "verdict": "PASS",
+      "rollouts": 5865,
+      "nonconverged_count": 0,
+      "nonconverged_fraction": 0.0,
+      "near_boundary_nonconverged_count": 0
+    }
+  ],
+  "landscape": {
+    "ell": [
+      0.12,
+      0.15,
+      0.18,
+      0.21000000000000002,
+      0.24,
+      0.27,
+      0.30000000000000004,
+      0.33,
+      0.36,
+      0.39,
+      0.42000000000000004,
+      0.45,
+      0.48000000000000004,
+      0.51,
+      0.54
+    ],
+    "winner_evaluation_success_rate": {
+      "B0_w0": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B0_w1": [
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B0_w2": [
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B0_w3": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B1_w0": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B1_w1": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B1_w2": [
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B1_w3": [
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B2_w0": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B2_w1": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B2_w2": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B2_w3": [
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B3_w0": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B3_w1": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B3_w2": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B3_w3": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B4_w0": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "B4_w1": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B4_w2": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B4_w3": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "R0": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "R1": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "R2": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "boundaries": {
+    "B0_w0": {
+      "boundary": 0.225,
+      "crossings": [
+        0.225
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "B0_w1": {
+      "boundary": 0.195,
+      "crossings": [
+        0.195
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "B0_w2": {
+      "boundary": 0.16499999999999998,
+      "crossings": [
+        0.16499999999999998
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "B0_w3": {
+      "boundary": 0.135,
+      "crossings": [
+        0.135
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "B1_w0": {
+      "boundary": 0.28500000000000003,
+      "crossings": [
+        0.28500000000000003
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "B1_w1": {
+      "boundary": 0.225,
+      "crossings": [
+        0.225
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "B1_w2": {
+      "boundary": 0.195,
+      "crossings": [
+        0.195
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "B1_w3": {
+      "boundary": 0.16499999999999998,
+      "crossings": [
+        0.16499999999999998
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "B2_w0": {
+      "boundary": 0.345,
+      "crossings": [
+        0.345
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "B2_w1": {
+      "boundary": 0.28500000000000003,
+      "crossings": [
+        0.28500000000000003
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "B2_w2": {
+      "boundary": 0.225,
+      "crossings": [
+        0.225
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "B2_w3": {
+      "boundary": 0.195,
+      "crossings": [
+        0.195
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "B3_w0": {
+      "boundary": 0.43500000000000005,
+      "crossings": [
+        0.43500000000000005
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "B3_w1": {
+      "boundary": 0.345,
+      "crossings": [
+        0.345
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "B3_w2": {
+      "boundary": 0.28500000000000003,
+      "crossings": [
+        0.28500000000000003
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "B3_w3": {
+      "boundary": 0.255,
+      "crossings": [
+        0.255
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "B4_w0": {
+      "boundary": 0.54,
+      "crossings": [],
+      "resolved": false,
+      "censored": "high"
+    },
+    "B4_w1": {
+      "boundary": 0.43500000000000005,
+      "crossings": [
+        0.43500000000000005
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "B4_w2": {
+      "boundary": 0.375,
+      "crossings": [
+        0.375
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "B4_w3": {
+      "boundary": 0.31500000000000006,
+      "crossings": [
+        0.31500000000000006
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "R0": {
+      "boundary": 0.225,
+      "crossings": [
+        0.225
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "R1": {
+      "boundary": 0.28500000000000003,
+      "crossings": [
+        0.28500000000000003
+      ],
+      "resolved": true,
+      "censored": null
+    },
+    "R2": {
+      "boundary": 0.28500000000000003,
+      "crossings": [
+        0.28500000000000003
+      ],
+      "resolved": true,
+      "censored": null
+    }
+  },
+  "conclusion": "GO SURVIVES red-team: all adversarial cases pass and no leakage, censoring dependence, convergence defect, or reproduction discrepancy was found."
+}

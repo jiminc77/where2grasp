@@ -66,11 +66,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.33287445152762646,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     },
     {
       "id": "B0_w1",
@@ -138,11 +138,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.4668421676903148,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     },
     {
       "id": "B0_w2",
@@ -210,11 +210,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
-      "in_regime": true,
-      "passed_setting": true
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.6093283836505672,
+      "in_regime": false,
+      "valid": false
     },
     {
       "id": "B0_w3",
@@ -282,11 +282,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
-      "in_regime": true,
-      "passed_setting": true
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.7190088152996731,
+      "in_regime": false,
+      "valid": false
     },
     {
       "id": "B1_w0",
@@ -354,11 +354,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.28201180974454054,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     },
     {
       "id": "B1_w1",
@@ -426,11 +426,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.29896035682374195,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     },
     {
       "id": "B1_w2",
@@ -498,11 +498,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.4192791017531195,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     },
     {
       "id": "B1_w3",
@@ -570,11 +570,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
-      "in_regime": true,
-      "passed_setting": true
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.5472484600816201,
+      "in_regime": false,
+      "valid": false
     },
     {
       "id": "B2_w0",
@@ -642,11 +642,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.21058156018959742,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     },
     {
       "id": "B2_w1",
@@ -714,11 +714,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.25575902471329814,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     },
     {
       "id": "B2_w2",
@@ -786,11 +786,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.2711298131749959,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     },
     {
       "id": "B2_w3",
@@ -858,11 +858,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.3802479557298805,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     },
     {
       "id": "B3_w0",
@@ -930,11 +930,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.17726279314266036,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     },
     {
       "id": "B3_w1",
@@ -1002,11 +1002,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.1905199399354327,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     },
     {
       "id": "B3_w2",
@@ -1074,11 +1074,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.23139345146104323,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     },
     {
       "id": "B3_w3",
@@ -1146,11 +1146,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.35708397339369796,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     },
     {
       "id": "B4_w0",
@@ -1212,15 +1212,15 @@
         0,
         0
       ],
-      "boundary": 0.54,
+      "boundary": null,
       "crossings": [],
       "uncertainty": 0.015000000000000006,
       "resolved": false,
-      "valid": true,
       "censored": "high",
-      "unresolved_reason": null,
-      "in_regime": true,
-      "passed_setting": true
+      "descriptive_bound": 0.54,
+      "Pi_g_boundary": null,
+      "in_regime": false,
+      "valid": false
     },
     {
       "id": "B4_w1",
@@ -1288,11 +1288,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.16162479405166524,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     },
     {
       "id": "B4_w2",
@@ -1360,11 +1360,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.22308344891278217,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     },
     {
       "id": "B4_w3",
@@ -1432,11 +1432,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.2848646384765762,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     },
     {
       "id": "R0",
@@ -1503,11 +1503,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.29845600763773383,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     },
     {
       "id": "R1",
@@ -1574,11 +1574,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.2321292826357336,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     },
     {
       "id": "R2",
@@ -1645,11 +1645,11 @@
       ],
       "uncertainty": 0.015000000000000006,
       "resolved": true,
-      "valid": true,
       "censored": null,
-      "unresolved_reason": null,
+      "descriptive_bound": null,
+      "Pi_g_boundary": 0.25511710632559886,
       "in_regime": true,
-      "passed_setting": true
+      "valid": true
     }
   ]
 }

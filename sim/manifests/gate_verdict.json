@@ -1,14 +1,13 @@
 {
+  "exact_frozen_verdict": "inconclusive",
   "conditions": {
     "B": {
-      "status": "PASS",
+      "status": "INCONCLUSIVE",
       "endpoints": [
         {
           "slice": "w0",
-          "valid": true,
-          "contrast": 0.31500000000000006,
-          "correct_signed": true,
-          "resolved": true
+          "valid": false,
+          "contrast": null
         },
         {
           "slice": "w1",
@@ -19,56 +18,44 @@
         },
         {
           "slice": "w2",
-          "valid": true,
-          "contrast": 0.21000000000000002,
-          "correct_signed": true,
-          "resolved": true
+          "valid": false,
+          "contrast": null
         },
         {
           "slice": "w3",
-          "valid": true,
-          "contrast": 0.18000000000000005,
-          "correct_signed": true,
-          "resolved": true
+          "valid": false,
+          "contrast": null
         }
       ],
       "adjacent_contrasts": [
         0.060000000000000026,
         0.05999999999999994,
         0.09000000000000008,
-        0.10499999999999998,
         0.03,
         0.060000000000000026,
         0.05999999999999994,
         0.09000000000000008,
-        0.030000000000000027,
         0.03,
         0.060000000000000026,
         0.08999999999999997,
-        0.02999999999999997,
-        0.030000000000000027,
         0.06,
         0.06000000000000005
       ],
-      "adjacent_correct_or_tied": 16,
-      "adjacent_total": 16
+      "adjacent_correct_or_tied": 12,
+      "adjacent_total": 12
     },
     "w": {
-      "status": "PASS",
+      "status": "INCONCLUSIVE",
       "endpoints": [
         {
           "slice": "B0",
-          "valid": true,
-          "contrast": -0.09,
-          "correct_signed": true,
-          "resolved": true
+          "valid": false,
+          "contrast": null
         },
         {
           "slice": "B1",
-          "valid": true,
-          "contrast": -0.12000000000000005,
-          "correct_signed": true,
-          "resolved": true
+          "valid": false,
+          "contrast": null
         },
         {
           "slice": "B2",
@@ -86,31 +73,25 @@
         },
         {
           "slice": "B4",
-          "valid": true,
-          "contrast": -0.22499999999999998,
-          "correct_signed": true,
-          "resolved": true
+          "valid": false,
+          "contrast": null
         }
       ],
       "adjacent_contrasts": [
         0.03,
-        0.030000000000000027,
-        0.02999999999999997,
         0.060000000000000026,
         0.03,
-        0.030000000000000027,
         0.05999999999999994,
         0.060000000000000026,
         0.03,
         0.09000000000000008,
         0.05999999999999994,
         0.030000000000000027,
-        0.10499999999999998,
         0.06000000000000005,
         0.05999999999999994
       ],
-      "adjacent_correct_or_tied": 15,
-      "adjacent_total": 15
+      "adjacent_correct_or_tied": 11,
+      "adjacent_total": 11
     },
     "R": {
       "status": "PASS",
@@ -140,259 +121,352 @@
       ]
     }
   },
-  "overall": "GO",
   "resolution_step": 0.030000000000000013,
+  "Pi_g_max": 0.5,
+  "validity_summary": {
+    "settings": 23,
+    "resolved": 22,
+    "valid_in_regime": 19,
+    "out_of_regime_ids": [
+      "B0_w2",
+      "B0_w3",
+      "B1_w3"
+    ],
+    "censored_ids": [
+      "B4_w0"
+    ]
+  },
+  "descriptive_directional": {
+    "note": "DESCRIPTIVE ONLY (not the preregistered gate); uses all resolved boundaries + censored one-sided bounds",
+    "B_increase_adjacent": "16/16",
+    "w_decrease_adjacent": "15/15",
+    "ratio_pair_offsets": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "reading": "strongly consistent with the predicted direction (boundary rises with B_eff, falls with w, ratio-invariant)"
+  },
   "boundaries": [
     {
       "id": "B0_w0",
       "B_eff": 0.006713764347921196,
       "w": 0.1962,
       "boundary": 0.225,
+      "Pi_g_boundary": 0.33287445152762646,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.225
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "B0_w1",
       "B_eff": 0.006713764347921196,
       "w": 0.4227000861842558,
       "boundary": 0.195,
+      "Pi_g_boundary": 0.4668421676903148,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.195
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "B0_w2",
       "B_eff": 0.006713764347921196,
       "w": 0.9106797291548271,
       "boundary": 0.16499999999999998,
+      "Pi_g_boundary": 0.6093283836505672,
+      "resolved": true,
+      "in_regime": false,
+      "valid": false,
+      "censored": null,
       "crossings": [
         0.16499999999999998
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "B0_w3",
       "B_eff": 0.006713764347921196,
       "w": 1.9620000000000002,
       "boundary": 0.135,
+      "Pi_g_boundary": 0.7190088152996731,
+      "resolved": true,
+      "in_regime": false,
+      "valid": false,
+      "censored": null,
       "crossings": [
         0.135
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "B1_w0",
       "B_eff": 0.01610520612280113,
       "w": 0.1962,
       "boundary": 0.28500000000000003,
+      "Pi_g_boundary": 0.28201180974454054,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.28500000000000003
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "B1_w1",
       "B_eff": 0.01610520612280113,
       "w": 0.4227000861842558,
       "boundary": 0.225,
+      "Pi_g_boundary": 0.29896035682374195,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.225
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "B1_w2",
       "B_eff": 0.01610520612280113,
       "w": 0.9106797291548271,
       "boundary": 0.195,
+      "Pi_g_boundary": 0.4192791017531195,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.195
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "B1_w3",
       "B_eff": 0.01610520612280113,
       "w": 1.9620000000000002,
       "boundary": 0.16499999999999998,
+      "Pi_g_boundary": 0.5472484600816201,
+      "resolved": true,
+      "in_regime": false,
+      "valid": false,
+      "censored": null,
       "crossings": [
         0.16499999999999998
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "B2_w0",
       "B_eff": 0.03825920568613013,
       "w": 0.1962,
       "boundary": 0.345,
+      "Pi_g_boundary": 0.21058156018959742,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.345
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "B2_w1",
       "B_eff": 0.03825920568613013,
       "w": 0.4227000861842558,
       "boundary": 0.28500000000000003,
+      "Pi_g_boundary": 0.25575902471329814,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.28500000000000003
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "B2_w2",
       "B_eff": 0.03825920568613013,
       "w": 0.9106797291548271,
       "boundary": 0.225,
+      "Pi_g_boundary": 0.2711298131749959,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.225
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "B2_w3",
       "B_eff": 0.03825920568613013,
       "w": 1.9620000000000002,
       "boundary": 0.195,
+      "Pi_g_boundary": 0.3802479557298805,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.195
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "B3_w0",
       "B_eff": 0.09110646283229176,
       "w": 0.1962,
       "boundary": 0.43500000000000005,
+      "Pi_g_boundary": 0.17726279314266036,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.43500000000000005
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "B3_w1",
       "B_eff": 0.09110646283229176,
       "w": 0.4227000861842558,
       "boundary": 0.345,
+      "Pi_g_boundary": 0.1905199399354327,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.345
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "B3_w2",
       "B_eff": 0.09110646283229176,
       "w": 0.9106797291548271,
       "boundary": 0.28500000000000003,
+      "Pi_g_boundary": 0.23139345146104323,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.28500000000000003
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "B3_w3",
       "B_eff": 0.09110646283229176,
       "w": 1.9620000000000002,
       "boundary": 0.255,
+      "Pi_g_boundary": 0.35708397339369796,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.255
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "B4_w0",
       "B_eff": 0.21527426878237318,
       "w": 0.1962,
-      "boundary": 0.54,
-      "crossings": [],
-      "valid": true,
-      "censored": "high"
+      "boundary": null,
+      "Pi_g_boundary": null,
+      "resolved": false,
+      "in_regime": false,
+      "valid": false,
+      "censored": "high",
+      "crossings": []
     },
     {
       "id": "B4_w1",
       "B_eff": 0.21527426878237318,
       "w": 0.4227000861842558,
       "boundary": 0.43500000000000005,
+      "Pi_g_boundary": 0.16162479405166524,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.43500000000000005
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "B4_w2",
       "B_eff": 0.21527426878237318,
       "w": 0.9106797291548271,
       "boundary": 0.375,
+      "Pi_g_boundary": 0.22308344891278217,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.375
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "B4_w3",
       "B_eff": 0.21527426878237318,
       "w": 1.9620000000000002,
       "boundary": 0.31500000000000006,
+      "Pi_g_boundary": 0.2848646384765762,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.31500000000000006
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "R0",
       "B_eff": 0.032264843367045035,
       "w": 0.8454001723685116,
       "boundary": 0.225,
+      "Pi_g_boundary": 0.29845600763773383,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.225
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "R1",
       "B_eff": 0.045408831332695465,
       "w": 0.45533986457741354,
       "boundary": 0.28500000000000003,
+      "Pi_g_boundary": 0.2321292826357336,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.28500000000000003
-      ],
-      "valid": true,
-      "censored": null
+      ]
     },
     {
       "id": "R2",
       "B_eff": 0.05753320861264561,
       "w": 0.6340501292763837,
       "boundary": 0.28500000000000003,
+      "Pi_g_boundary": 0.25511710632559886,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
       "crossings": [
         0.28500000000000003
-      ],
-      "valid": true,
-      "censored": null
+      ]
     }
   ]
 }

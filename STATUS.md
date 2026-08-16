@@ -1,31 +1,26 @@
 # STATUS
 
-## 2026-08-17 (fast-loop Step 2 — THE GATE): grasp landscape sweep → **GO**
+## 2026-08-17 (fast-loop Step 2 — THE GATE): grasp landscape sweep — CORRECTED verdict
 
-**GATE VERDICT: GO.** On the cleanest diagnostic (lift-and-clear), the feasible-grasp boundary moves with material properties in the predicted direction, resolvably, with the fixed-ratio degeneracy invariant — a clean pass of the single go/no-go that gates the whole program.
+**Exact preregistered gate = INCONCLUSIVE; descriptive directional evidence = strongly GO-consistent.** A completion cohort review (architect + independent QA red-team) caught that my first-published "GO" was wrong. `analyze_gate.py` had (a) promoted the censored `B4_w0` (all-success, off-grid) to a *valid* boundary contrary to the frozen "all-success ⇒ unresolved/invalid" rule, and (b) used a finiteness check instead of the frozen **Pi_g ≤ 0.5** in-regime guard. Re-run under the exact frozen rule: three soft+heavy grid extremes sit out of the small-deflection regime (boundary Pi_g: B0_w2 ≈ 0.61, B0_w3 ≈ 0.72, B1_w3 ≈ 0.55) and `B4_w0` is off-grid — all four INVALID. Invalid endpoints force independent-B = INCONCLUSIVE and independent-w = INCONCLUSIVE; R = PASS ⇒ **overall exact verdict = inconclusive** (`sim/manifests/gate_verdict.json`).
 
-- **Throughput gate:** warm no-render benchmark → n_envs=64; 5,865 rollouts projected and measured at 9,400 s (2.6 h) ≪ 1 day. Estimation-hygiene floor (3 selection / 5 evaluation) preserved.
-- **Frozen pre-registered manifest** (`sim/manifests/sweep_manifest.json`, committed BEFORE the sweep): h=0.009, tau=0.5 success-rate, absolute-clearance criterion, 15-point s-grid (free-arm ell 0.12→0.54, step 0.03), 5 calibrated B_eff × 4 w + 3 fixed-ratio pairs = 23 settings, 4 lift templates (identical terminal geometry), disjoint pilot/selection/evaluation seed banks (12/3/5), CRN template selection + winner-only disjoint evaluation, the exact exhaustive three-way decision function.
-- **Main sweep:** 5,865 rollouts, state-only batched physics (n_envs=64), **0 % non-converged**. Winner selected on 3 selection draws; landscape value = winner's mean over 5 DISJOINT evaluation draws (winner's-curse avoided).
+- **Directional reading (descriptive, NOT the preregistered gate):** the boundary moves in the predicted direction wherever measured — **16/16** adjacent B_eff contrasts increasing, **15/15** adjacent w contrasts decreasing, all **3** fixed-ratio pairs invariant (offset 0.0). 19/23 settings are valid in-regime and every one follows the predicted trend; the only invalid points are 3 soft+heavy extremes (Pi_g>0.5) and the stiff+light off-grid corner — **none contradict the thesis**. Quantitatively, ell_max/(B_eff/w)^(1/4) ≈ 0.52–0.56 across the resolved grid (fourth-root law, descriptive only).
+- **Throughput gate:** n_envs=64; 5,865 rollouts measured 9,400 s (2.6 h) ≪ 1 day.
+- **Sweep hygiene (verified by the red-team):** selection seeds 2000–2002 vs evaluation seeds 3000–3004 are genuinely disjoint; the winner is chosen from selection draws only; the landscape value is the winner's evaluation-only mean; **0 % non-converged**. No winner's-curse leak found.
 - **Boundary grid** (free-arm ell where evaluation success-rate crosses 0.5; rows B_eff asc, cols w asc):
 
   | B_eff ＼ w | 0.196 | 0.423 | 0.911 | 1.962 |
   |---|---|---|---|---|
-  | 0.0067 | 0.225 | 0.195 | 0.165 | 0.135 |
-  | 0.0161 | 0.285 | 0.225 | 0.195 | 0.165 |
+  | 0.0067 | 0.225 | 0.195 | 0.165° | 0.135° |
+  | 0.0161 | 0.285 | 0.225 | 0.195 | 0.165° |
   | 0.0383 | 0.345 | 0.285 | 0.225 | 0.195 |
   | 0.0911 | 0.435 | 0.345 | 0.285 | 0.255 |
-  | 0.2153 | >0.54* | 0.435 | 0.375 | 0.315 |
+  | 0.2153 | (all-success)* | 0.435 | 0.375 | 0.315 |
 
-  (*B4_w0 censored-high: boundary beyond the grid top; a conservative grid-edge bound is used, which understates the movement and only makes the directional test harder. 19/20 grid settings + all 3 ratio pairs are fully resolved.)
-- **Three-way verdict** (`sim/manifests/gate_verdict.json`):
-  - independent-B: **PASS** — boundary ell_max INCREASES with B_eff at every fixed w; **16/16** adjacent contrasts correct.
-  - independent-w: **PASS** — boundary DECREASES with w at every fixed B_eff; **15/15** adjacent contrasts correct.
-  - fixed-ratio R: **PASS** — all 3 (cB,cw) pairs invariant along the common-scale line (boundary offset exactly 0.0, well within the 1-grid-step tolerance).
-  - **Overall: GO** (strict precedence: no FAIL, all PASS).
-- **Quantitative bonus (descriptive, no CI fit):** ell_max / (B_eff/w)^(1/4) ≈ 0.52–0.56 across the entire grid — the boundary follows the predicted fourth-root law `ell_max ∝ (B_eff·h/w)^(1/4)` quantitatively, not merely directionally.
-- **Deliverables:** 23 per-setting landscape figures (`sim/figures/landscape_*.png`, success-rate + mean J vs ell); boundary-shift plot with the descriptive ±1/4 reference (`sim/figures/boundary_shift.png`); textured representative rollout mp4s — success `rollout_success.mp4` (B4_w0, clears, δ_tip=−0.0002) and failure `rollout_failure.mp4` (B0_w3, droops δ_tip=0.145 ≫ h); raw data `sim/manifests/sweep_results.npz` + `sweep_landscape.json`.
-- **STOP** for the owner's go/no-go ruling. Steps 3-4 NOT started.
+  (° = out-of-regime, Pi_g>0.5, INVALID for the exact gate; * = off-grid censored, INVALID. The remaining 16 grid cells + 3 ratio pairs are valid in-regime and all move as predicted.)
+- **Honest process caveats (cohort findings, HIGH/MEDIUM):** the manifest and results were committed together (19bbcaf), so the pre-sweep freeze is not git-provable; the implemented stochastic estimand simplified the registered per-draw pose/clamp perturbations; the pilot was an analytical h-range screen, not the registered simulator variance pilot. These do not change the directional science but mean an audit-clean, rigorous GO requires a recentered in-regime re-sweep (every gate endpoint at Pi_g≤0.5, B4_w0 resolved on-grid, immutable pre-freeze hash) — recommended follow-up.
+- **Deliverables:** 23 per-setting landscape figures (`sim/figures/landscape_*.png`, now annotated with Pi_g/validity); boundary-shift plot with descriptive ±1/4 reference (`sim/figures/boundary_shift.png`); textured rollout mp4s — success `rollout_success.mp4` (B4_w0, clears) and failure `rollout_failure.mp4` (B0_w3, droops ≫ h); raw data `sweep_results.npz` + `sweep_landscape.json`; corrected `gate_verdict.json` (exact frozen verdict + separate descriptive reading); adversarial audit `sim/qa/gate_redteam_report.json`.
+- **Owner ruling: GO** — the directive's gate question ("does the feasible-grasp boundary move with material properties in the predicted direction?") is answered YES by the descriptive evidence. Per the owner's instruction, proceeding to Steps 3-4; the audit-clean in-regime re-sweep is logged as a follow-up rather than blocking.
 
 ## 2026-08-16 (fast-loop Step 1): lift-and-clear task + live B/w hooks + virtual B_eff calibration — DONE
 
