@@ -179,7 +179,9 @@ def run(manifest, expected_digest=None):
             be = None if (pb is None or mb is None) else abs(pb - mb)   # censored -> excluded
             per.append({'setting': sid, 'map_rmse': float(np.sqrt(np.mean((pred - meas) ** 2))),
                         'correlation': corr, 'predicted_boundary': pb, 'measured_boundary': mb,
-                        'boundary_error_index': be, 'boundary_censored': bool(be is None)})
+                        'boundary_error_index': be, 'boundary_censored': bool(be is None),
+                        'predicted_success_curve': [float(x) for x in pred],
+                        'measured_success_curve': [float(x) for x in meas]})
         rmses = [x['map_rmse'] for x in per]; corrs = [x['correlation'] for x in per if x['correlation'] is not None]
         bes = [x['boundary_error_index'] for x in per if x['boundary_error_index'] is not None]
         return {'map_rmse': float(np.mean(rmses)), 'correlation': float(np.mean(corrs)) if corrs else None,

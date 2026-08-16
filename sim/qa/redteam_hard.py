@@ -122,6 +122,34 @@ def part2():
         if x['measured_boundary'] is not None and mb is not None and abs(mb - x['measured_boundary']) > 1e-6:
             ok = False
     check('P2 measured boundaries recompute matches critic', ok)
+    # INDEPENDENT recompute of each row's map RMSE + boundary error from the SAVED predicted curves
+    # vs the independently-recomputed measured landscape (verifies the metric arithmetic, not just
+    # stored scalars). Also verifies the saved measured curve equals the committed landscape.
+    for row in ['teacher', 'blind', 'task_student', 'probe_student', 'sysid']:
+        per = cr['per_setting_map_recovery'][row]
+        rmses, bes, curve_ok = [], [], True
+        for x in per:
+            meas = np.asarray(land[x['setting']]['success_rate'], float)
+            if not np.allclose(meas, x['measured_success_curve'], atol=1e-9):
+                curve_ok = False
+            pred = np.asarray(x['predicted_success_curve'], float)
+            rmses.append(float(np.sqrt(np.mean((pred - meas) ** 2))))
+            pb, mb = crossing_idx(pred), crossing_idx(meas)
+            if pb is not None and mb is not None:
+                bes.append(abs(pb - mb))
+        agg = cr['primary_map_recovery'][row]
+        check(f'P2 [{row}] saved measured curve == committed landscape', curve_ok)
+        check(f'P2 [{row}] map RMSE recomputed from saved curves matches',
+              abs(float(np.mean(rmses)) - agg['map_rmse']) < 1e-9, f"recomp {np.mean(rmses):.4f} vs {agg['map_rmse']:.4f}")
+        check(f'P2 [{row}] boundary error recomputed from saved curves matches',
+              (agg['boundary_error_index'] is None and not bes) or abs(float(np.mean(bes)) - agg['boundary_error_index']) < 1e-9)
+    # Q2 pre-registration honesty: the FROZEN success rule is defined on probe_student, which uses the
+    # EXPLORATORY-UNQUALIFIED probe -> the pre-registered Q2 is exploratory, NOT a clean confirmed YES.
+    check('P2 Q2 frozen success rule targets probe-enriched student', 'probe-enriched student' in cfg['map_recovery']['success_rule'])
+    check('P2 m_t verdict derived from probe_student is tagged EXPLORATORY (probe unqualified)',
+          cr['m_t_functional']['probe_status'] == 'EXPLORATORY-UNQUALIFIED' and cr['m_t_functional']['probe_exploratory_note'] is not None)
+    check('P2 no frozen task-only success rule exists (task result is secondary/exploratory)',
+          'task' not in cfg['map_recovery']['success_rule'])
     mr = cr['primary_map_recovery']
     check('P2 map recovery: task-student << blind', mr['task_student']['map_rmse'] < mr['blind']['map_rmse'] * 0.5,
           f"task {mr['task_student']['map_rmse']:.3f} vs blind {mr['blind']['map_rmse']:.3f}")

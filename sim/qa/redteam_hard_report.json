@@ -1,7 +1,7 @@
 {
   "verdict": "SURVIVES",
-  "passed": 29,
-  "total": 29,
+  "passed": 47,
+  "total": 47,
   "failed_checks": [],
   "checks": [
     {
@@ -101,6 +101,96 @@
     },
     {
       "check": "P2 measured boundaries recompute matches critic",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 [teacher] saved measured curve == committed landscape",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 [teacher] map RMSE recomputed from saved curves matches",
+      "ok": true,
+      "detail": "recomp 0.0918 vs 0.0918"
+    },
+    {
+      "check": "P2 [teacher] boundary error recomputed from saved curves matches",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 [blind] saved measured curve == committed landscape",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 [blind] map RMSE recomputed from saved curves matches",
+      "ok": true,
+      "detail": "recomp 0.3276 vs 0.3276"
+    },
+    {
+      "check": "P2 [blind] boundary error recomputed from saved curves matches",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 [task_student] saved measured curve == committed landscape",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 [task_student] map RMSE recomputed from saved curves matches",
+      "ok": true,
+      "detail": "recomp 0.0833 vs 0.0833"
+    },
+    {
+      "check": "P2 [task_student] boundary error recomputed from saved curves matches",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 [probe_student] saved measured curve == committed landscape",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 [probe_student] map RMSE recomputed from saved curves matches",
+      "ok": true,
+      "detail": "recomp 0.0994 vs 0.0994"
+    },
+    {
+      "check": "P2 [probe_student] boundary error recomputed from saved curves matches",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 [sysid] saved measured curve == committed landscape",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 [sysid] map RMSE recomputed from saved curves matches",
+      "ok": true,
+      "detail": "recomp 0.1967 vs 0.1967"
+    },
+    {
+      "check": "P2 [sysid] boundary error recomputed from saved curves matches",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 Q2 frozen success rule targets probe-enriched student",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 m_t verdict derived from probe_student is tagged EXPLORATORY (probe unqualified)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 no frozen task-only success rule exists (task result is secondary/exploratory)",
       "ok": true,
       "detail": ""
     },
