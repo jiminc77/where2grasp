@@ -1,0 +1,4 @@
+stiffness=[300000.0, 1000000.0, 3000000.0, 10000000.0] droops=[0.3719430619439241, 0.36266356721599086, 0.34778182340429487, 0.30092862674423215] batch_steps=1039 serial_steps=957 delta=0.000226 vram=81920
+PROBE p6_batch PASS: droops=[0.3719430619439241, 0.36266356721599086, 0.34778182340429487, 0.30092862674423215]; serial_delta=0.00023; vram=81920
+/home/simx2204/anaconda3/envs/w2g/lib/python3.12/site-packages/quadrants/_test_tools/warnings_helper.py:11: UserWarning: cannot create weak reference to 'tuple' object. Template mapper caching disabled.
+  warnings.warn(message)

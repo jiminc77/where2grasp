@@ -1,0 +1,6 @@
+tracking=0.010000 tangent=[0.010000000000000009, 0.0, 0.0] tip_z=0.429217
+PROBE p4_clamp_lift PASS: tracking=0.01000; tangent=[0.010000000000000009, 0.0, 0.0]; tip hangs
+/home/simx2204/anaconda3/envs/w2g/lib/python3.12/site-packages/quadrants/_test_tools/warnings_helper.py:11: UserWarning: cannot create weak reference to 'tuple' object. Template mapper caching disabled.
+  warnings.warn(message)
+/home/simx2204/anaconda3/envs/w2g/lib/python3.12/site-packages/quadrants/_test_tools/warnings_helper.py:11: UserWarning: cannot create weak reference to 'numpy.int32' object. Template mapper caching disabled.
+  warnings.warn(message)

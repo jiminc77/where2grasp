@@ -1,0 +1,2 @@
+backend=gs.cuda cuda=12.8 device=NVIDIA RTX PRO 6000 Blackwell Workstation Edition matmul_sum=67226.211
+PROBE p1_backend PASS: backend=cuda; device=NVIDIA RTX PRO 6000 Blackwell Workstation Edition; cuda=12.8

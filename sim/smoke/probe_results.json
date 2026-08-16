@@ -1,0 +1,47 @@
+[
+  {
+    "probe": "p0_import",
+    "status": "PASS",
+    "detail": "genesis=1.0.0; sha=c5026a9416b03c6bc5186eba13cd4ffd4c0e7796; Location: /home/simx2204/anaconda3/envs/w2g/lib/python3.12/site-packages"
+  },
+  {
+    "probe": "p1_backend",
+    "status": "PASS",
+    "detail": "backend=cuda; device=NVIDIA RTX PRO 6000 Blackwell Workstation Edition; cuda=12.8"
+  },
+  {
+    "probe": "p2_coldjit",
+    "status": "PASS",
+    "detail": "cold=14.101s; warm=5.399s; cold_compile=compiled; cache_populated=True"
+  },
+  {
+    "probe": "p3_settle",
+    "status": "PASS",
+    "detail": "steps=917; speed=0.009488; tip_z=0.13759"
+  },
+  {
+    "probe": "p4_clamp_lift",
+    "status": "PASS",
+    "detail": "tracking=0.01000; tangent=[0.010000000000000009, 0.0, 0.0]; tip hangs"
+  },
+  {
+    "probe": "p5_render",
+    "status": "PASS",
+    "detail": "mp4=p5_render.mp4; bytes=20544; frames=30; std=26.56; fg=0.97; EGL=unverified-context-bound"
+  },
+  {
+    "probe": "p6_batch",
+    "status": "PASS",
+    "detail": "droops=[0.3719430619439241, 0.36266356721599086, 0.34778182340429487, 0.30092862674423215]; serial_delta=0.00023; vram=81920"
+  },
+  {
+    "probe": "p7_property",
+    "status": "PASS",
+    "detail": "stiff=[0.038173732342469124, 0.16431627590520154]; mass=[0.11945222763352487, 0.16539634762181715]; getter=checked"
+  },
+  {
+    "probe": "asset_check",
+    "status": "PASS",
+    "detail": "DLO textured assets absent as expected (UMass SharePoint HTTP 401); asset-free README render documented"
+  }
+]

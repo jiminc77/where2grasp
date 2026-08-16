@@ -1,0 +1,2 @@
+cold_time=14.101s warm_time=5.399s cold_compile=compiled cache_populated=True
+PROBE p2_coldjit PASS: cold=14.101s; warm=5.399s; cold_compile=compiled; cache_populated=True

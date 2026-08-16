@@ -1,0 +1,2 @@
+expected absent assets=/home/simx2204/DLO-Lab/genesis/assets/dlo-lab; wrote /home/simx2204/where2grasp/sim/smoke/asset_note.md
+PROBE asset_check PASS: DLO textured assets absent as expected (UMass SharePoint HTTP 401); asset-free README render documented

@@ -1,0 +1,4 @@
+settled=True steps=917 speed=0.00948798 tip_z=0.137589 droop=0.362411
+PROBE p3_settle PASS: steps=917; speed=0.009488; tip_z=0.13759
+/home/simx2204/anaconda3/envs/w2g/lib/python3.12/site-packages/quadrants/_test_tools/warnings_helper.py:11: UserWarning: cannot create weak reference to 'tuple' object. Template mapper caching disabled.
+  warnings.warn(message)

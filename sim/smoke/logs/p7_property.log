@@ -1,0 +1,4 @@
+stiff_droop=[0.038173732342469124, 0.16431627590520154] mass_droop=[0.11945222763352487, 0.16539634762181715] getter=[10000000.0, 300000.0]
+PROBE p7_property PASS: stiff=[0.038173732342469124, 0.16431627590520154]; mass=[0.11945222763352487, 0.16539634762181715]; getter=checked
+/home/simx2204/anaconda3/envs/w2g/lib/python3.12/site-packages/quadrants/_test_tools/warnings_helper.py:11: UserWarning: cannot create weak reference to 'tuple' object. Template mapper caching disabled.
+  warnings.warn(message)
