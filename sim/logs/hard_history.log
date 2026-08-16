@@ -1,0 +1,128 @@
+[W 08/17/26 06:57:45.443 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_0`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+/home/simx2204/anaconda3/envs/w2g/lib/python3.12/site-packages/quadrants/_test_tools/warnings_helper.py:11: UserWarning: cannot create weak reference to 'tuple' object. Template mapper caching disabled.
+  warnings.warn(message)
+[W 08/17/26 06:57:52.208 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_1`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+[W 08/17/26 06:58:00.133 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_2`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+[W 08/17/26 06:58:07.045 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_3`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+[W 08/17/26 06:58:13.777 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_4`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+[W 08/17/26 06:58:20.549 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_5`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+[W 08/17/26 06:58:26.115 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_6`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+[W 08/17/26 06:58:31.906 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_7`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+[W 08/17/26 06:58:37.429 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_8`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+[W 08/17/26 06:58:44.215 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_9`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+[W 08/17/26 06:58:48.804 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_10`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+[W 08/17/26 06:58:54.394 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_11`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+[W 08/17/26 06:58:59.994 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_12`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+[W 08/17/26 06:59:07.997 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_13`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+[W 08/17/26 06:59:15.023 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_14`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+[W 08/17/26 06:59:21.906 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_15`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+/home/simx2204/anaconda3/envs/w2g/lib/python3.12/site-packages/quadrants/_test_tools/warnings_helper.py:11: UserWarning: cannot create weak reference to 'numpy.int32' object. Template mapper caching disabled.
+  warnings.warn(message)
+{"complete": 64, "total": 480, "grasp": 0, "off": 0}
+[W 08/17/26 06:59:43.862 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_16`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+{"complete": 120, "total": 480, "grasp": 0, "off": 64}
+[W 08/17/26 07:00:03.158 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_17`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+{"complete": 184, "total": 480, "grasp": 1, "off": 0}
+[W 08/17/26 07:00:24.743 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_18`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+{"complete": 240, "total": 480, "grasp": 1, "off": 64}
+[W 08/17/26 07:00:46.476 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_19`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+{"complete": 304, "total": 480, "grasp": 2, "off": 0}
+[W 08/17/26 07:01:10.871 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_20`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+{"complete": 360, "total": 480, "grasp": 2, "off": 64}
+[W 08/17/26 07:01:35.073 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_21`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+{"complete": 424, "total": 480, "grasp": 3, "off": 0}
+[W 08/17/26 07:01:59.290 3302018] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_22`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+{"complete": 480, "total": 480, "grasp": 3, "off": 64}
+{"output": "/home/simx2204/where2grasp/sim/manifests/hard_histories_v2.npz", "rollout_count": 480, "shape_dim": 112, "probe_dim": 16, "wall_clock_s": 181.9088852405548}

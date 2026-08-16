@@ -1,0 +1,453 @@
+{
+  "adaptation_history_composition": {
+    "blind_map_rmse": 0.32761847286224277,
+    "probe_prepended_student_map_rmse": 0.09937109382386072,
+    "task_only_student_map_rmse": 0.08331859868849058,
+    "teacher_map_rmse": 0.09177414983777095
+  },
+  "assertions": {
+    "critic_input_dim": 6,
+    "grasp_count": 17,
+    "latent_dim": 4,
+    "sysid_and_probe_student_same_features": true,
+    "sysid_wrench_free": true,
+    "test_settings_not_in_fitting": true,
+    "train_val_test_disjoint": true
+  },
+  "contrasts": {
+    "probe_student_minus_blind": {
+      "boundary_delta_ci95": [
+        -2.60159488990542,
+        -2.60159488990542
+      ],
+      "rmse_delta_ci95": [
+        -0.22824737903838205,
+        -0.22824737903838205
+      ]
+    },
+    "probe_student_over_teacher_rmse": 1.0827786909442243
+  },
+  "m_t_functional": {
+    "better_than_blind_boundary": true,
+    "better_than_blind_rmse": true,
+    "probe_exploratory_note": "The probe_student and leak-free-sysID rows use an UNQUALIFIED probe (qualification INCONCLUSIVE at interval 0.01); the m_t_functional verdict via the probe path is EXPLORATORY, not a clean preregistered result. teacher/blind/task_student are unaffected.",
+    "probe_status": "EXPLORATORY-UNQUALIFIED",
+    "rule": "probe-enriched student - blind CI95 < 0 (better) on map RMSE AND boundary error, AND probe-enriched student / teacher map-RMSE ratio <= 1.5",
+    "verdict": true,
+    "within_1p5x_teacher": true
+  },
+  "manifest_digest": "a08cabb7a899bf5dac80d0978ab5119fffe422bdfce1b7f3c392eceb7a0d3908",
+  "map_recovery_bootstrap_ci95": {
+    "blind": {
+      "boundary_error_index": [
+        2.9292433347845512,
+        2.9292433347845512
+      ],
+      "map_rmse": [
+        0.32761847286224277,
+        0.32761847286224277
+      ]
+    },
+    "probe_student": {
+      "boundary_error_index": [
+        0.3276484448791314,
+        0.3276484448791314
+      ],
+      "map_rmse": [
+        0.09937109382386072,
+        0.09937109382386072
+      ]
+    },
+    "sysid": {
+      "boundary_error_index": [
+        0.9641440903364709,
+        0.9641440903364709
+      ],
+      "map_rmse": [
+        0.19670468419222306,
+        0.19670468419222306
+      ]
+    },
+    "task_student": {
+      "boundary_error_index": [
+        0.2019032054688724,
+        0.2019032054688724
+      ],
+      "map_rmse": [
+        0.08331859868849058,
+        0.08331859868849058
+      ]
+    },
+    "teacher": {
+      "boundary_error_index": [
+        0.27454625494465285,
+        0.27454625494465285
+      ],
+      "map_rmse": [
+        0.09177414983777095,
+        0.09177414983777095
+      ]
+    }
+  },
+  "notes": {
+    "censor_aware": "no tau crossing => boundary censored (excluded), never index 0/N-1",
+    "oracle": "evaluation-bank landscape opened only after fitting",
+    "primary": "held-out TEST map recovery; argmax is material-independent so selection regret is a known null"
+  },
+  "per_setting_map_recovery": {
+    "blind": [
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 4.262576668117885,
+        "correlation": 0.7069500822189778,
+        "map_rmse": 0.4077472261873144,
+        "measured_boundary": 3.5,
+        "predicted_boundary": 7.762576668117885,
+        "setting": "B1_w1"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 4.262576668117885,
+        "correlation": 0.7069500822189778,
+        "map_rmse": 0.4077472261873144,
+        "measured_boundary": 3.5,
+        "predicted_boundary": 7.762576668117885,
+        "setting": "R0"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 2.2625766681178847,
+        "correlation": 0.863137507049582,
+        "map_rmse": 0.2875540961997069,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 7.762576668117885,
+        "setting": "B3_w2"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 2.2625766681178847,
+        "correlation": 0.863137507049582,
+        "map_rmse": 0.2875540961997069,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 7.762576668117885,
+        "setting": "R1"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 2.2625766681178847,
+        "correlation": 0.863137507049582,
+        "map_rmse": 0.2875540961997069,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 7.762576668117885,
+        "setting": "B2_w1"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 2.2625766681178847,
+        "correlation": 0.863137507049582,
+        "map_rmse": 0.2875540961997069,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 7.762576668117885,
+        "setting": "R2"
+      }
+    ],
+    "probe_student": [
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.5056918988944332,
+        "correlation": 0.9600214247816764,
+        "map_rmse": 0.12285542823929152,
+        "measured_boundary": 3.5,
+        "predicted_boundary": 4.005691898894433,
+        "setting": "B1_w1"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.5141396623716998,
+        "correlation": 0.9594296504259271,
+        "map_rmse": 0.12379777346653459,
+        "measured_boundary": 3.5,
+        "predicted_boundary": 4.0141396623717,
+        "setting": "R0"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.39055663369521554,
+        "correlation": 0.9749218688497827,
+        "map_rmse": 0.1092846832081367,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 5.8905566336952155,
+        "setting": "B3_w2"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.3838757375036286,
+        "correlation": 0.9753134394882783,
+        "map_rmse": 0.1084207702671968,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 5.883875737503629,
+        "setting": "R1"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.09364657424071776,
+        "correlation": 0.9907011387346425,
+        "map_rmse": 0.06676292403951459,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 5.593646574240718,
+        "setting": "B2_w1"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.07798016256909346,
+        "correlation": 0.9911784019534898,
+        "map_rmse": 0.06510498372249006,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 5.5779801625690935,
+        "setting": "R2"
+      }
+    ],
+    "sysid": [
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.9754365259058106,
+        "correlation": 0.9009905174449362,
+        "map_rmse": 0.19945467791438182,
+        "measured_boundary": 3.5,
+        "predicted_boundary": 4.475436525905811,
+        "setting": "B1_w1"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.9785721119506618,
+        "correlation": 0.9004538840230693,
+        "map_rmse": 0.20005464245496118,
+        "measured_boundary": 3.5,
+        "predicted_boundary": 4.478572111950662,
+        "setting": "R0"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 1.0300716452302696,
+        "correlation": 0.9118104569529711,
+        "map_rmse": 0.20894087371222006,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 6.53007164523027,
+        "setting": "B3_w2"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 1.0280663976027586,
+        "correlation": 0.912089123097097,
+        "map_rmse": 0.20858733263297682,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 6.528066397602759,
+        "setting": "R1"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.8893471139714766,
+        "correlation": 0.931935451605038,
+        "map_rmse": 0.18217708242690428,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 6.389347113971477,
+        "setting": "B2_w1"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.8833707473578478,
+        "correlation": 0.9327634003215811,
+        "map_rmse": 0.18101349601189412,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 6.383370747357848,
+        "setting": "R2"
+      }
+    ],
+    "task_student": [
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.21317253960502436,
+        "correlation": 0.981164376331013,
+        "map_rmse": 0.08361410643317244,
+        "measured_boundary": 3.5,
+        "predicted_boundary": 3.7131725396050244,
+        "setting": "B1_w1"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.278306473111293,
+        "correlation": 0.9764910380443913,
+        "map_rmse": 0.09350864498912144,
+        "measured_boundary": 3.5,
+        "predicted_boundary": 3.778306473111293,
+        "setting": "R0"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.2945851089447107,
+        "correlation": 0.9805296462015715,
+        "map_rmse": 0.09620603567127278,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 5.794585108944711,
+        "setting": "B3_w2"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.2879857682278564,
+        "correlation": 0.9809140328446507,
+        "map_rmse": 0.09524859362999785,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 5.787985768227856,
+        "setting": "R1"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.10140119361806832,
+        "correlation": 0.9902025925413762,
+        "map_rmse": 0.06847165126335931,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 5.601401193618068,
+        "setting": "B2_w1"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.03596814930628156,
+        "correlation": 0.9918367378539515,
+        "map_rmse": 0.06286256014401971,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 5.535968149306282,
+        "setting": "R2"
+      }
+    ],
+    "teacher": [
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.10884198041820126,
+        "correlation": 0.9874551578268524,
+        "map_rmse": 0.06855451133509695,
+        "measured_boundary": 3.5,
+        "predicted_boundary": 3.6088419804182013,
+        "setting": "B1_w1"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.18155310144715564,
+        "correlation": 0.9832846899784715,
+        "map_rmse": 0.07878489372657314,
+        "measured_boundary": 3.5,
+        "predicted_boundary": 3.6815531014471556,
+        "setting": "R0"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.4220810321138506,
+        "correlation": 0.9730604993810485,
+        "map_rmse": 0.11329045007549254,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 5.922081032113851,
+        "setting": "B3_w2"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.2136660582022687,
+        "correlation": 0.9857535685328197,
+        "map_rmse": 0.08415840423167235,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 5.286333941797731,
+        "setting": "R1"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.5479110734276453,
+        "correlation": 0.9664463188606961,
+        "map_rmse": 0.12773343441725846,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 4.952088926572355,
+        "setting": "B2_w1"
+      },
+      {
+        "boundary_censored": false,
+        "boundary_error_index": 0.17322428405879542,
+        "correlation": 0.9877425221781103,
+        "map_rmse": 0.0781232052405323,
+        "measured_boundary": 5.5,
+        "predicted_boundary": 5.326775715941205,
+        "setting": "R2"
+      }
+    ]
+  },
+  "primary_map_recovery": {
+    "blind": {
+      "boundary_censored_count": 0,
+      "boundary_error_index": 2.9292433347845512,
+      "correlation": 0.8110750321060473,
+      "map_rmse": 0.32761847286224277
+    },
+    "probe_student": {
+      "boundary_censored_count": 0,
+      "boundary_error_index": 0.3276484448791314,
+      "correlation": 0.9752609873722995,
+      "map_rmse": 0.09937109382386072
+    },
+    "sysid": {
+      "boundary_censored_count": 0,
+      "boundary_error_index": 0.9641440903364709,
+      "correlation": 0.9150071389074488,
+      "map_rmse": 0.19670468419222306
+    },
+    "task_student": {
+      "boundary_censored_count": 0,
+      "boundary_error_index": 0.2019032054688724,
+      "correlation": 0.9835230706361591,
+      "map_rmse": 0.08331859868849058
+    },
+    "teacher": {
+      "boundary_censored_count": 0,
+      "boundary_error_index": 0.27454625494465285,
+      "correlation": 0.9806237927929998,
+      "map_rmse": 0.09177414983777095
+    }
+  },
+  "schema_version": 1,
+  "splits": {
+    "final_test_pairs": [
+      [
+        "B1_w1",
+        "R0"
+      ],
+      [
+        "B3_w2",
+        "R1"
+      ],
+      [
+        "B2_w1",
+        "R2"
+      ]
+    ],
+    "test": [
+      "B1_w1",
+      "R0",
+      "B3_w2",
+      "R1",
+      "B2_w1",
+      "R2"
+    ],
+    "train": [
+      "B1_w0",
+      "B1_w2",
+      "B2_w0",
+      "B3_w0",
+      "B3_w1",
+      "B4_w0",
+      "B4_w2"
+    ],
+    "val": [
+      "B2_w2",
+      "B4_w1"
+    ]
+  },
+  "sysid_ridge": {
+    "alpha": 1000.0,
+    "mean_grouped_cv_rmse": 0.625735304206343
+  }
+}

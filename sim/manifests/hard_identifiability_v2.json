@@ -1,0 +1,231 @@
+{
+  "history_source": {
+    "kind": "actual Genesis get_vertices_pos temporal 7-frame + small-deflection probe",
+    "probe_dim": 16,
+    "rollout_count": 480,
+    "shape_dim": 112
+  },
+  "manifest_digest": "a08cabb7a899bf5dac80d0978ab5119fffe422bdfce1b7f3c392eceb7a0d3908",
+  "models": {
+    "+shape": {
+      "mlp_confirmatory": {
+        "seeds": [
+          3401,
+          3411,
+          3421
+        ],
+        "test_rmse_mean": {
+          "log10_B_eff": 0.3839497467820287,
+          "log10_B_eff_over_w": 0.1807969997234896,
+          "log10_w": 0.366058410833745
+        },
+        "test_rmse_std_over_seeds": {
+          "log10_B_eff": 0.03498959226093319,
+          "log10_B_eff_over_w": 0.019491023789521427,
+          "log10_w": 0.030732863145025643
+        }
+      },
+      "ridge": {
+        "alpha": 1000.0,
+        "test_rmse": {
+          "log10_B_eff": 0.22837133867767023,
+          "log10_B_eff_over_w": 0.33174722818443364,
+          "log10_w": 0.25079559831540515
+        },
+        "train_cv_rmse_mean": 0.47657975267620706
+      }
+    },
+    "+wrench": {
+      "mlp_confirmatory": {
+        "seeds": [
+          3401,
+          3411,
+          3421
+        ],
+        "test_rmse_mean": {
+          "log10_B_eff": 0.2165988604647164,
+          "log10_B_eff_over_w": 0.20865865221113758,
+          "log10_w": 0.051222168362965025
+        },
+        "test_rmse_std_over_seeds": {
+          "log10_B_eff": 0.008950924050077377,
+          "log10_B_eff_over_w": 0.0006955347467769291,
+          "log10_w": 0.0049823267931287645
+        }
+      },
+      "ridge": {
+        "alpha": 1000.0,
+        "test_rmse": {
+          "log10_B_eff": 0.22551802453547365,
+          "log10_B_eff_over_w": 0.32042307114241647,
+          "log10_w": 0.2165090619095765
+        },
+        "train_cv_rmse_mean": 0.4550506569197632
+      }
+    },
+    "probe+shape": {
+      "mlp_confirmatory": {
+        "seeds": [
+          3401,
+          3411,
+          3421
+        ],
+        "test_rmse_mean": {
+          "log10_B_eff": 0.40291044404658033,
+          "log10_B_eff_over_w": 0.10793245676183953,
+          "log10_w": 0.3856075592196624
+        },
+        "test_rmse_std_over_seeds": {
+          "log10_B_eff": 0.014990296014830592,
+          "log10_B_eff_over_w": 0.009433283856361689,
+          "log10_w": 0.004186526279133292
+        }
+      },
+      "ridge": {
+        "alpha": 1000.0,
+        "test_rmse": {
+          "log10_B_eff": 0.1989580365714331,
+          "log10_B_eff_over_w": 0.2989311325847279,
+          "log10_w": 0.251805785558637
+        },
+        "train_cv_rmse_mean": 0.625735304206343
+      }
+    },
+    "probe+shape+wrench": {
+      "mlp_confirmatory": {
+        "seeds": [
+          3401,
+          3411,
+          3421
+        ],
+        "test_rmse_mean": {
+          "log10_B_eff": 0.12261579577853517,
+          "log10_B_eff_over_w": 0.12209365351548283,
+          "log10_w": 0.06798222149521808
+        },
+        "test_rmse_std_over_seeds": {
+          "log10_B_eff": 0.028448137283950643,
+          "log10_B_eff_over_w": 0.02193711418712311,
+          "log10_w": 0.017581046013481295
+        }
+      },
+      "ridge": {
+        "alpha": 1000.0,
+        "test_rmse": {
+          "log10_B_eff": 0.1923844681820466,
+          "log10_B_eff_over_w": 0.2922037504529535,
+          "log10_w": 0.2205817694790854
+        },
+        "train_cv_rmse_mean": 0.60604030898994
+      }
+    },
+    "proprioception-only": {
+      "mlp_confirmatory": {
+        "seeds": [
+          3401,
+          3411,
+          3421
+        ],
+        "test_rmse_mean": {
+          "log10_B_eff": 0.29591446773460944,
+          "log10_B_eff_over_w": 0.46068693252882736,
+          "log10_w": 0.2734744526414828
+        },
+        "test_rmse_std_over_seeds": {
+          "log10_B_eff": 3.4818017297456915e-06,
+          "log10_B_eff_over_w": 7.17127542521907e-06,
+          "log10_w": 1.0508713240549917e-05
+        }
+      },
+      "ridge": {
+        "alpha": 0.001,
+        "test_rmse": {
+          "log10_B_eff": 0.29591038913761575,
+          "log10_B_eff_over_w": 0.46067940043540706,
+          "log10_w": 0.2734742201237178
+        },
+        "train_cv_rmse_mean": 0.47745320473811126
+      }
+    }
+  },
+  "proprioception_baseline": {
+    "log10_B_eff": 0.29591038913761575,
+    "log10_B_eff_over_w": 0.46067940043540706,
+    "log10_w": 0.2734742201237178
+  },
+  "ridge_reduction": "temporal mean+last pooling (task 112->32; probe-enriched 128->48)",
+  "schema_version": 1,
+  "splits": {
+    "final_test_pairs": [
+      [
+        "B1_w1",
+        "R0"
+      ],
+      [
+        "B3_w2",
+        "R1"
+      ],
+      [
+        "B2_w1",
+        "R2"
+      ]
+    ],
+    "test": [
+      "B1_w1",
+      "R0",
+      "B3_w2",
+      "R1",
+      "B2_w1",
+      "R2"
+    ],
+    "train": [
+      "B1_w0",
+      "B1_w2",
+      "B2_w0",
+      "B3_w0",
+      "B3_w1",
+      "B4_w0",
+      "B4_w2"
+    ],
+    "val": [
+      "B2_w2",
+      "B4_w1"
+    ]
+  },
+  "two_sided_prediction": {
+    "confound_guard": {
+      "paired_relative_shape_rms": [
+        0.0012218477057143208,
+        0.00278015795046013,
+        0.0027579283110620335
+      ],
+      "passed": true,
+      "tol_shape": 0.05
+    },
+    "null_side": {
+      "K": 3,
+      "passed": false,
+      "shape_individual_over_ratio": [
+        0.6655647902951064,
+        0.8423538337455236
+      ]
+    },
+    "positive_control": {
+      "passed": false,
+      "probe_shape_ratio_rmse": 0.2989311325847279,
+      "tol_ratio": 0.1
+    },
+    "probe_exploratory_note": "PROBE UNQUALIFIED (qualification INCONCLUSIVE): the probe-enriched positive control / null / repair sides here are EXPLORATORY, not a clean preregistered positive control. The +shape and +wrench (task-only, wrench) sides remain fully valid; probe+shape / probe+shape+wrench are exploratory.",
+    "probe_status": "EXPLORATORY-UNQUALIFIED",
+    "repair_side": {
+      "passed": false,
+      "tol_indiv": 0.15,
+      "wrench_individual": [
+        0.1923844681820466,
+        0.2205817694790854
+      ]
+    },
+    "truth_table": "failed positive-control OR guard => INCONCLUSIVE; premises pass but null OR repair fails => FAIL; all pass => PASS",
+    "verdict": "INCONCLUSIVE"
+  }
+}
