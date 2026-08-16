@@ -53,14 +53,16 @@ def _bracket_run(rawEs, mass, lengths, integ):
     for rod in rods:
         rod.set_fixed_states(fixed_ids=[0, 1]); apply_properties(rod, np.asarray(rawEs), mass)
     tip0 = [vertices(r)[:, r.n_vertices - 1, 2].copy() for r in rods]
-    prev = [vertices(r)[:, r.n_vertices - 1, 2].copy() for r in rods]
+    prev = [vertices(r)[:, r.n_vertices - 1, 2].copy() for r in rods]; converged = False
     for _ in range(160):
         for _ in range(200):
             scene.step()
         cur = [vertices(r)[:, r.n_vertices - 1, 2].copy() for r in rods]
         if max(float(np.max(np.abs(c - p))) for c, p in zip(cur, prev)) < 5e-5:
-            break
+            converged = True; break
         prev = cur
+    if not converged:
+        raise RuntimeError('probe qualification bracket settle did not converge')
     tipf = [vertices(r)[:, r.n_vertices - 1, 2].copy() for r in rods]
     return np.array([tip0[j] - tipf[j] for j in range(len(nvs))])   # [len, material]
 

@@ -70,14 +70,16 @@ def probe_shape(scene_build, add_rod, apply_props, vertices_fn, B_eff_rawE, segm
     scene.build(n_envs=1)
     rod.set_fixed_states(fixed_ids=[0, 1])
     apply_props(rod, np.array([B_eff_rawE]), np.array([segment_mass]))
-    prev = vertices_fn(rod)[:, -1, 2].copy(); 
+    prev = vertices_fn(rod)[:, -1, 2].copy(); converged = False
     for _ in range(100):
         for _ in range(200):
             scene.step()
         cur = vertices_fn(rod)[:, -1, 2].copy()
         if float(np.max(np.abs(cur - prev))) < 1e-4:
-            break
+            converged = True; break
         prev = cur
+    if not converged:
+        raise RuntimeError('probe small-deflection cantilever settle did not converge')
     return shape_frame(vertices_fn(rod)[0])
 
 
