@@ -10,7 +10,7 @@ Both the exact frozen verdict and a separate DESCRIPTIVE directional reading are
 gate report is honest about what the preregistered rule concludes vs. what the raw trend shows.
 """
 from __future__ import annotations
-import json
+import argparse, hashlib, json
 from pathlib import Path
 import numpy as np
 import matplotlib; matplotlib.use('Agg')
@@ -56,16 +56,69 @@ def condition(series, sign, step):
             'adjacent_correct_or_tied': int(sum(x >= 0 for x in adjacent)), 'adjacent_total': len(adjacent)}
 
 
-def main():
-    m = json.loads((ROOT / 'manifests/sweep_manifest.json').read_text())
-    z = np.load(ROOT / 'manifests/sweep_results.npz'); ss = settings(m)
+def _prefactor_bootstrap(z, landscapes, h, n_boot=2000, seed=7):
+    """Seeded paired block-bootstrap of the prefactor ell_max/(B_eff/w)^(1/4) over the
+    matched evaluation-seed blocks. Returns predicted (8h)^(1/4), point estimate, CI, and
+    a grid-resolution bound. Honest-negative capable: censored/invalid cells are excluded."""
+    from sim.analyze_gate import boundary as _b  # frozen boundary fn
+    predicted = float((8.0 * h) ** 0.25)
+    valid = [x for x in landscapes if x['valid']]
+    def pf(x, rate):
+        bb = _b(x['ell_grid'], rate, x['tau'])['boundary']
+        return None if bb is None else bb / (float(x['B_eff']) / float(x['w'])) ** 0.25
+    point = [pf(x, x['success_rate']) for x in valid]
+    point = [p for p in point if p is not None]
+    eval_seeds = sorted(set(int(s) for s in z['seed'][z['bank'] == 'evaluation'].tolist()))
+    ns = len(eval_seeds)
+    # per (setting,grasp) success by eval seed
+    succ = {}
+    for x in valid:
+        for gi, e_ell in enumerate(x['ell_grid']):
+            vals = []
+            for sd in eval_seeds:
+                q = (z['setting'] == x['id']) & (z['grasp'] == gi) & (z['bank'] == 'evaluation') & (z['seed'] == sd)
+                vals.append(float(np.mean(z['success'][q])) if q.any() else np.nan)
+            succ[(x['id'], gi)] = np.array(vals)
+    rng = np.random.default_rng(seed); boots = []
+    for _ in range(n_boot):
+        pick = rng.integers(0, ns, ns)
+        vals = []
+        for x in valid:
+            rate = [float(np.nanmean(succ[(x['id'], gi)][pick])) for gi in range(len(x['ell_grid']))]
+            p = pf(x, rate)
+            if p is not None:
+                vals.append(p)
+        if vals:
+            boots.append(float(np.mean(vals)))
+    lo, hi = (float(np.percentile(boots, 2.5)), float(np.percentile(boots, 97.5))) if boots else (None, None)
+    step = float(np.median(np.diff(valid[0]['ell_grid']))) if valid else None
+    # grid-resolution bound: +/- half-step in boundary propagated to the mean prefactor
+    denom = [(float(x['B_eff']) / float(x['w'])) ** 0.25 for x in valid]
+    grid_bound = float(np.mean([(step / 2) / d for d in denom])) if valid else None
+    return {'predicted_prefactor_8h_quarter': predicted,
+            'observed_prefactor_mean': float(np.mean(point)) if point else None,
+            'observed_prefactor_per_cell': {x['id']: pf(x, x['success_rate']) for x in valid},
+            'bootstrap_ci95': [lo, hi], 'bootstrap_n': len(boots),
+            'grid_resolution_bound_pm': grid_bound,
+            'note': 'seeded paired block-bootstrap over matched evaluation-seed blocks; valid in-regime cells only'}
+
+
+def main(manifest=None, results=None, out_prefix='hard_', figdir=None):
+    manifest = Path(manifest) if manifest else (ROOT / 'manifests/sweep_manifest.json')
+    results = Path(results) if results else (ROOT / 'manifests/sweep_results.npz')
+    m = json.loads(manifest.read_text())
+    z = np.load(results); ss = settings(m)
     ell = np.array(m['grasp']['ell']); step = float(np.median(np.diff(ell)))
+    ng = len(ell)
     (ROOT / 'figures').mkdir(exist_ok=True)
-    Bgrid = list(map(float, m['B_eff'])); Wgrid = list(map(float, m['w']))
+    ind = [s for s in ss if s['kind'] == 'independent']
+    bis = sorted({s['bi'] for s in ind}); wis = sorted({s['wi'] for s in ind})
+    B_by_bi = {s['bi']: float(s['B_eff']) for s in ind}; w_by_wi = {s['wi']: float(s['w']) for s in ind}
+    Bgrid = [B_by_bi[i] for i in bis]; Wgrid = [w_by_wi[j] for j in wis]
     landscapes = []
     for s in ss:
         rate = []; meanj = []; winner = []
-        for g in range(15):
+        for g in range(ng):
             q = (z['setting'] == s['id']) & (z['grasp'] == g) & (z['bank'] == 'evaluation')
             rate.append(float(np.mean(z['success'][q]))); meanj.append(float(np.mean(z['J'][q])))
             winner.append(int(np.unique(z['template'][q])[0]))
@@ -76,18 +129,19 @@ def main():
         in_regime = bool(b['resolved'] and pi_g is not None and pi_g <= PI_G_MAX)
         valid = in_regime  # FROZEN: valid iff resolved AND Pi_g<=0.5
         landscapes.append({**s, 'success_rate': rate, 'mean_J': meanj, 'selected_template': winner,
+                           'ell_grid': [float(e) for e in ell], 'tau': float(m['tau']),
                            **b, 'w': w, 'Pi_g_boundary': pi_g, 'in_regime': in_regime, 'valid': valid})
         fig, ax = plt.subplots(); ax.plot(ell, rate, 'o-', label='evaluation success'); ax.axhline(m['tau'], color='k', ls='--')
         ax2 = ax.twinx(); ax2.plot(ell, meanj, 's-', color='tab:orange', label='mean J')
         ax.set(xlabel='free-arm ell (m)', ylabel='success rate', ylim=(-.05, 1.05), title="%s (Pi_g=%s%s)" % (
             s['id'], ('%.2f' % pi_g if pi_g is not None else 'NA'), '' if valid else ' INVALID'))
         ax2.set_ylabel('mean signed clearance J (m)'); fig.tight_layout()
-        fig.savefig(ROOT / 'figures' / f'landscape_{s["id"]}.png', dpi=130); plt.close(fig)
+        fig.savefig(ROOT / 'figures' / f'{out_prefix}landscape_{s["id"]}.png', dpi=130); plt.close(fig)
     lk = {x['id']: x for x in landscapes}
     def vb(i, j):  # valid boundary or None
         x = lk[f'B{i}_w{j}']; return x['boundary'] if x['valid'] else None
-    Bseries = {f'w{j}': [vb(i, j) for i in range(5)] for j in range(4)}   # fixed w, vary B_eff (expect increase)
-    Wseries = {f'B{i}': [vb(i, j) for j in range(4)] for i in range(5)}   # fixed B_eff, vary w (expect decrease)
+    Bseries = {f'w{j}': [vb(i, j) for i in bis] for j in wis}   # fixed w, vary B_eff (expect increase)
+    Wseries = {f'B{i}': [vb(i, j) for j in wis] for i in bis}   # fixed B_eff, vary w (expect decrease)
     B = condition(Bseries, 1, step); W = condition(Wseries, -1, step)
     rc = []
     for p in m['ratio_pairs']:
@@ -107,12 +161,12 @@ def main():
     def db(i, j):  # directional boundary: resolved value, or censored descriptive bound
         x = lk[f'B{i}_w{j}']; return x['boundary'] if x['resolved'] else x['descriptive_bound']
     b_up = w_down = b_tot = w_tot = 0
-    for j in range(4):
-        col = [db(i, j) for i in range(5)]
+    for j in wis:
+        col = [db(i, j) for i in bis]
         for a, c in zip(col[:-1], col[1:]):
             if a is not None and c is not None: b_tot += 1; b_up += (c >= a - 1e-9)
-    for i in range(5):
-        row = [db(i, j) for j in range(4)]
+    for i in bis:
+        row = [db(i, j) for j in wis]
         for a, c in zip(row[:-1], row[1:]):
             if a is not None and c is not None: w_tot += 1; w_down += (c <= a + 1e-9)
     ratio_desc = []
@@ -122,34 +176,47 @@ def main():
         ratio_desc.append(None if (av is None or bv is None) else round(bv - av, 4))
     descriptive = {'note': 'DESCRIPTIVE ONLY (not the preregistered gate); uses all resolved boundaries + censored one-sided bounds',
                    'B_increase_adjacent': f'{b_up}/{b_tot}', 'w_decrease_adjacent': f'{w_down}/{w_tot}',
-                   'ratio_pair_offsets': ratio_desc,
-                   'reading': 'strongly consistent with the predicted direction (boundary rises with B_eff, falls with w, ratio-invariant)'}
+                   'ratio_pair_offsets': ratio_desc}
 
+    prefactor = _prefactor_bootstrap(z, landscapes, float(m['h']))
     n_valid = sum(x['valid'] for x in landscapes); n_res = sum(x['resolved'] for x in landscapes)
     out_of_regime = [x['id'] for x in landscapes if x['resolved'] and not x['in_regime']]
     censored_ids = [x['id'] for x in landscapes if x['censored']]
     verdict = {'exact_frozen_verdict': overall, 'conditions': {'B': B, 'w': W, 'R': R},
-               'resolution_step': step, 'Pi_g_max': PI_G_MAX,
+               'resolution_step': step, 'Pi_g_max': PI_G_MAX, 'manifest_digest': hashlib.sha256(manifest.read_bytes()).hexdigest(),
                'validity_summary': {'settings': len(landscapes), 'resolved': n_res, 'valid_in_regime': n_valid,
                                     'out_of_regime_ids': out_of_regime, 'censored_ids': censored_ids},
-               'descriptive_directional': descriptive,
+               'prefactor': prefactor, 'descriptive_directional': descriptive,
                'boundaries': [{k: x[k] for k in ('id', 'B_eff', 'w', 'boundary', 'Pi_g_boundary', 'resolved', 'in_regime', 'valid', 'censored', 'crossings')} for x in landscapes]}
-    (ROOT / 'manifests/sweep_landscape.json').write_text(json.dumps({'settings': landscapes}, indent=2) + '\n')
-    (ROOT / 'manifests/gate_verdict.json').write_text(json.dumps(verdict, indent=2) + '\n')
+    (ROOT / f'manifests/{out_prefix}sweep_landscape.json').write_text(json.dumps({'settings': landscapes}, indent=2) + '\n')
+    (ROOT / f'manifests/{out_prefix}gate_verdict.json').write_text(json.dumps(verdict, indent=2) + '\n')
 
-    fig, ax = plt.subplots(1, 2, figsize=(10, 4))
-    for j in range(4):
-        yv = [db(i, j) for i in range(5)]; ax[0].loglog(Bgrid, [v or np.nan for v in yv], 'o-', label=f'w={Wgrid[j]:.3g}')
-    for i in range(5):
-        yv = [db(i, j) for j in range(4)]; ax[1].loglog(Wgrid, [v or np.nan for v in yv], 'o-', label=f'B={Bgrid[i]:.3g}')
-    x = np.array(Bgrid); ax[0].plot(x, .3 * (x / x[0]) ** .25, 'k--', label='descriptive +1/4')
-    x = np.array(Wgrid); ax[1].plot(x, .3 * (x / x[0]) ** -.25, 'k--', label='descriptive -1/4')
-    for a in ax: a.legend(fontsize=6); a.set_ylabel('boundary ell (m)')
-    ax[0].set_xlabel('B_eff'); ax[1].set_xlabel('w'); fig.tight_layout()
-    fig.savefig(ROOT / 'figures/boundary_shift.png', dpi=150); plt.close(fig)
+    fig, ax = plt.subplots(1, 3, figsize=(14, 4))
+    for j in wis:
+        yv = [db(i, j) for i in bis]; ax[0].loglog(Bgrid, [v or np.nan for v in yv], 'o-', label=f'w={w_by_wi[j]:.3g}')
+    for i in bis:
+        yv = [db(i, j) for j in wis]; ax[1].loglog(Wgrid, [v or np.nan for v in yv], 'o-', label=f'B={B_by_bi[i]:.3g}')
+    x = np.array(Bgrid); ax[0].plot(x, .3 * (x / x[0]) ** .25, 'k--', label='reference +1/4')
+    x = np.array(Wgrid); ax[1].plot(x, .3 * (x / x[0]) ** -.25, 'k--', label='reference -1/4')
+    for a in ax[:2]: a.legend(fontsize=6); a.set_ylabel('boundary ell (m)')
+    ax[0].set_xlabel('B_eff'); ax[1].set_xlabel('w')
+    # prefactor panel
+    pc = prefactor['observed_prefactor_per_cell']; ids = list(pc)
+    ax[2].axhline(prefactor['predicted_prefactor_8h_quarter'], color='k', ls='--', label='(8h)^1/4 predicted')
+    ci = prefactor['bootstrap_ci95']
+    if ci[0] is not None:
+        ax[2].axhspan(ci[0], ci[1], color='tab:blue', alpha=0.2, label='mean 95% CI')
+    ax[2].plot(range(len(ids)), [pc[i] for i in ids], 'o'); ax[2].set_xticks(range(len(ids))); ax[2].set_xticklabels(ids, rotation=90, fontsize=6)
+    ax[2].set_ylabel('ell_max/(B_eff/w)^1/4'); ax[2].set_title('prefactor'); ax[2].legend(fontsize=6)
+    fig.tight_layout(); fig.savefig(ROOT / f'figures/{out_prefix}boundary_shift.png', dpi=150); plt.close(fig)
     print(json.dumps({'exact_frozen_verdict': overall, 'B': B['status'], 'w': W['status'], 'R': Rstatus,
                       'valid_in_regime': n_valid, 'out_of_regime': out_of_regime, 'censored': censored_ids,
+                      'prefactor': {k: prefactor[k] for k in ('predicted_prefactor_8h_quarter', 'observed_prefactor_mean', 'bootstrap_ci95')},
                       'descriptive': {k: descriptive[k] for k in ('B_increase_adjacent', 'w_decrease_adjacent', 'ratio_pair_offsets')}}, indent=2))
 
 
-if __name__ == '__main__': main()
+if __name__ == '__main__':
+    p = argparse.ArgumentParser()
+    p.add_argument('--manifest', default=None); p.add_argument('--results', default=None)
+    p.add_argument('--out-prefix', default='hard_')
+    a = p.parse_args(); main(a.manifest, a.results, a.out_prefix)

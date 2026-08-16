@@ -1,0 +1,17 @@
+{
+  "schema": "hard_preflight.v1",
+  "ts": "2026-08-17T04:00:30Z",
+  "python": "/home/simx2204/anaconda3/envs/w2g/bin/python3",
+  "torch": "2.10.0+cu128",
+  "cuda_available": true,
+  "device": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+  "genesis": "1.0.0",
+  "genesis_import_s": 0.87,
+  "dlo_lab_sha": "c5026a9416b03c6bc5186eba13cd4ffd4c0e7796",
+  "dlo_lab_pinned_ok": true,
+  "dlo_lab_clean": true,
+  "repo_head": "bbdb416da8843cffaa8020238ec307edbec3876c",
+  "repo_status_porcelain": "M sim/history.py\n?? sim/logs/hard_preflight.log",
+  "repo_clean_except_untracked": false,
+  "all_green": true
+}
