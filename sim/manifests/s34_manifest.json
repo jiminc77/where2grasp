@@ -1,0 +1,197 @@
+{
+  "adaptation_x": [
+    0,
+    1,
+    3
+  ],
+  "features": {
+    "allow_list": [
+      "shape_yz_16",
+      "ell",
+      "terminal_pose_3",
+      "template_arc",
+      "drive_dx",
+      "drive_dy",
+      "drive_duration",
+      "drive_arc_multiplier",
+      "normalized_supported_Fz"
+    ],
+    "cadence": "settle and every 60 drive steps",
+    "deny_list": [
+      "setting_id",
+      "pair_id",
+      "raw_vertex_count",
+      "absolute_rod_length",
+      "filename",
+      "order_index",
+      "B_eff",
+      "w",
+      "ratio",
+      "target-derived fields"
+    ],
+    "proprioception": "terminal clamp pose + template params",
+    "shape": {
+      "M": 8,
+      "fields": "arclength-normalized clamp-relative (y,z) free-arm samples",
+      "known_geometry": [
+        "ell"
+      ]
+    },
+    "wrench": "segment_mass*(n_vertices-2)*g / ((n_vertices-2)*interval)"
+  },
+  "frozen": true,
+  "grouped_cv": {
+    "K": 5,
+    "folds": {
+      "0": [
+        "B0_w0",
+        "B2_w2",
+        "B4_w1"
+      ],
+      "1": [
+        "B0_w1",
+        "B2_w3",
+        "B4_w2"
+      ],
+      "2": [
+        "B1_w0",
+        "B3_w0",
+        "B4_w3"
+      ],
+      "3": [
+        "B1_w2",
+        "B3_w1"
+      ],
+      "4": [
+        "B2_w0",
+        "B3_w3"
+      ]
+    },
+    "mlp_selection": "per-fold best epoch; final median best epoch; retrain all train",
+    "ridge_selection": "minimum mean-fold RMSE; ties smaller alpha",
+    "rule": "lexicographically sorted setting IDs; fold=index mod 5"
+  },
+  "history_lengths": {
+    "L1": "deterministic prefix of L3"
+  },
+  "input_artifact_sha256": {
+    "calibration.json": "0fd6dcaf2743103de20b42be54a975358afc702e3d44bce1986b155ef266ff6b",
+    "sweep_landscape.json": "3cea307b9d9ead6f478a142bfcf975b81207bf7bef852449916c9aac12d16e27",
+    "sweep_manifest.json": "0d91df7db92a0d272af2a15fe3a4b017ba84496dbb4cb3ab03f4f3d772ddc3af",
+    "sweep_results.npz": "3f2dba3fffeda86a041ff247eabb32f75ca4e4996953780328c4bd56294511d3"
+  },
+  "interface_note": "phi_theta -> z (=4) -> Q; Q input is 2-D grasp features concatenated with z, total 6-D",
+  "margins": {
+    "K": 3,
+    "tol_indiv": 0.15,
+    "tol_prop": 0.001,
+    "tol_ratio": 0.1,
+    "tol_replay": 0.001,
+    "tol_shape": 0.05
+  },
+  "metric": "log10-RMSE",
+  "models": {
+    "critic": {
+      "epochs": 300,
+      "hidden": [
+        32,
+        32
+      ],
+      "seed": 3403
+    },
+    "distill_epochs": 300,
+    "mlp": {
+      "hidden": [
+        64,
+        64
+      ],
+      "max_epochs": 200,
+      "seed": 3402
+    },
+    "phi_theta": {
+      "hidden": [
+        32
+      ],
+      "z": 4
+    },
+    "ridge": {
+      "seed": 3401
+    },
+    "student_encoder": {
+      "hidden": [
+        64,
+        32
+      ],
+      "z": 4
+    }
+  },
+  "normalization": "train-only; within CV fit scaler on four training folds",
+  "replay_tuple_policy": {
+    "N_hist_per_setting": 32,
+    "complete_pair_retention": true,
+    "matched_CRN": true,
+    "source": "sweep_results.npz selection bank exact (setting,grasp,ell,template,seed,J,success,converged)"
+  },
+  "ridge_alpha_grid": [
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0,
+    100.0,
+    1000.0
+  ],
+  "schema_version": 1,
+  "seed_partition": {
+    "held_out_only": [
+      2002
+    ],
+    "oracle_only": [
+      3000,
+      3001,
+      3002,
+      3003,
+      3004
+    ],
+    "train_validation": [
+      2000,
+      2001
+    ]
+  },
+  "splits": {
+    "final_test_pairs": [
+      [
+        "B1_w1",
+        "R0"
+      ],
+      [
+        "B3_w2",
+        "R1"
+      ],
+      [
+        "B2_w1",
+        "R2"
+      ]
+    ],
+    "step3_train": [
+      "B0_w0",
+      "B0_w1",
+      "B1_w0",
+      "B1_w2",
+      "B2_w0",
+      "B2_w2",
+      "B2_w3",
+      "B3_w0",
+      "B3_w1",
+      "B3_w3",
+      "B4_w1",
+      "B4_w2",
+      "B4_w3"
+    ]
+  },
+  "targets": [
+    "log10_B_eff",
+    "log10_w",
+    "log10_B_eff_over_w"
+  ]
+}

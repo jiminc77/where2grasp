@@ -1,0 +1,158 @@
+{
+  "confound_guard": {
+    "paired_relative_shape_rms": [
+      0.0001675099456966397,
+      2.524242900762029e-08,
+      0.0001841281295143238
+    ],
+    "passed": true,
+    "tol_shape": 0.05
+  },
+  "folds": {
+    "0": [
+      "B0_w0",
+      "B2_w2",
+      "B4_w1"
+    ],
+    "1": [
+      "B0_w1",
+      "B2_w3",
+      "B4_w2"
+    ],
+    "2": [
+      "B1_w0",
+      "B3_w0",
+      "B4_w3"
+    ],
+    "3": [
+      "B1_w2",
+      "B3_w1"
+    ],
+    "4": [
+      "B2_w0",
+      "B3_w3"
+    ]
+  },
+  "friction_absence_note": "Genesis c5026a9 provides set_mu_s and set_mu_k, but the lift-and-clear clamp is a rigid welded attachment with no relevant frictional-slip contact. A meaningful slip probe requires new contact geometry and is therefore deferred per the frozen directive.",
+  "history_length": {
+    "1": {
+      "alpha": 0.001,
+      "n_test": 192,
+      "shape_ratio_rmse": 0.6382198035535457
+    },
+    "3": {
+      "alpha": 0.001,
+      "n_test": 60,
+      "shape_ratio_rmse": 0.5132025877571381
+    }
+  },
+  "history_source": {
+    "kind": "actual Genesis rod.get_vertices_pos()",
+    "log": "sim/logs/history_s3.log",
+    "rollout_count": 608,
+    "wall_clock_s": 272.3534553050995
+  },
+  "manifest_digest": "ce0c99494ca042e3d781786d0b84a8418f162c853d2a755567aecd267a1f7278",
+  "models": {
+    "+shape": {
+      "mlp": {
+        "epochs": 200,
+        "test_rmse": {
+          "log10_B_eff": 1.7676750221614783,
+          "log10_B_eff_over_w": 1.770037865780945,
+          "log10_w": 0.17566257108364836
+        }
+      },
+      "ridge": {
+        "alpha": 0.01,
+        "test_rmse": {
+          "log10_B_eff": 0.5001832048851181,
+          "log10_B_eff_over_w": 0.7674569328854753,
+          "log10_w": 0.33310966652093016
+        },
+        "train_cv_rmse": {
+          "log10_B_eff": 0.3635844883454908,
+          "log10_B_eff_over_w": 0.22501708119742708,
+          "log10_w": 0.3376617906733649
+        },
+        "train_cv_rmse_mean": 0.3087544534054275
+      }
+    },
+    "+wrench": {
+      "mlp": {
+        "epochs": 200,
+        "test_rmse": {
+          "log10_B_eff": 1.6755917403638192,
+          "log10_B_eff_over_w": 1.3437551764876317,
+          "log10_w": 0.3106202406024952
+        }
+      },
+      "ridge": {
+        "alpha": 0.01,
+        "test_rmse": {
+          "log10_B_eff": 0.6274195419844372,
+          "log10_B_eff_over_w": 0.734059892251796,
+          "log10_w": 0.14868424195941535
+        },
+        "train_cv_rmse": {
+          "log10_B_eff": 0.2736774183331915,
+          "log10_B_eff_over_w": 0.20950035974961884,
+          "log10_w": 0.13842678684574153
+        },
+        "train_cv_rmse_mean": 0.20720152164285063
+      }
+    },
+    "proprioception-only": {
+      "mlp": {
+        "epochs": 200,
+        "test_rmse": {
+          "log10_B_eff": 1.0468317083973384,
+          "log10_B_eff_over_w": 0.8405405740898624,
+          "log10_w": 0.2032813690092167
+        }
+      },
+      "ridge": {
+        "alpha": 0.001,
+        "test_rmse": {
+          "log10_B_eff": 0.23778738506713143,
+          "log10_B_eff_over_w": 0.20006475025376833,
+          "log10_w": 0.13922964250047107
+        },
+        "train_cv_rmse": {
+          "log10_B_eff": 0.4758042100528234,
+          "log10_B_eff_over_w": 0.515357320589146,
+          "log10_w": 0.37499796474474695
+        },
+        "train_cv_rmse_mean": 0.4553864984622388
+      }
+    }
+  },
+  "null_side": {
+    "K": 3,
+    "passed": false,
+    "shape_individual_to_ratio_error": [
+      0.6517410729544593,
+      0.43404346517335957
+    ]
+  },
+  "positive_control": {
+    "passed": false,
+    "shape_ratio_rmse": 0.7674569328854753,
+    "tol_ratio": 0.1
+  },
+  "proprioception_baseline": {
+    "log10_B_eff": 0.23778738506713143,
+    "log10_B_eff_over_w": 0.20006475025376833,
+    "log10_w": 0.13922964250047107
+  },
+  "repair_side": {
+    "absolute_bound": 0.15,
+    "passed": false,
+    "secondary_reduction": [
+      0.7972069268086727,
+      2.2403831242039445
+    ]
+  },
+  "schema_version": 1,
+  "verdict": "INCONCLUSIVE"
+}
