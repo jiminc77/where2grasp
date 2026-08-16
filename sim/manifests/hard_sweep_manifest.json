@@ -1,0 +1,418 @@
+{
+  "schema_version": 1,
+  "frozen": true,
+  "design_note": "Fixed h=0.009, interval=0.01. Locked Option-A 4x3 in-regime grid, stable IDs B1..B4 x w0..w2 (softest B0 row + heaviest w3 col excluded as small-deflection regime-of-validity). Grid designed analytically from PRIOR committed data (calibration.json + sweep_landscape.json fourth-root fit); no new-grid peeking, no adaptive-h. Every predicted Pi_g asserted <=0.5 with margin before freeze.",
+  "h": 0.009,
+  "tau": 0.5,
+  "interval": 0.01,
+  "gravity": 9.81,
+  "integrator": {
+    "dt": 0.00025,
+    "substeps": 20,
+    "damping": 40.0,
+    "angular_damping": 20.0
+  },
+  "drive_steps": 360,
+  "prefactor_fit": {
+    "p_empirical": 1.0090724238691011,
+    "n_prior_cells": 19,
+    "p_theory": 1.0,
+    "predicted_prefactor_8h_quarter": 0.5180040128222703
+  },
+  "grid": [
+    {
+      "id": "B1_w0",
+      "bi": 1,
+      "wi": 0,
+      "raw_E": 2370946.5892385854,
+      "B_eff": 0.01610520612280113,
+      "mass": 0.0002,
+      "w": 0.1962
+    },
+    {
+      "id": "B1_w1",
+      "bi": 1,
+      "wi": 1,
+      "raw_E": 2370946.5892385854,
+      "B_eff": 0.01610520612280113,
+      "mass": 0.00043088693800637695,
+      "w": 0.4227000861842558
+    },
+    {
+      "id": "B1_w2",
+      "bi": 1,
+      "wi": 2,
+      "raw_E": 2370946.5892385854,
+      "B_eff": 0.01610520612280113,
+      "mass": 0.0009283177667225556,
+      "w": 0.9106797291548271
+    },
+    {
+      "id": "B2_w0",
+      "bi": 2,
+      "wi": 0,
+      "raw_E": 5621387.729022082,
+      "B_eff": 0.03825920568613013,
+      "mass": 0.0002,
+      "w": 0.1962
+    },
+    {
+      "id": "B2_w1",
+      "bi": 2,
+      "wi": 1,
+      "raw_E": 5621387.729022082,
+      "B_eff": 0.03825920568613013,
+      "mass": 0.00043088693800637695,
+      "w": 0.4227000861842558
+    },
+    {
+      "id": "B2_w2",
+      "bi": 2,
+      "wi": 2,
+      "raw_E": 5621387.729022082,
+      "B_eff": 0.03825920568613013,
+      "mass": 0.0009283177667225556,
+      "w": 0.9106797291548271
+    },
+    {
+      "id": "B3_w0",
+      "bi": 3,
+      "wi": 0,
+      "raw_E": 13328010.062912514,
+      "B_eff": 0.09110646283229176,
+      "mass": 0.0002,
+      "w": 0.1962
+    },
+    {
+      "id": "B3_w1",
+      "bi": 3,
+      "wi": 1,
+      "raw_E": 13328010.062912514,
+      "B_eff": 0.09110646283229176,
+      "mass": 0.00043088693800637695,
+      "w": 0.4227000861842558
+    },
+    {
+      "id": "B3_w2",
+      "bi": 3,
+      "wi": 2,
+      "raw_E": 13328010.062912514,
+      "B_eff": 0.09110646283229176,
+      "mass": 0.0009283177667225556,
+      "w": 0.9106797291548271
+    },
+    {
+      "id": "B4_w0",
+      "bi": 4,
+      "wi": 0,
+      "raw_E": 31600000.0,
+      "B_eff": 0.21527426878237318,
+      "mass": 0.0002,
+      "w": 0.1962
+    },
+    {
+      "id": "B4_w1",
+      "bi": 4,
+      "wi": 1,
+      "raw_E": 31600000.0,
+      "B_eff": 0.21527426878237318,
+      "mass": 0.00043088693800637695,
+      "w": 0.4227000861842558
+    },
+    {
+      "id": "B4_w2",
+      "bi": 4,
+      "wi": 2,
+      "raw_E": 31600000.0,
+      "B_eff": 0.21527426878237318,
+      "mass": 0.0009283177667225556,
+      "w": 0.9106797291548271
+    }
+  ],
+  "predicted_Pi_g_table": [
+    {
+      "id": "B1_w0",
+      "w_over_B": 12.18,
+      "boundary_pred_theory": 0.2773,
+      "Pi_g_pred_theory": 0.2597,
+      "boundary_pred_empirical": 0.2798,
+      "Pi_g_pred_empirical": 0.2668,
+      "in_regime_pred": true,
+      "resolved_pred": true
+    },
+    {
+      "id": "B1_w1",
+      "w_over_B": 26.25,
+      "boundary_pred_theory": 0.2289,
+      "Pi_g_pred_theory": 0.3146,
+      "boundary_pred_empirical": 0.2309,
+      "Pi_g_pred_empirical": 0.3232,
+      "in_regime_pred": true,
+      "resolved_pred": true
+    },
+    {
+      "id": "B1_w2",
+      "w_over_B": 56.55,
+      "boundary_pred_theory": 0.1889,
+      "Pi_g_pred_theory": 0.3812,
+      "boundary_pred_empirical": 0.1906,
+      "Pi_g_pred_empirical": 0.3916,
+      "in_regime_pred": true,
+      "resolved_pred": true
+    },
+    {
+      "id": "B2_w0",
+      "w_over_B": 5.13,
+      "boundary_pred_theory": 0.3442,
+      "Pi_g_pred_theory": 0.2092,
+      "boundary_pred_empirical": 0.3473,
+      "Pi_g_pred_empirical": 0.2149,
+      "in_regime_pred": true,
+      "resolved_pred": true
+    },
+    {
+      "id": "B2_w1",
+      "w_over_B": 11.05,
+      "boundary_pred_theory": 0.2841,
+      "Pi_g_pred_theory": 0.2534,
+      "boundary_pred_empirical": 0.2867,
+      "Pi_g_pred_empirical": 0.2604,
+      "in_regime_pred": true,
+      "resolved_pred": true
+    },
+    {
+      "id": "B2_w2",
+      "w_over_B": 23.8,
+      "boundary_pred_theory": 0.2345,
+      "Pi_g_pred_theory": 0.307,
+      "boundary_pred_empirical": 0.2366,
+      "Pi_g_pred_empirical": 0.3154,
+      "in_regime_pred": true,
+      "resolved_pred": true
+    },
+    {
+      "id": "B3_w0",
+      "w_over_B": 2.15,
+      "boundary_pred_theory": 0.4276,
+      "Pi_g_pred_theory": 0.1684,
+      "boundary_pred_empirical": 0.4315,
+      "Pi_g_pred_empirical": 0.173,
+      "in_regime_pred": true,
+      "resolved_pred": true
+    },
+    {
+      "id": "B3_w1",
+      "w_over_B": 4.64,
+      "boundary_pred_theory": 0.3529,
+      "Pi_g_pred_theory": 0.204,
+      "boundary_pred_empirical": 0.3562,
+      "Pi_g_pred_empirical": 0.2096,
+      "in_regime_pred": true,
+      "resolved_pred": true
+    },
+    {
+      "id": "B3_w2",
+      "w_over_B": 10.0,
+      "boundary_pred_theory": 0.2913,
+      "Pi_g_pred_theory": 0.2471,
+      "boundary_pred_empirical": 0.294,
+      "Pi_g_pred_empirical": 0.2539,
+      "in_regime_pred": true,
+      "resolved_pred": true
+    },
+    {
+      "id": "B4_w0",
+      "w_over_B": 0.91,
+      "boundary_pred_theory": 0.5302,
+      "Pi_g_pred_theory": 0.1358,
+      "boundary_pred_empirical": 0.535,
+      "Pi_g_pred_empirical": 0.1395,
+      "in_regime_pred": true,
+      "resolved_pred": true
+    },
+    {
+      "id": "B4_w1",
+      "w_over_B": 1.96,
+      "boundary_pred_theory": 0.4376,
+      "Pi_g_pred_theory": 0.1645,
+      "boundary_pred_empirical": 0.4416,
+      "Pi_g_pred_empirical": 0.1691,
+      "in_regime_pred": true,
+      "resolved_pred": true
+    },
+    {
+      "id": "B4_w2",
+      "w_over_B": 4.23,
+      "boundary_pred_theory": 0.3612,
+      "Pi_g_pred_theory": 0.1993,
+      "boundary_pred_empirical": 0.3645,
+      "Pi_g_pred_empirical": 0.2048,
+      "in_regime_pred": true,
+      "resolved_pred": true
+    }
+  ],
+  "grasp": {
+    "orientation": "larger index means longer free arm",
+    "ell": [
+      0.12,
+      0.15,
+      0.18,
+      0.21,
+      0.24,
+      0.27,
+      0.3,
+      0.33,
+      0.36,
+      0.39,
+      0.42,
+      0.45,
+      0.48,
+      0.51,
+      0.54,
+      0.57,
+      0.6
+    ],
+    "n_vertices": [
+      14,
+      17,
+      20,
+      23,
+      26,
+      29,
+      32,
+      35,
+      38,
+      41,
+      44,
+      47,
+      50,
+      53,
+      56,
+      59,
+      62
+    ],
+    "minimum_segments": 12
+  },
+  "templates": [
+    {
+      "index": 0,
+      "kind": "linear",
+      "drive_steps": 360,
+      "arc": 0.0
+    },
+    {
+      "index": 1,
+      "kind": "ease",
+      "drive_steps": 360,
+      "arc": 0.0
+    },
+    {
+      "index": 2,
+      "kind": "arc",
+      "drive_steps": 360,
+      "arc": 0.025
+    },
+    {
+      "index": 3,
+      "kind": "arc",
+      "drive_steps": 360,
+      "arc": -0.025
+    }
+  ],
+  "stochastic_distribution": {
+    "clamp_start_translation_xy_m": [
+      -0.0035,
+      0.0035
+    ],
+    "motion_duration_multiplier": [
+      0.92,
+      1.08
+    ],
+    "arc_multiplier": [
+      0.9,
+      1.1
+    ],
+    "distribution": "independent bounded uniform; terminal clamp pose exact",
+    "dropped_perturbation_note": "initial_rod_pose_translation_xy_m removed: no batched per-env rod-pose setter in Genesis c5026a9 verifies via read-back (set_position is a no-op w.r.t. get_vertices_pos), so the estimand applies only the clamp-start + duration/arc draws."
+  },
+  "seed_banks": {
+    "selection": [
+      2000,
+      2001,
+      2002
+    ],
+    "evaluation": [
+      3000,
+      3001,
+      3002,
+      3003,
+      3004
+    ],
+    "pilot_reserved": [
+      1000,
+      1001,
+      1002,
+      1003,
+      1004,
+      1005,
+      1006,
+      1007,
+      1008,
+      1009,
+      1010,
+      1011
+    ]
+  },
+  "selection_rule": "CRN; maximize 3-draw mean success; ties lowest template index",
+  "evaluation_rule": "selected template only; disjoint 5-draw mean success and mean J; no reselection",
+  "boundary_rule": "all tau crossings by linear interpolation; boundary=max crossing; uncertainty=half grid step; all-success/all-failure unresolved",
+  "decision_rule": {
+    "B_sign": "increase",
+    "w_sign": "decrease",
+    "resolution": "one grid step",
+    "adjacent": "majority correct-signed-or-tied",
+    "ratio_tolerance": "one grid step",
+    "precedence": "NO-GO if any FAIL; GO iff all PASS; otherwise inconclusive"
+  },
+  "ratio_pairs": [
+    {
+      "pair_id": 0,
+      "reference_setting": "B1_w1",
+      "base": {
+        "raw_E": 2370946.5892385854,
+        "segment_mass": 0.00043088693800637695
+      },
+      "scaled": {
+        "raw_E": 4741893.178477171,
+        "segment_mass": 0.0008617738760127539
+      },
+      "c": 2.0
+    },
+    {
+      "pair_id": 1,
+      "reference_setting": "B3_w2",
+      "base": {
+        "raw_E": 13328010.062912514,
+        "segment_mass": 0.0009283177667225556
+      },
+      "scaled": {
+        "raw_E": 6664005.031456257,
+        "segment_mass": 0.0004641588833612778
+      },
+      "c": 0.5
+    },
+    {
+      "pair_id": 2,
+      "reference_setting": "B2_w1",
+      "base": {
+        "raw_E": 5621387.729022082,
+        "segment_mass": 0.00043088693800637695
+      },
+      "scaled": {
+        "raw_E": 8432081.593533123,
+        "segment_mass": 0.0006463304070095655
+      },
+      "c": 1.5
+    }
+  ]
+}
