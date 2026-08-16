@@ -1,0 +1,133 @@
+{
+  "adversarial_cases": [
+    {
+      "attack": "Substitute analytical histories or a mismatched manifest.",
+      "case": "real_history_provenance",
+      "numbers": {
+        "actual_manifest_digest": "ce0c99494ca042e3d781786d0b84a8418f162c853d2a755567aecd267a1f7278",
+        "npz_manifest_digest": "ce0c99494ca042e3d781786d0b84a8418f162c853d2a755567aecd267a1f7278",
+        "rollouts": 608,
+        "source": "actual Genesis rod.get_vertices_pos()"
+      },
+      "pass": true
+    },
+    {
+      "attack": "Recompute pair means and normalized RMS directly from history arrays.",
+      "case": "paired_shape_confound_guard",
+      "numbers": {
+        "paired_relative_shape_rms": {
+          "B1_w1:R0": 0.0001675099456966397,
+          "B2_w1:R2": 0.0001841281295143238,
+          "B3_w2:R1": 2.524242900762029e-08
+        },
+        "tolerance": 0.05
+      },
+      "pass": true
+    },
+    {
+      "attack": "Refit grouped-CV ridge independently and attempt to turn a failed positive control into PASS.",
+      "case": "positive_control_and_two_sided_rule",
+      "numbers": {
+        "derived_verdict": "INCONCLUSIVE",
+        "ratio_test_rmse_dex": 0.7674569328854753,
+        "selected_alpha": 0.01,
+        "tolerance_dex": 0.1
+      },
+      "pass": true
+    },
+    {
+      "attack": "Recompute every measured mean-J argmax; a nonzero optimum would falsify the null explanation.",
+      "case": "step4_argmax_null",
+      "numbers": {
+        "argmax_histogram": {
+          "0": 23
+        },
+        "setting_count": 23
+      },
+      "pass": true
+    },
+    {
+      "attack": "Recompute from all stored held-out curves and check teacher advantage and student/sysID failures.",
+      "case": "map_recovery_recomputation",
+      "numbers": {
+        "aggregate_map_rmse": {
+          "blind": 0.2551010881859691,
+          "explicit_sysid": 0.2634786983895599,
+          "student": 0.30043660267607913,
+          "teacher": 0.04220167350093492
+        },
+        "held_out_B2_w1_rmse": {
+          "blind": 0.20044805943494615,
+          "explicit_sysid": 0.25321144491010794,
+          "student": 0.3640851577696655,
+          "teacher": 0.05344750999256531
+        }
+      },
+      "pass": true
+    },
+    {
+      "attack": "Search fitting loops for TEST membership and verify blind has one property-independent map.",
+      "case": "map_recovery_leak_free_structure",
+      "numbers": {
+        "blind_latent": "constant zero",
+        "teacher_inputs": [
+          "B_eff",
+          "w"
+        ],
+        "test": [
+          "B2_w1",
+          "B2_w2",
+          "B3_w1"
+        ],
+        "train_count": 13,
+        "validation": [
+          "B1_w2",
+          "B4_w2"
+        ]
+      },
+      "pass": true
+    },
+    {
+      "attack": "Look for seed overlap or held-out pair leakage.",
+      "case": "seed_and_split_isolation",
+      "numbers": {
+        "excluded_from_fit": [
+          "R2",
+          "B2_w1"
+        ],
+        "oracle_seeds": [
+          3000,
+          3001,
+          3002,
+          3003,
+          3004
+        ],
+        "selection_seeds": [
+          2000,
+          2001
+        ],
+        "test": [
+          "B2_w1",
+          "B2_w2",
+          "B3_w1"
+        ]
+      },
+      "pass": true
+    },
+    {
+      "attack": "Search loop closure for a working-student or clean-GO claim.",
+      "case": "status_no_overclaim",
+      "numbers": {
+        "status_claims_clean_step3_go": false,
+        "status_claims_student_works": false
+      },
+      "pass": true
+    }
+  ],
+  "artifact_kind": "algorithm/math test-report",
+  "schema_version": 1,
+  "scope": "Committed Step 3/4 npz/json numerical artifacts; source text inspected only for fitting-flow and STATUS claim audits.",
+  "sourceHash": "sha256:8ee7435e815b414eeea56d74bea2d0e5d2b1e95fce5ff09613aa74061b13ec1c",
+  "summary": "The negative/inconclusive verdicts survive adversarial recomputation; no dishonesty or overclaiming found.",
+  "verdict": "SURVIVES"
+}
