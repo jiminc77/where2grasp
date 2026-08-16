@@ -1,0 +1,2155 @@
+{
+  "adaptation_curve": [
+    {
+      "domain": "held-out TEST settings",
+      "interactions": 0,
+      "kind": "offline deterministic history-prefix ablation",
+      "mean_J_regret": 0.0,
+      "success_rate_regret": 0.0
+    },
+    {
+      "domain": "held-out TEST settings",
+      "interactions": 1,
+      "kind": "offline deterministic history-prefix ablation",
+      "mean_J_regret": 0.0,
+      "success_rate_regret": 0.0
+    },
+    {
+      "domain": "held-out TEST settings",
+      "interactions": 3,
+      "kind": "offline deterministic history-prefix ablation",
+      "mean_J_regret": 0.0,
+      "success_rate_regret": 0.0
+    }
+  ],
+  "assertions": {
+    "R2_and_B2_w1_excluded_from_fitting": true,
+    "critic_input_dim": 6,
+    "grasp_feature_dim": 2,
+    "held_out_history_seed": 2002,
+    "latent_dim": 4,
+    "oracle_seeds": [
+      3000,
+      3001,
+      3002,
+      3003,
+      3004
+    ],
+    "sysid_and_student_same_history_schema": true,
+    "sysid_primary_wrench_free": true,
+    "train_label_seeds": [
+      2000,
+      2001
+    ],
+    "train_val_test_disjoint": true
+  },
+  "domain_notes": {
+    "adaptation": "offline history-length ablation, not on-policy",
+    "all_23_secondary": "Four settings lack real replay histories; history rows use labeled z=0 cold-start fallback there.",
+    "oracle": "evaluation-bank measured landscape, never used in fitting",
+    "primary": "19 in-regime settings; mean-J regret",
+    "student_probe": "Not run: a valid small-deflection Pi_g<=0.5 probe requires new real Genesis replay data and mechanics, so it is recorded as follow-up rather than fabricated or allowed to delay the cheap map-recovery diagnostic."
+  },
+  "manifest_digest": "ce0c99494ca042e3d781786d0b84a8418f162c853d2a755567aecd267a1f7278",
+  "prescribed_probe_one_shot": {
+    "in_regime_19": {
+      "mean_J_regret": 0.0,
+      "per_setting": [
+        {
+          "chosen_grasp": 0,
+          "history_available": false,
+          "mean_J_regret": 0.0,
+          "setting": "B0_w0",
+          "success_rate_regret": 0.0
+        },
+        {
+          "chosen_grasp": 0,
+          "history_available": false,
+          "mean_J_regret": 0.0,
+          "setting": "B0_w1",
+          "success_rate_regret": 0.0
+        },
+        {
+          "chosen_grasp": 0,
+          "history_available": false,
+          "mean_J_regret": 0.0,
+          "setting": "B1_w0",
+          "success_rate_regret": 0.0
+        },
+        {
+          "chosen_grasp": 0,
+          "history_available": true,
+          "mean_J_regret": 0.0,
+          "setting": "B1_w1",
+          "success_rate_regret": 0.0
+        },
+        {
+          "chosen_grasp": 0,
+          "history_available": false,
+          "mean_J_regret": 0.0,
+          "setting": "B1_w2",
+          "success_rate_regret": 0.0
+        },
+        {
+          "chosen_grasp": 0,
+          "history_available": false,
+          "mean_J_regret": 0.0,
+          "setting": "B2_w0",
+          "success_rate_regret": 0.0
+        },
+        {
+          "chosen_grasp": 0,
+          "history_available": true,
+          "mean_J_regret": 0.0,
+          "setting": "B2_w1",
+          "success_rate_regret": 0.0
+        },
+        {
+          "chosen_grasp": 0,
+          "history_available": false,
+          "mean_J_regret": 0.0,
+          "setting": "B2_w2",
+          "success_rate_regret": 0.0
+        },
+        {
+          "chosen_grasp": 0,
+          "history_available": false,
+          "mean_J_regret": 0.0,
+          "setting": "B2_w3",
+          "success_rate_regret": 0.0
+        },
+        {
+          "chosen_grasp": 0,
+          "history_available": false,
+          "mean_J_regret": 0.0,
+          "setting": "B3_w0",
+          "success_rate_regret": 0.0
+        },
+        {
+          "chosen_grasp": 0,
+          "history_available": false,
+          "mean_J_regret": 0.0,
+          "setting": "B3_w1",
+          "success_rate_regret": 0.0
+        },
+        {
+          "chosen_grasp": 0,
+          "history_available": true,
+          "mean_J_regret": 0.0,
+          "setting": "B3_w2",
+          "success_rate_regret": 0.0
+        },
+        {
+          "chosen_grasp": 0,
+          "history_available": false,
+          "mean_J_regret": 0.0,
+          "setting": "B3_w3",
+          "success_rate_regret": 0.0
+        },
+        {
+          "chosen_grasp": 0,
+          "history_available": false,
+          "mean_J_regret": 0.0,
+          "setting": "B4_w1",
+          "success_rate_regret": 0.0
+        },
+        {
+          "chosen_grasp": 0,
+          "history_available": false,
+          "mean_J_regret": 0.0,
+          "setting": "B4_w2",
+          "success_rate_regret": 0.0
+        },
+        {
+          "chosen_grasp": 0,
+          "history_available": false,
+          "mean_J_regret": 0.0,
+          "setting": "B4_w3",
+          "success_rate_regret": 0.0
+        },
+        {
+          "chosen_grasp": 0,
+          "history_available": true,
+          "mean_J_regret": 0.0,
+          "setting": "R0",
+          "success_rate_regret": 0.0
+        },
+        {
+          "chosen_grasp": 0,
+          "history_available": true,
+          "mean_J_regret": 0.0,
+          "setting": "R1",
+          "success_rate_regret": 0.0
+        },
+        {
+          "chosen_grasp": 0,
+          "history_available": true,
+          "mean_J_regret": 0.0,
+          "setting": "R2",
+          "success_rate_regret": 0.0
+        }
+      ],
+      "success_rate_regret": 0.0
+    },
+    "mode": "single deterministic held-out diagnostic history then act",
+    "row": "explicit_sysid"
+  },
+  "rows": {
+    "blind": {
+      "all_23_secondary": {
+        "mean_J_regret": 0.0,
+        "per_setting": [
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R2",
+            "success_rate_regret": 0.0
+          }
+        ],
+        "success_rate_regret": 0.0
+      },
+      "in_regime_19": {
+        "mean_J_regret": 0.0,
+        "per_setting": [
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R2",
+            "success_rate_regret": 0.0
+          }
+        ],
+        "success_rate_regret": 0.0
+      },
+      "test": {
+        "mean_J_regret": 0.0,
+        "per_setting": [
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w1",
+            "success_rate_regret": 0.0
+          }
+        ],
+        "success_rate_regret": 0.0
+      }
+    },
+    "explicit_sysid": {
+      "all_23_secondary": {
+        "mean_J_regret": 0.0,
+        "per_setting": [
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R2",
+            "success_rate_regret": 0.0
+          }
+        ],
+        "success_rate_regret": 0.0
+      },
+      "in_regime_19": {
+        "mean_J_regret": 0.0,
+        "per_setting": [
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R2",
+            "success_rate_regret": 0.0
+          }
+        ],
+        "success_rate_regret": 0.0
+      },
+      "test": {
+        "mean_J_regret": 0.0,
+        "per_setting": [
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w1",
+            "success_rate_regret": 0.0
+          }
+        ],
+        "success_rate_regret": 0.0
+      }
+    },
+    "student": {
+      "all_23_secondary": {
+        "mean_J_regret": 0.0,
+        "per_setting": [
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R2",
+            "success_rate_regret": 0.0
+          }
+        ],
+        "success_rate_regret": 0.0
+      },
+      "in_regime_19": {
+        "mean_J_regret": 0.0,
+        "per_setting": [
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R2",
+            "success_rate_regret": 0.0
+          }
+        ],
+        "success_rate_regret": 0.0
+      },
+      "test": {
+        "mean_J_regret": 0.0,
+        "per_setting": [
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w1",
+            "success_rate_regret": 0.0
+          }
+        ],
+        "success_rate_regret": 0.0
+      }
+    },
+    "teacher": {
+      "all_23_secondary": {
+        "mean_J_regret": 0.0,
+        "per_setting": [
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R2",
+            "success_rate_regret": 0.0
+          }
+        ],
+        "success_rate_regret": 0.0
+      },
+      "in_regime_19": {
+        "mean_J_regret": 0.0,
+        "per_setting": [
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B0_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B1_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B4_w3",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R0",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "R2",
+            "success_rate_regret": 0.0
+          }
+        ],
+        "success_rate_regret": 0.0
+      },
+      "test": {
+        "mean_J_regret": 0.0,
+        "per_setting": [
+          {
+            "chosen_grasp": 0,
+            "history_available": true,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w1",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B2_w2",
+            "success_rate_regret": 0.0
+          },
+          {
+            "chosen_grasp": 0,
+            "history_available": false,
+            "mean_J_regret": 0.0,
+            "setting": "B3_w1",
+            "success_rate_regret": 0.0
+          }
+        ],
+        "success_rate_regret": 0.0
+      }
+    }
+  },
+  "schema_version": 1,
+  "secondary_map_recovery": {
+    "blind": {
+      "boundary_error_index": 1.3483196054459474,
+      "boundary_rule": "first tau=0.5 crossing, linearly interpolated in grasp-index units",
+      "curve_target": "measured evaluation-bank success_rate",
+      "domain": "held-out TEST settings",
+      "map_correlation": 0.8778429453816033,
+      "map_rmse": 0.2551010881859691,
+      "per_setting": [
+        {
+          "boundary_error_index": 0.044958816337842045,
+          "map_correlation": 0.9291970815218406,
+          "map_rmse": 0.20044805943494615,
+          "measured_boundary_index": 5.5,
+          "measured_success_curve": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "predicted_boundary_index": 5.455041183662158,
+          "predicted_success_curve": [
+            0.9683485567136968,
+            0.9423307775005592,
+            0.8971966482300876,
+            0.8233602504452462,
+            0.713430894798835,
+            0.57075452240748,
+            0.41526415154027685,
+            0.2749959245828776,
+            0.16845782183387872,
+            0.09763595304886012,
+            0.054632341652537664,
+            0.02994113451490186,
+            0.016217736508951756,
+            0.008727809581889614,
+            0.004680539598774422
+          ],
+          "setting": "B2_w1"
+        },
+        {
+          "boundary_error_index": 1.955041183662158,
+          "map_correlation": 0.8309204024864293,
+          "map_rmse": 0.2794115486018388,
+          "measured_boundary_index": 3.5,
+          "measured_success_curve": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "predicted_boundary_index": 5.455041183662158,
+          "predicted_success_curve": [
+            0.9683485567136968,
+            0.9423307775005592,
+            0.8971966482300876,
+            0.8233602504452462,
+            0.713430894798835,
+            0.57075452240748,
+            0.41526415154027685,
+            0.2749959245828776,
+            0.16845782183387872,
+            0.09763595304886012,
+            0.054632341652537664,
+            0.02994113451490186,
+            0.016217736508951756,
+            0.008727809581889614,
+            0.004680539598774422
+          ],
+          "setting": "B2_w2"
+        },
+        {
+          "boundary_error_index": 2.044958816337842,
+          "map_correlation": 0.8734113521365401,
+          "map_rmse": 0.28544365652112236,
+          "measured_boundary_index": 7.5,
+          "measured_success_curve": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "predicted_boundary_index": 5.455041183662158,
+          "predicted_success_curve": [
+            0.9683485567136968,
+            0.9423307775005592,
+            0.8971966482300876,
+            0.8233602504452462,
+            0.713430894798835,
+            0.57075452240748,
+            0.41526415154027685,
+            0.2749959245828776,
+            0.16845782183387872,
+            0.09763595304886012,
+            0.054632341652537664,
+            0.02994113451490186,
+            0.016217736508951756,
+            0.008727809581889614,
+            0.004680539598774422
+          ],
+          "setting": "B3_w1"
+        }
+      ]
+    },
+    "explicit_sysid": {
+      "boundary_error_index": 1.6877006380399528,
+      "boundary_rule": "first tau=0.5 crossing, linearly interpolated in grasp-index units",
+      "curve_target": "measured evaluation-bank success_rate",
+      "domain": "held-out TEST settings",
+      "map_correlation": 0.8193388957046759,
+      "map_rmse": 0.2634786983895599,
+      "per_setting": [
+        {
+          "boundary_error_index": 1.0631019141198585,
+          "map_correlation": 0.8776720805257402,
+          "map_rmse": 0.25321144491010794,
+          "measured_boundary_index": 5.5,
+          "measured_success_curve": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "predicted_boundary_index": 6.5631019141198585,
+          "predicted_success_curve": [
+            0.9999999996608282,
+            0.9999999968110547,
+            0.9999999700170392,
+            0.9999996828556479,
+            0.9999966381929891,
+            0.9998972786835223,
+            0.9714565544519502,
+            0.13420748349319234,
+            0.0010203332472749247,
+            6.761683837255765e-06,
+            1.052815457484063e-07,
+            4.400534060957468e-09,
+            3.170005338937638e-10,
+            2.7400369573647416e-11,
+            2.7704385923295143e-12
+          ],
+          "setting": "B2_w1"
+        },
+        {
+          "boundary_error_index": 0.013048544010616503,
+          "map_correlation": 0.9975048526959116,
+          "map_rmse": 0.033087646975185944,
+          "measured_boundary_index": 3.5,
+          "measured_success_curve": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "predicted_boundary_index": 3.5130485440106165,
+          "predicted_success_curve": [
+            0.9999683135160649,
+            0.9997957475405564,
+            0.9986092589664488,
+            0.9207308904135081,
+            0.10067030292102731,
+            0.0013437843898909342,
+            3.8246115914653635e-05,
+            2.723844181634141e-06,
+            2.7607885700749476e-07,
+            3.128009963756334e-08,
+            5.48374731906631e-09,
+            1.0881545762051784e-09,
+            2.1592540805580459e-10,
+            4.284665325221004e-11,
+            8.502175409509786e-12
+          ],
+          "setting": "B2_w2"
+        },
+        {
+          "boundary_error_index": 3.9869514559893835,
+          "map_correlation": 0.5828397538923757,
+          "map_rmse": 0.5041370032833858,
+          "measured_boundary_index": 7.5,
+          "measured_success_curve": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "predicted_boundary_index": 3.5130485440106165,
+          "predicted_success_curve": [
+            0.9999683135160649,
+            0.9997957475405564,
+            0.9986092589664488,
+            0.9207308904135081,
+            0.10067030292102731,
+            0.0013437843898909342,
+            3.8246115914653635e-05,
+            2.723844181634141e-06,
+            2.7607885700749476e-07,
+            3.128009963756334e-08,
+            5.48374731906631e-09,
+            1.0881545762051784e-09,
+            2.1592540805580459e-10,
+            4.284665325221004e-11,
+            8.502175409509786e-12
+          ],
+          "setting": "B3_w1"
+        }
+      ]
+    },
+    "student": {
+      "boundary_error_index": 2.026839101979284,
+      "boundary_rule": "first tau=0.5 crossing, linearly interpolated in grasp-index units",
+      "curve_target": "measured evaluation-bank success_rate",
+      "domain": "held-out TEST settings",
+      "map_correlation": 0.7818742434590741,
+      "map_rmse": 0.30043660267607913,
+      "per_setting": [
+        {
+          "boundary_error_index": 2.0805173059378514,
+          "map_correlation": 0.7652781237889351,
+          "map_rmse": 0.3640851577696655,
+          "measured_boundary_index": 5.5,
+          "measured_success_curve": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "predicted_boundary_index": 7.5805173059378514,
+          "predicted_success_curve": [
+            0.999999999999742,
+            0.9999999999975167,
+            0.9999999999760956,
+            0.9999999997699038,
+            0.9999999975949692,
+            0.9999998190984859,
+            0.9999444832684953,
+            0.9826541711178252,
+            0.1512333569905429,
+            0.0005601052140287129,
+            1.8874336123864885e-06,
+            8.751500384073502e-09,
+            1.0595703699460878e-10,
+            2.3099609431015024e-12,
+            8.985183625829067e-14
+          ],
+          "setting": "B2_w1"
+        },
+        {
+          "boundary_error_index": 0.013048544010616503,
+          "map_correlation": 0.9975048526959116,
+          "map_rmse": 0.033087646975185944,
+          "measured_boundary_index": 3.5,
+          "measured_success_curve": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "predicted_boundary_index": 3.5130485440106165,
+          "predicted_success_curve": [
+            0.9999683135160649,
+            0.9997957475405564,
+            0.9986092589664488,
+            0.9207308904135081,
+            0.10067030292102731,
+            0.0013437843898909342,
+            3.8246115914653635e-05,
+            2.723844181634141e-06,
+            2.7607885700749476e-07,
+            3.128009963756334e-08,
+            5.48374731906631e-09,
+            1.0881545762051784e-09,
+            2.1592540805580459e-10,
+            4.284665325221004e-11,
+            8.502175409509786e-12
+          ],
+          "setting": "B2_w2"
+        },
+        {
+          "boundary_error_index": 3.9869514559893835,
+          "map_correlation": 0.5828397538923757,
+          "map_rmse": 0.5041370032833858,
+          "measured_boundary_index": 7.5,
+          "measured_success_curve": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "predicted_boundary_index": 3.5130485440106165,
+          "predicted_success_curve": [
+            0.9999683135160649,
+            0.9997957475405564,
+            0.9986092589664488,
+            0.9207308904135081,
+            0.10067030292102731,
+            0.0013437843898909342,
+            3.8246115914653635e-05,
+            2.723844181634141e-06,
+            2.7607885700749476e-07,
+            3.128009963756334e-08,
+            5.48374731906631e-09,
+            1.0881545762051784e-09,
+            2.1592540805580459e-10,
+            4.284665325221004e-11,
+            8.502175409509786e-12
+          ],
+          "setting": "B3_w1"
+        }
+      ]
+    },
+    "teacher": {
+      "boundary_error_index": 0.08536194208681458,
+      "boundary_rule": "first tau=0.5 crossing, linearly interpolated in grasp-index units",
+      "curve_target": "measured evaluation-bank success_rate",
+      "domain": "held-out TEST settings",
+      "map_correlation": 0.9963998197474515,
+      "map_rmse": 0.04220167350093492,
+      "per_setting": [
+        {
+          "boundary_error_index": 0.12462516778114718,
+          "map_correlation": 0.9947138397231972,
+          "map_rmse": 0.05344750999256531,
+          "measured_boundary_index": 5.5,
+          "measured_success_curve": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "predicted_boundary_index": 5.375374832218853,
+          "predicted_success_curve": [
+            0.9999999919680155,
+            0.9999999186961535,
+            0.9999991202612372,
+            0.9999904809642497,
+            0.9991849322437886,
+            0.7933414073706476,
+            0.01187876738304674,
+            3.764430546613897e-05,
+            2.484468988632872e-07,
+            6.964088705328743e-09,
+            4.3247088717789735e-10,
+            3.33785881940367e-11,
+            2.966382946147873e-12,
+            3.3608512249702613e-13,
+            4.344015427738102e-14
+          ],
+          "setting": "B2_w1"
+        },
+        {
+          "boundary_error_index": 0.06311644596904387,
+          "map_correlation": 0.9973179077801312,
+          "map_rmse": 0.033549544477130516,
+          "measured_boundary_index": 3.5,
+          "measured_success_curve": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "predicted_boundary_index": 3.563116445969044,
+          "predicted_success_curve": [
+            0.9999997084439347,
+            0.9999968359745914,
+            0.9999295347080553,
+            0.9791585486603972,
+            0.12825363886712557,
+            0.00046050463270604623,
+            1.6653383945300458e-06,
+            2.7584526748193516e-08,
+            1.0644764477726195e-09,
+            5.642925976371951e-11,
+            4.122994194715483e-12,
+            3.800453541295952e-13,
+            3.837791054401721e-14,
+            4.826146006900021e-15,
+            6.863076544325239e-16
+          ],
+          "setting": "B2_w2"
+        },
+        {
+          "boundary_error_index": 0.06834421251025269,
+          "map_correlation": 0.9971677117390263,
+          "map_rmse": 0.039607966033108934,
+          "measured_boundary_index": 7.5,
+          "measured_success_curve": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "predicted_boundary_index": 7.568344212510253,
+          "predicted_success_curve": [
+            0.9999999999601836,
+            0.9999999996256399,
+            0.999999996480208,
+            0.9999999664206838,
+            0.9999996440501385,
+            0.9999961499500768,
+            0.9997720471061973,
+            0.9624908016390058,
+            0.14873957226291298,
+            0.0011883734773919553,
+            8.458796984652482e-06,
+            1.1989701856010418e-07,
+            5.250084906033799e-09,
+            3.3454427188084794e-10,
+            2.814814773180414e-11
+          ],
+          "setting": "B3_w1"
+        }
+      ]
+    }
+  },
+  "splits": {
+    "test": [
+      "B2_w1",
+      "B2_w2",
+      "B3_w1"
+    ],
+    "train": [
+      "B0_w0",
+      "B0_w1",
+      "B1_w0",
+      "B1_w1",
+      "B2_w0",
+      "B2_w3",
+      "B3_w0",
+      "B3_w2",
+      "B3_w3",
+      "B4_w1",
+      "B4_w3",
+      "R0",
+      "R1"
+    ],
+    "validation": [
+      "B1_w2",
+      "B4_w2"
+    ]
+  },
+  "training": {
+    "blind": {
+      "best_epoch": 56,
+      "best_val_bce": 0.358462108294137,
+      "epochs_budget": 300,
+      "final_train_bce": 0.3074655438847328
+    },
+    "critic_label": "selection-bank seeds 2000-2001 per-setting/grasp success rate",
+    "property_learning_curve": [
+      {
+        "best_epoch": 23,
+        "best_validation_bce": 0.45519708663052755,
+        "n_train_properties": 4
+      },
+      {
+        "best_epoch": 300,
+        "best_validation_bce": 0.0005897978538384134,
+        "n_train_properties": 8
+      },
+      {
+        "best_epoch": 86,
+        "best_validation_bce": 0.027034678337618318,
+        "n_train_properties": 13
+      }
+    ],
+    "seed": 3403,
+    "student_distillation": {
+      "best_epoch": 56,
+      "best_val_latent_mse": 0.013362930198325778,
+      "epochs_budget": 300,
+      "final_train_latent_mse": 0.020286967269302385
+    },
+    "sysid_ridge": {
+      "alpha": 0.01,
+      "mean_grouped_cv_rmse": 0.3087544534054275
+    },
+    "teacher": {
+      "best_epoch": 86,
+      "best_val_bce": 0.027034678337618318,
+      "epochs_budget": 300,
+      "final_train_bce": 0.0005158765641124277
+    }
+  }
+}
