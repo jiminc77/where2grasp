@@ -1,0 +1,398 @@
+{
+  "conditions": {
+    "B": {
+      "status": "PASS",
+      "endpoints": [
+        {
+          "slice": "w0",
+          "valid": true,
+          "contrast": 0.31500000000000006,
+          "correct_signed": true,
+          "resolved": true
+        },
+        {
+          "slice": "w1",
+          "valid": true,
+          "contrast": 0.24000000000000005,
+          "correct_signed": true,
+          "resolved": true
+        },
+        {
+          "slice": "w2",
+          "valid": true,
+          "contrast": 0.21000000000000002,
+          "correct_signed": true,
+          "resolved": true
+        },
+        {
+          "slice": "w3",
+          "valid": true,
+          "contrast": 0.18000000000000005,
+          "correct_signed": true,
+          "resolved": true
+        }
+      ],
+      "adjacent_contrasts": [
+        0.060000000000000026,
+        0.05999999999999994,
+        0.09000000000000008,
+        0.10499999999999998,
+        0.03,
+        0.060000000000000026,
+        0.05999999999999994,
+        0.09000000000000008,
+        0.030000000000000027,
+        0.03,
+        0.060000000000000026,
+        0.08999999999999997,
+        0.02999999999999997,
+        0.030000000000000027,
+        0.06,
+        0.06000000000000005
+      ],
+      "adjacent_correct_or_tied": 16,
+      "adjacent_total": 16
+    },
+    "w": {
+      "status": "PASS",
+      "endpoints": [
+        {
+          "slice": "B0",
+          "valid": true,
+          "contrast": -0.09,
+          "correct_signed": true,
+          "resolved": true
+        },
+        {
+          "slice": "B1",
+          "valid": true,
+          "contrast": -0.12000000000000005,
+          "correct_signed": true,
+          "resolved": true
+        },
+        {
+          "slice": "B2",
+          "valid": true,
+          "contrast": -0.14999999999999997,
+          "correct_signed": true,
+          "resolved": true
+        },
+        {
+          "slice": "B3",
+          "valid": true,
+          "contrast": -0.18000000000000005,
+          "correct_signed": true,
+          "resolved": true
+        },
+        {
+          "slice": "B4",
+          "valid": true,
+          "contrast": -0.22499999999999998,
+          "correct_signed": true,
+          "resolved": true
+        }
+      ],
+      "adjacent_contrasts": [
+        0.03,
+        0.030000000000000027,
+        0.02999999999999997,
+        0.060000000000000026,
+        0.03,
+        0.030000000000000027,
+        0.05999999999999994,
+        0.060000000000000026,
+        0.03,
+        0.09000000000000008,
+        0.05999999999999994,
+        0.030000000000000027,
+        0.10499999999999998,
+        0.06000000000000005,
+        0.05999999999999994
+      ],
+      "adjacent_correct_or_tied": 15,
+      "adjacent_total": 15
+    },
+    "R": {
+      "status": "PASS",
+      "tolerance": 0.030000000000000013,
+      "pairs": [
+        {
+          "pair_id": 0,
+          "reference": "B1_w1",
+          "valid": true,
+          "contrast": 0.0,
+          "within_tolerance": true
+        },
+        {
+          "pair_id": 1,
+          "reference": "B3_w2",
+          "valid": true,
+          "contrast": 0.0,
+          "within_tolerance": true
+        },
+        {
+          "pair_id": 2,
+          "reference": "B2_w1",
+          "valid": true,
+          "contrast": 0.0,
+          "within_tolerance": true
+        }
+      ]
+    }
+  },
+  "overall": "GO",
+  "resolution_step": 0.030000000000000013,
+  "boundaries": [
+    {
+      "id": "B0_w0",
+      "B_eff": 0.006713764347921196,
+      "w": 0.1962,
+      "boundary": 0.225,
+      "crossings": [
+        0.225
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "B0_w1",
+      "B_eff": 0.006713764347921196,
+      "w": 0.4227000861842558,
+      "boundary": 0.195,
+      "crossings": [
+        0.195
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "B0_w2",
+      "B_eff": 0.006713764347921196,
+      "w": 0.9106797291548271,
+      "boundary": 0.16499999999999998,
+      "crossings": [
+        0.16499999999999998
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "B0_w3",
+      "B_eff": 0.006713764347921196,
+      "w": 1.9620000000000002,
+      "boundary": 0.135,
+      "crossings": [
+        0.135
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "B1_w0",
+      "B_eff": 0.01610520612280113,
+      "w": 0.1962,
+      "boundary": 0.28500000000000003,
+      "crossings": [
+        0.28500000000000003
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "B1_w1",
+      "B_eff": 0.01610520612280113,
+      "w": 0.4227000861842558,
+      "boundary": 0.225,
+      "crossings": [
+        0.225
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "B1_w2",
+      "B_eff": 0.01610520612280113,
+      "w": 0.9106797291548271,
+      "boundary": 0.195,
+      "crossings": [
+        0.195
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "B1_w3",
+      "B_eff": 0.01610520612280113,
+      "w": 1.9620000000000002,
+      "boundary": 0.16499999999999998,
+      "crossings": [
+        0.16499999999999998
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "B2_w0",
+      "B_eff": 0.03825920568613013,
+      "w": 0.1962,
+      "boundary": 0.345,
+      "crossings": [
+        0.345
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "B2_w1",
+      "B_eff": 0.03825920568613013,
+      "w": 0.4227000861842558,
+      "boundary": 0.28500000000000003,
+      "crossings": [
+        0.28500000000000003
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "B2_w2",
+      "B_eff": 0.03825920568613013,
+      "w": 0.9106797291548271,
+      "boundary": 0.225,
+      "crossings": [
+        0.225
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "B2_w3",
+      "B_eff": 0.03825920568613013,
+      "w": 1.9620000000000002,
+      "boundary": 0.195,
+      "crossings": [
+        0.195
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "B3_w0",
+      "B_eff": 0.09110646283229176,
+      "w": 0.1962,
+      "boundary": 0.43500000000000005,
+      "crossings": [
+        0.43500000000000005
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "B3_w1",
+      "B_eff": 0.09110646283229176,
+      "w": 0.4227000861842558,
+      "boundary": 0.345,
+      "crossings": [
+        0.345
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "B3_w2",
+      "B_eff": 0.09110646283229176,
+      "w": 0.9106797291548271,
+      "boundary": 0.28500000000000003,
+      "crossings": [
+        0.28500000000000003
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "B3_w3",
+      "B_eff": 0.09110646283229176,
+      "w": 1.9620000000000002,
+      "boundary": 0.255,
+      "crossings": [
+        0.255
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "B4_w0",
+      "B_eff": 0.21527426878237318,
+      "w": 0.1962,
+      "boundary": 0.54,
+      "crossings": [],
+      "valid": true,
+      "censored": "high"
+    },
+    {
+      "id": "B4_w1",
+      "B_eff": 0.21527426878237318,
+      "w": 0.4227000861842558,
+      "boundary": 0.43500000000000005,
+      "crossings": [
+        0.43500000000000005
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "B4_w2",
+      "B_eff": 0.21527426878237318,
+      "w": 0.9106797291548271,
+      "boundary": 0.375,
+      "crossings": [
+        0.375
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "B4_w3",
+      "B_eff": 0.21527426878237318,
+      "w": 1.9620000000000002,
+      "boundary": 0.31500000000000006,
+      "crossings": [
+        0.31500000000000006
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "R0",
+      "B_eff": 0.032264843367045035,
+      "w": 0.8454001723685116,
+      "boundary": 0.225,
+      "crossings": [
+        0.225
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "R1",
+      "B_eff": 0.045408831332695465,
+      "w": 0.45533986457741354,
+      "boundary": 0.28500000000000003,
+      "crossings": [
+        0.28500000000000003
+      ],
+      "valid": true,
+      "censored": null
+    },
+    {
+      "id": "R2",
+      "B_eff": 0.05753320861264561,
+      "w": 0.6340501292763837,
+      "boundary": 0.28500000000000003,
+      "crossings": [
+        0.28500000000000003
+      ],
+      "valid": true,
+      "censored": null
+    }
+  ]
+}

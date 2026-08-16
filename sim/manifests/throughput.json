@@ -1,0 +1,50 @@
+{
+  "method": "cold rebuild per measured batch; warm reset infeasible because Genesis ROD exposes no complete state reset/re-attachment contract",
+  "rows": [
+    {
+      "n_envs": 1,
+      "seconds": 51.693146695848554,
+      "rollouts_per_s": 0.019344924113128315,
+      "stable": true,
+      "error": null
+    },
+    {
+      "n_envs": 4,
+      "seconds": 74.47737721307203,
+      "rollouts_per_s": 0.05370758409706636,
+      "stable": true,
+      "error": null
+    },
+    {
+      "n_envs": 8,
+      "seconds": 67.0214434643276,
+      "rollouts_per_s": 0.11936478217241066,
+      "stable": true,
+      "error": null
+    },
+    {
+      "n_envs": 16,
+      "seconds": 78.22681436315179,
+      "rollouts_per_s": 0.2045334471339113,
+      "stable": true,
+      "error": null
+    },
+    {
+      "n_envs": 32,
+      "seconds": 138.85481020109728,
+      "rollouts_per_s": 0.23045654632818133,
+      "stable": true,
+      "error": null
+    },
+    {
+      "n_envs": 64,
+      "seconds": 102.53426541713998,
+      "rollouts_per_s": 0.6241815820265441,
+      "stable": true,
+      "error": null
+    }
+  ],
+  "chosen_n_envs": 64,
+  "projected_seconds_5865": 9396.304166742593,
+  "under_one_day": true
+}

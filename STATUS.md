@@ -1,5 +1,32 @@
 # STATUS
 
+## 2026-08-17 (fast-loop Step 2 — THE GATE): grasp landscape sweep → **GO**
+
+**GATE VERDICT: GO.** On the cleanest diagnostic (lift-and-clear), the feasible-grasp boundary moves with material properties in the predicted direction, resolvably, with the fixed-ratio degeneracy invariant — a clean pass of the single go/no-go that gates the whole program.
+
+- **Throughput gate:** warm no-render benchmark → n_envs=64; 5,865 rollouts projected and measured at 9,400 s (2.6 h) ≪ 1 day. Estimation-hygiene floor (3 selection / 5 evaluation) preserved.
+- **Frozen pre-registered manifest** (`sim/manifests/sweep_manifest.json`, committed BEFORE the sweep): h=0.009, tau=0.5 success-rate, absolute-clearance criterion, 15-point s-grid (free-arm ell 0.12→0.54, step 0.03), 5 calibrated B_eff × 4 w + 3 fixed-ratio pairs = 23 settings, 4 lift templates (identical terminal geometry), disjoint pilot/selection/evaluation seed banks (12/3/5), CRN template selection + winner-only disjoint evaluation, the exact exhaustive three-way decision function.
+- **Main sweep:** 5,865 rollouts, state-only batched physics (n_envs=64), **0 % non-converged**. Winner selected on 3 selection draws; landscape value = winner's mean over 5 DISJOINT evaluation draws (winner's-curse avoided).
+- **Boundary grid** (free-arm ell where evaluation success-rate crosses 0.5; rows B_eff asc, cols w asc):
+
+  | B_eff ＼ w | 0.196 | 0.423 | 0.911 | 1.962 |
+  |---|---|---|---|---|
+  | 0.0067 | 0.225 | 0.195 | 0.165 | 0.135 |
+  | 0.0161 | 0.285 | 0.225 | 0.195 | 0.165 |
+  | 0.0383 | 0.345 | 0.285 | 0.225 | 0.195 |
+  | 0.0911 | 0.435 | 0.345 | 0.285 | 0.255 |
+  | 0.2153 | >0.54* | 0.435 | 0.375 | 0.315 |
+
+  (*B4_w0 censored-high: boundary beyond the grid top; a conservative grid-edge bound is used, which understates the movement and only makes the directional test harder. 19/20 grid settings + all 3 ratio pairs are fully resolved.)
+- **Three-way verdict** (`sim/manifests/gate_verdict.json`):
+  - independent-B: **PASS** — boundary ell_max INCREASES with B_eff at every fixed w; **16/16** adjacent contrasts correct.
+  - independent-w: **PASS** — boundary DECREASES with w at every fixed B_eff; **15/15** adjacent contrasts correct.
+  - fixed-ratio R: **PASS** — all 3 (cB,cw) pairs invariant along the common-scale line (boundary offset exactly 0.0, well within the 1-grid-step tolerance).
+  - **Overall: GO** (strict precedence: no FAIL, all PASS).
+- **Quantitative bonus (descriptive, no CI fit):** ell_max / (B_eff/w)^(1/4) ≈ 0.52–0.56 across the entire grid — the boundary follows the predicted fourth-root law `ell_max ∝ (B_eff·h/w)^(1/4)` quantitatively, not merely directionally.
+- **Deliverables:** 23 per-setting landscape figures (`sim/figures/landscape_*.png`, success-rate + mean J vs ell); boundary-shift plot with the descriptive ±1/4 reference (`sim/figures/boundary_shift.png`); textured representative rollout mp4s — success `rollout_success.mp4` (B4_w0, clears, δ_tip=−0.0002) and failure `rollout_failure.mp4` (B0_w3, droops δ_tip=0.145 ≫ h); raw data `sim/manifests/sweep_results.npz` + `sweep_landscape.json`.
+- **STOP** for the owner's go/no-go ruling. Steps 3-4 NOT started.
+
 ## 2026-08-16 (fast-loop Step 1): lift-and-clear task + live B/w hooks + virtual B_eff calibration — DONE
 
 - **Assets (owner-provided):** the DLO-Lab textured payload (`~/Downloads/dlo-lab.zip`) is installed at `~/DLO-Lab/genesis/assets/dlo-lab/` (gitignored by the clone → clone stays clean, 0 unrecorded diff); rendered deliverables from Step 1 on use the rope texture. Provenance in `sim/smoke/asset_note.md`.

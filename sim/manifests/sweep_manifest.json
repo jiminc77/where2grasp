@@ -1,0 +1,235 @@
+{
+  "schema_version": 1,
+  "frozen": true,
+  "pilot": {
+    "method": "Euler-Bernoulli design-only 2x2 screen",
+    "iterations": 4,
+    "max_iterations": 4,
+    "candidate_h": [
+      0.003,
+      0.0045,
+      0.006,
+      0.009
+    ],
+    "on_grid_scores": [
+      3,
+      3,
+      3,
+      4
+    ]
+  },
+  "integrator": {
+    "dt": 0.00025,
+    "substeps": 20,
+    "damping": 40.0,
+    "angular_damping": 20.0
+  },
+  "interval": 0.01,
+  "gravity": 9.81,
+  "raw_E": [
+    1000000.0,
+    2370946.5892385854,
+    5621387.729022082,
+    13328010.062912514,
+    31600000.0
+  ],
+  "B_eff": [
+    0.006713764347921196,
+    0.01610520612280113,
+    0.03825920568613013,
+    0.09110646283229176,
+    0.21527426878237318
+  ],
+  "segment_masses": [
+    0.0002,
+    0.00043088693800637695,
+    0.0009283177667225556,
+    0.002
+  ],
+  "w": [
+    0.1962,
+    0.4227000861842558,
+    0.9106797291548271,
+    1.9620000000000002
+  ],
+  "h": 0.009,
+  "tau": 0.5,
+  "grasp": {
+    "orientation": "larger index means longer free arm",
+    "ell": [
+      0.12,
+      0.15,
+      0.18,
+      0.21000000000000002,
+      0.24,
+      0.27,
+      0.30000000000000004,
+      0.33,
+      0.36,
+      0.39,
+      0.42000000000000004,
+      0.45,
+      0.48000000000000004,
+      0.51,
+      0.54
+    ],
+    "n_vertices": [
+      14,
+      17,
+      20,
+      23,
+      26,
+      29,
+      32,
+      35,
+      38,
+      41,
+      44,
+      47,
+      50,
+      53,
+      56
+    ],
+    "minimum_segments": 12
+  },
+  "terminal_geometry": {
+    "clamp_position": [
+      0,
+      0,
+      0.7
+    ],
+    "clamp_orientation": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "start_z": 0.5
+  },
+  "templates": [
+    {
+      "index": 0,
+      "kind": "linear",
+      "drive_steps": 360,
+      "arc": 0.0
+    },
+    {
+      "index": 1,
+      "kind": "ease",
+      "drive_steps": 360,
+      "arc": 0.0
+    },
+    {
+      "index": 2,
+      "kind": "arc",
+      "drive_steps": 360,
+      "arc": 0.025
+    },
+    {
+      "index": 3,
+      "kind": "arc",
+      "drive_steps": 360,
+      "arc": -0.025
+    }
+  ],
+  "stochastic_distribution": {
+    "initial_rod_pose_translation_xy_m": [
+      -0.002,
+      0.002
+    ],
+    "clamp_start_translation_xy_m": [
+      -0.0015,
+      0.0015
+    ],
+    "motion_duration_multiplier": [
+      0.92,
+      1.08
+    ],
+    "arc_multiplier": [
+      0.9,
+      1.1
+    ],
+    "distribution": "independent bounded uniform; terminal pose exact"
+  },
+  "seed_banks": {
+    "pilot": [
+      1000,
+      1001,
+      1002,
+      1003,
+      1004,
+      1005,
+      1006,
+      1007,
+      1008,
+      1009,
+      1010,
+      1011
+    ],
+    "selection": [
+      2000,
+      2001,
+      2002
+    ],
+    "evaluation": [
+      3000,
+      3001,
+      3002,
+      3003,
+      3004
+    ]
+  },
+  "selection_rule": "CRN; maximize 3-draw mean success; ties lowest template index",
+  "evaluation_rule": "selected template only; disjoint 5-draw mean success and mean J; no reselection",
+  "boundary_rule": "all tau crossings by linear interpolation; boundary=max crossing; uncertainty=half grid step; all-success/all-failure unresolved",
+  "decision_rule": {
+    "B_sign": "increase",
+    "w_sign": "decrease",
+    "resolution": "one grid step",
+    "adjacent": "majority correct-signed-or-tied",
+    "ratio_tolerance": "one grid step",
+    "precedence": "NO-GO if any FAIL; GO iff all PASS; otherwise inconclusive"
+  },
+  "ratio_pairs": [
+    {
+      "pair_id": 0,
+      "reference_setting": "B1_w1",
+      "base": {
+        "raw_E": 2370946.5892385854,
+        "segment_mass": 0.00043088693800637695
+      },
+      "scaled": {
+        "raw_E": 4741893.178477171,
+        "segment_mass": 0.0008617738760127539
+      },
+      "c": 2.0
+    },
+    {
+      "pair_id": 1,
+      "reference_setting": "B3_w2",
+      "base": {
+        "raw_E": 13328010.062912514,
+        "segment_mass": 0.0009283177667225556
+      },
+      "scaled": {
+        "raw_E": 6664005.031456257,
+        "segment_mass": 0.0004641588833612778
+      },
+      "c": 0.5
+    },
+    {
+      "pair_id": 2,
+      "reference_setting": "B2_w1",
+      "base": {
+        "raw_E": 5621387.729022082,
+        "segment_mass": 0.00043088693800637695
+      },
+      "scaled": {
+        "raw_E": 8432081.593533123,
+        "segment_mass": 0.0006463304070095655
+      },
+      "c": 1.5
+    }
+  ],
+  "rollout_budget": 5865
+}
