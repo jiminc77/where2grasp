@@ -1,0 +1,153 @@
+{
+  "verdict": "SURVIVES",
+  "passed": 29,
+  "total": 29,
+  "failed_checks": [],
+  "checks": [
+    {
+      "check": "P1 manifest digest matches results",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P1 nonconverged fraction == 0",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P1 boundaries match committed verdict",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "P1 all 15 settings in-regime (recomputed Pi_g<=0.5)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P1 committed verdict == GO",
+      "ok": true,
+      "detail": "GO"
+    },
+    {
+      "check": "P1 conditions B/w/R all PASS",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P1 prefactor matches committed (0.2% of (8h)^1/4)",
+      "ok": true,
+      "detail": "recomputed 0.5189 vs committed 0.5189 vs (8h)^1/4 0.5180"
+    },
+    {
+      "check": "P2 history digest matches C4 manifest",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 temporal shape dim == 112",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 probe dim == 16",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 histories 0 non-converged (all settled)",
+      "ok": true,
+      "detail": "convergence enforced by extractor RuntimeError"
+    },
+    {
+      "check": "P2 split disjoint",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 split complete (==universe)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 ratio pairs co-located in TEST",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 critic disjointness assertions True",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 confound guard recompute matches",
+      "ok": true,
+      "detail": "[0.0012218477057143208, 0.00278015795046013, 0.0027579283110620335] vs [0.0012218477057143208, 0.00278015795046013, 0.0027579283110620335]"
+    },
+    {
+      "check": "P2 guard PASS (degeneracy, paired shape<=0.05)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 identify verdict INCONCLUSIVE (honest)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 probe status EXPLORATORY-UNQUALIFIED (honest, not tuned)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 measured boundaries recompute matches critic",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 map recovery: task-student << blind",
+      "ok": true,
+      "detail": "task 0.083 vs blind 0.328"
+    },
+    {
+      "check": "P2 map recovery: task-student ~ teacher (within 1.5x)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 m_t verdict fields consistent",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "gitprov hard_sweep_manifest.json own single-file commit",
+      "ok": true,
+      "detail": "['sim/manifests/hard_sweep_manifest.json']"
+    },
+    {
+      "check": "gitprov hard_sweep_manifest.json commit ancestor of hard_sweep_results.npz commit",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "gitprov hard_sweep_manifest.json message digest == committed blob",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "gitprov hard_s34_manifest.json own single-file commit",
+      "ok": true,
+      "detail": "['sim/manifests/hard_s34_manifest.json']"
+    },
+    {
+      "check": "gitprov hard_s34_manifest.json commit ancestor of hard_histories_v2.npz commit",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "gitprov hard_s34_manifest.json message digest == committed blob",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}
