@@ -35,7 +35,18 @@ def build(ell_probe):
     assert set(TRAIN) | set(VAL) | set(TEST) == set(UNIVERSE)
     assert not (set(TRAIN) & set(VAL)) and not (set(TRAIN) & set(TEST)) and not (set(VAL) & set(TEST))
     qual = json.loads((ROOT / 'hardening/exploratory/probe_qualification.json').read_text())
-    assert qual['chosen_ell_probe'] == ell_probe, (qual['chosen_ell_probe'], ell_probe)
+    # Honest handling of the qualification result: if the screen QUALIFIED a length, the frozen
+    # probe is that length. If the screen returned INCONCLUSIVE (no length is simultaneously
+    # Pi_g<=0.3 AND residual<5% at interval 0.01), we do NOT relax or re-pick to force a pass;
+    # instead the probe-enriched channel is run as EXPLORATORY at the PRE-REGISTERED analytic
+    # target ell (plan ss5B/ss9.5 = 0.15), clearly labeled UNQUALIFIED, and every probe-path
+    # result is reported as exploratory, never as a clean preregistered positive control.
+    chosen = qual['chosen_ell_probe']
+    if chosen is not None:
+        assert chosen == ell_probe, (chosen, ell_probe)
+        probe_status = 'QUALIFIED'
+    else:
+        probe_status = 'EXPLORATORY-UNQUALIFIED'
     manifest = dict(
         schema_version=1, frozen=True,
         sweep_manifest='hard_sweep_manifest.json',
@@ -52,9 +63,16 @@ def build(ell_probe):
                       allow_list=['shape_yz_temporal_112', 'probe_shape_yz_16', 'proprio_terminal_pose_and_drive_8', 'normalized_supported_Fz'],
                       deny_list=['setting_id', 'pair_id', 'B_eff', 'w', 'ratio', 'raw_vertex_count',
                                  'absolute_rod_length', 'filename', 'order_index', 'target-derived fields']),
-        probe=dict(ell_probe=ell_probe, regime='small-deflection Pi_g<=0.3',
+        probe=dict(ell_probe=ell_probe, regime='small-deflection', target_Pi_g_max=0.3,
+                   status=probe_status,
                    contributes='settled-only 16-D (y,z) frame prepended to the 7 task frames',
-                   qualification='hardening/exploratory/probe_qualification.json', qualification_verdict=qual['verdict']),
+                   qualification='hardening/exploratory/probe_qualification.json',
+                   qualification_verdict=qual['verdict'],
+                   exploratory_note=('probe qualification INCONCLUSIVE at interval 0.01: no candidate length keeps every '
+                                     'kept material both Pi_g<=0.3 AND residual<5%; the softest kept material B1 has its '
+                                     'cleanest in-regime law fit at ell=0.15 (exp 3.85, CV 2.8%, Pi_g 0.203) but residual '
+                                     '5.5% marginally exceeds the 5% gate. The gate is NOT relaxed; probe-enriched results '
+                                     'are EXPLORATORY (pre-registered target ell=0.15), never a clean positive control.') if probe_status != 'QUALIFIED' else 'qualified small-deflection probe'),
         targets=['log10_B_eff', 'log10_w', 'log10_B_eff_over_w'], metric='log10-RMSE',
         margins=dict(tol_ratio=0.10, tol_shape=0.05, K=3, tol_indiv=0.15),
         truth_table=('failed positive-control OR guard => INCONCLUSIVE; premises pass but null OR repair fails => FAIL; all pass => PASS'),

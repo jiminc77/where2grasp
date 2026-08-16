@@ -240,7 +240,12 @@ def run(manifest, expected_digest=None):
               'contrasts': {'probe_student_minus_blind': student_minus_blind, 'probe_student_over_teacher_rmse': student_over_teacher},
               'm_t_functional': {'verdict': m_t_functional, 'better_than_blind_rmse': bool(better_rmse),
                                  'better_than_blind_boundary': bool(better_bound), 'within_1p5x_teacher': bool(within_teacher),
-                                 'rule': cfg['map_recovery']['success_rule']},
+                                 'rule': cfg['map_recovery']['success_rule'],
+                                 'probe_status': cfg['probe']['status'],
+                                 'probe_exploratory_note': (None if cfg['probe']['status'] == 'QUALIFIED' else
+                                     'The probe_student and leak-free-sysID rows use an UNQUALIFIED probe (qualification '
+                                     'INCONCLUSIVE at interval 0.01); the m_t_functional verdict via the probe path is '
+                                     'EXPLORATORY, not a clean preregistered result. teacher/blind/task_student are unaffected.')},
               'adaptation_history_composition': adaptation,
               'sysid_ridge': {'alpha': alpha, 'mean_grouped_cv_rmse': float(min(cvs))},
               'per_setting_map_recovery': {r: metrics[r]['per_setting'] for r in ROWS},

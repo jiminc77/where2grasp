@@ -1,0 +1,207 @@
+{
+  "schema": "probe_qualification.v1",
+  "kind": "exploratory-feasibility-only",
+  "pilot_bank": [
+    1000,
+    1001,
+    1002,
+    1003,
+    1004
+  ],
+  "note": "deterministic gravity settle; no stochastic draws",
+  "acceptance": {
+    "exponent": [
+      3.6,
+      4.4
+    ],
+    "CV_max": 0.05,
+    "residual_max": 0.05,
+    "Pi_g_max": 0.3,
+    "loadinv_max": 0.08
+  },
+  "selection_rule": "shortest candidate passing the acceptance gate for every kept material",
+  "candidates": [
+    {
+      "ell_probe": 0.12,
+      "bracket": [
+        0.09,
+        0.12,
+        0.15
+      ],
+      "passed": false,
+      "worst_Pi_g": 0.10451566183279197,
+      "per_material": [
+        {
+          "bi": 1,
+          "B_eff_fit": 0.01505663882698396,
+          "exponent": 3.723865238415697,
+          "CV": 0.05747419708525416,
+          "residual": 0.12182119149661433,
+          "load_invariance": 0.004426997878593947,
+          "Pi_g_at_cand": 0.10451566183279197,
+          "law_ok": false,
+          "pi_g_ok": true,
+          "loadinv_ok": true
+        },
+        {
+          "bi": 2,
+          "B_eff_fit": 0.035325554907746,
+          "exponent": 3.745822869647199,
+          "CV": 0.052836842060123825,
+          "residual": 0.11330823549979097,
+          "load_invariance": 0.010430540402806736,
+          "Pi_g_at_cand": 0.04454720035082813,
+          "law_ok": false,
+          "pi_g_ok": true,
+          "loadinv_ok": true
+        },
+        {
+          "bi": 3,
+          "B_eff_fit": 0.08332804078908301,
+          "exponent": 3.78493460863291,
+          "CV": 0.04543317476445617,
+          "residual": 0.09762205394344448,
+          "load_invariance": 0.022759866687968568,
+          "Pi_g_at_cand": 0.01888505426357881,
+          "law_ok": false,
+          "pi_g_ok": true,
+          "loadinv_ok": true
+        },
+        {
+          "bi": 4,
+          "B_eff_fit": 0.20119763049532616,
+          "exponent": 3.6930117101324775,
+          "CV": 0.06373584443876575,
+          "residual": 0.13536522922576685,
+          "load_invariance": 0.026953668603662214,
+          "Pi_g_at_cand": 0.007821436903135384,
+          "law_ok": false,
+          "pi_g_ok": true,
+          "loadinv_ok": true
+        }
+      ]
+    },
+    {
+      "ell_probe": 0.15,
+      "bracket": [
+        0.12,
+        0.15,
+        0.18
+      ],
+      "passed": false,
+      "worst_Pi_g": 0.20291936583099543,
+      "per_material": [
+        {
+          "bi": 1,
+          "B_eff_fit": 0.01514662769278212,
+          "exponent": 3.852196366067381,
+          "CV": 0.02762134161929632,
+          "residual": 0.05503807988177554,
+          "load_invariance": 0.024375560723237297,
+          "Pi_g_at_cand": 0.20291936583099543,
+          "law_ok": false,
+          "pi_g_ok": true,
+          "loadinv_ok": true
+        },
+        {
+          "bi": 2,
+          "B_eff_fit": 0.03652664470579497,
+          "exponent": 3.799415387784898,
+          "CV": 0.03317387733949425,
+          "residual": 0.06992366961246468,
+          "load_invariance": 0.012347413215429913,
+          "Pi_g_at_cand": 0.0841452619219066,
+          "law_ok": false,
+          "pi_g_ok": true,
+          "loadinv_ok": true
+        },
+        {
+          "bi": 3,
+          "B_eff_fit": 0.08681554590946343,
+          "exponent": 3.7921142223414783,
+          "CV": 0.03436806251089534,
+          "residual": 0.07224243120880353,
+          "load_invariance": 0.01670901551959222,
+          "Pi_g_at_cand": 0.035403153360376506,
+          "law_ok": false,
+          "pi_g_ok": true,
+          "loadinv_ok": true
+        },
+        {
+          "bi": 4,
+          "B_eff_fit": 0.2058565239362631,
+          "exponent": 3.7800443759751436,
+          "CV": 0.03653418669980673,
+          "residual": 0.07711139353672491,
+          "load_invariance": 0.00863012640110769,
+          "Pi_g_at_cand": 0.014930515813281515,
+          "law_ok": false,
+          "pi_g_ok": true,
+          "loadinv_ok": true
+        }
+      ]
+    },
+    {
+      "ell_probe": 0.18,
+      "bracket": [
+        0.15,
+        0.18,
+        0.21
+      ],
+      "passed": false,
+      "worst_Pi_g": 0.33456394537934026,
+      "per_material": [
+        {
+          "bi": 1,
+          "B_eff_fit": 0.015874645949697477,
+          "exponent": 3.827467728852546,
+          "CV": 0.029107127244822287,
+          "residual": 0.044501681824807245,
+          "load_invariance": 0.0014523204408269379,
+          "Pi_g_at_cand": 0.33456394537934026,
+          "law_ok": true,
+          "pi_g_ok": false,
+          "loadinv_ok": true
+        },
+        {
+          "bi": 2,
+          "B_eff_fit": 0.037749776264161594,
+          "exponent": 3.798865114386655,
+          "CV": 0.027758783001217438,
+          "residual": 0.055141213095936475,
+          "load_invariance": 0.004248963473102779,
+          "Pi_g_at_cand": 0.1406918055160269,
+          "law_ok": false,
+          "pi_g_ok": true,
+          "loadinv_ok": true
+        },
+        {
+          "bi": 3,
+          "B_eff_fit": 0.08897349214871858,
+          "exponent": 3.826720856652821,
+          "CV": 0.023807528072080402,
+          "residual": 0.04884509231754819,
+          "load_invariance": 0.00338860433682698,
+          "Pi_g_at_cand": 0.05969288214014923,
+          "law_ok": true,
+          "pi_g_ok": true,
+          "loadinv_ok": true
+        },
+        {
+          "bi": 4,
+          "B_eff_fit": 0.21057507992964075,
+          "exponent": 3.8482712879319085,
+          "CV": 0.020839902509666983,
+          "residual": 0.042735279934381726,
+          "load_invariance": 0.004199228895396719,
+          "Pi_g_at_cand": 0.025221807738149922,
+          "law_ok": true,
+          "pi_g_ok": true,
+          "loadinv_ok": true
+        }
+      ]
+    }
+  ],
+  "chosen_ell_probe": null,
+  "verdict": "INCONCLUSIVE-STOP"
+}

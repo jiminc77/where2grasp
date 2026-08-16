@@ -154,6 +154,11 @@ def run(manifest, expected_digest=None):
                             'wrench_individual': [wr[T[0]], wr[T[1]]]},
             'verdict': verdict,
             'truth_table': cfg['truth_table'],
+            'probe_status': cfg['probe']['status'],
+            'probe_exploratory_note': (None if cfg['probe']['status'] == 'QUALIFIED' else
+                'PROBE UNQUALIFIED (qualification INCONCLUSIVE): the probe-enriched positive control / null / '
+                'repair sides here are EXPLORATORY, not a clean preregistered positive control. The +shape and '
+                '+wrench (task-only, wrench) sides remain fully valid; probe+shape / probe+shape+wrench are exploratory.'),
         },
         'proprioception_baseline': result['proprioception-only']['ridge']['test_rmse'],
     }
