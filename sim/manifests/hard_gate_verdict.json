@@ -1,0 +1,376 @@
+{
+  "exact_frozen_verdict": "GO",
+  "conditions": {
+    "B": {
+      "status": "PASS",
+      "endpoints": [
+        {
+          "slice": "w0",
+          "valid": true,
+          "contrast": 0.2699999999999999,
+          "correct_signed": true,
+          "resolved": true
+        },
+        {
+          "slice": "w1",
+          "valid": true,
+          "contrast": 0.21000000000000002,
+          "correct_signed": true,
+          "resolved": true
+        },
+        {
+          "slice": "w2",
+          "valid": true,
+          "contrast": 0.18,
+          "correct_signed": true,
+          "resolved": true
+        }
+      ],
+      "adjacent_contrasts": [
+        0.05999999999999994,
+        0.09000000000000002,
+        0.11999999999999994,
+        0.06000000000000005,
+        0.05999999999999994,
+        0.09000000000000002,
+        0.02999999999999997,
+        0.06000000000000005,
+        0.08999999999999997
+      ],
+      "adjacent_correct_or_tied": 9,
+      "adjacent_total": 9
+    },
+    "w": {
+      "status": "PASS",
+      "endpoints": [
+        {
+          "slice": "B1",
+          "valid": true,
+          "contrast": -0.09000000000000002,
+          "correct_signed": true,
+          "resolved": true
+        },
+        {
+          "slice": "B2",
+          "valid": true,
+          "contrast": -0.12,
+          "correct_signed": true,
+          "resolved": true
+        },
+        {
+          "slice": "B3",
+          "valid": true,
+          "contrast": -0.14999999999999997,
+          "correct_signed": true,
+          "resolved": true
+        },
+        {
+          "slice": "B4",
+          "valid": true,
+          "contrast": -0.17999999999999994,
+          "correct_signed": true,
+          "resolved": true
+        }
+      ],
+      "adjacent_contrasts": [
+        0.06000000000000005,
+        0.02999999999999997,
+        0.05999999999999994,
+        0.06000000000000005,
+        0.09000000000000002,
+        0.05999999999999994,
+        0.11999999999999994,
+        0.06
+      ],
+      "adjacent_correct_or_tied": 8,
+      "adjacent_total": 8
+    },
+    "R": {
+      "status": "PASS",
+      "tolerance": 0.03,
+      "pairs": [
+        {
+          "pair_id": 0,
+          "reference": "B1_w1",
+          "valid": true,
+          "contrast": 0.0,
+          "within_tolerance": true
+        },
+        {
+          "pair_id": 1,
+          "reference": "B3_w2",
+          "valid": true,
+          "contrast": 0.0,
+          "within_tolerance": true
+        },
+        {
+          "pair_id": 2,
+          "reference": "B2_w1",
+          "valid": true,
+          "contrast": 0.0,
+          "within_tolerance": true
+        }
+      ]
+    }
+  },
+  "resolution_step": 0.03,
+  "Pi_g_max": 0.5,
+  "manifest_digest": "c79165483624a6db21497435cb6de62a69606012f657db23a64fecd537609ba8",
+  "validity_summary": {
+    "settings": 15,
+    "resolved": 15,
+    "valid_in_regime": 15,
+    "out_of_regime_ids": [],
+    "censored_ids": []
+  },
+  "prefactor": {
+    "predicted_prefactor_8h_quarter": 0.5180040128222703,
+    "observed_prefactor_mean": 0.5188501907210823,
+    "observed_prefactor_per_cell": {
+      "B1_w0": 0.5324490284094645,
+      "B1_w1": 0.5092710984694621,
+      "B1_w2": 0.5347298853311278,
+      "B2_w0": 0.5191703221883782,
+      "B2_w1": 0.5195997779363644,
+      "B2_w2": 0.4969811860951404,
+      "B3_w0": 0.526958860480529,
+      "B3_w1": 0.5063372548939993,
+      "B3_w2": 0.5067560951767357,
+      "B4_w0": 0.5422751500542081,
+      "B4_w1": 0.5149313227959892,
+      "B4_w2": 0.5378047757427127,
+      "R0": 0.5090561760648626,
+      "R1": 0.5071584867373401,
+      "R2": 0.5192734404399213
+    },
+    "bootstrap_ci95": [
+      0.5188501907210823,
+      0.5188501907210823
+    ],
+    "bootstrap_n": 2000,
+    "grid_resolution_bound_pm": 0.026326769214488028,
+    "note": "seeded paired block-bootstrap over matched evaluation-seed blocks; valid in-regime cells only"
+  },
+  "descriptive_directional": {
+    "note": "DESCRIPTIVE ONLY (not the preregistered gate); uses all resolved boundaries + censored one-sided bounds",
+    "B_increase_adjacent": "9/9",
+    "w_decrease_adjacent": "8/8",
+    "ratio_pair_offsets": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "boundaries": [
+    {
+      "id": "B1_w0",
+      "B_eff": 0.01610520612280113,
+      "w": 0.1962,
+      "boundary": 0.28500000000000003,
+      "Pi_g_boundary": 0.28201180974454054,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
+      "crossings": [
+        0.28500000000000003
+      ]
+    },
+    {
+      "id": "B1_w1",
+      "B_eff": 0.01610520612280113,
+      "w": 0.4227000861842558,
+      "boundary": 0.22499999999999998,
+      "Pi_g_boundary": 0.2989603568237418,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
+      "crossings": [
+        0.22499999999999998
+      ]
+    },
+    {
+      "id": "B1_w2",
+      "B_eff": 0.01610520612280113,
+      "w": 0.9106797291548271,
+      "boundary": 0.195,
+      "Pi_g_boundary": 0.4192791017531195,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
+      "crossings": [
+        0.195
+      ]
+    },
+    {
+      "id": "B2_w0",
+      "B_eff": 0.03825920568613013,
+      "w": 0.1962,
+      "boundary": 0.345,
+      "Pi_g_boundary": 0.21058156018959742,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
+      "crossings": [
+        0.345
+      ]
+    },
+    {
+      "id": "B2_w1",
+      "B_eff": 0.03825920568613013,
+      "w": 0.4227000861842558,
+      "boundary": 0.28500000000000003,
+      "Pi_g_boundary": 0.25575902471329814,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
+      "crossings": [
+        0.28500000000000003
+      ]
+    },
+    {
+      "id": "B2_w2",
+      "B_eff": 0.03825920568613013,
+      "w": 0.9106797291548271,
+      "boundary": 0.22499999999999998,
+      "Pi_g_boundary": 0.2711298131749958,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
+      "crossings": [
+        0.22499999999999998
+      ]
+    },
+    {
+      "id": "B3_w0",
+      "B_eff": 0.09110646283229176,
+      "w": 0.1962,
+      "boundary": 0.435,
+      "Pi_g_boundary": 0.17726279314266025,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
+      "crossings": [
+        0.435
+      ]
+    },
+    {
+      "id": "B3_w1",
+      "B_eff": 0.09110646283229176,
+      "w": 0.4227000861842558,
+      "boundary": 0.345,
+      "Pi_g_boundary": 0.1905199399354327,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
+      "crossings": [
+        0.345
+      ]
+    },
+    {
+      "id": "B3_w2",
+      "B_eff": 0.09110646283229176,
+      "w": 0.9106797291548271,
+      "boundary": 0.28500000000000003,
+      "Pi_g_boundary": 0.23139345146104323,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
+      "crossings": [
+        0.28500000000000003
+      ]
+    },
+    {
+      "id": "B4_w0",
+      "B_eff": 0.21527426878237318,
+      "w": 0.1962,
+      "boundary": 0.5549999999999999,
+      "Pi_g_boundary": 0.15580659251435056,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
+      "crossings": [
+        0.5549999999999999
+      ]
+    },
+    {
+      "id": "B4_w1",
+      "B_eff": 0.21527426878237318,
+      "w": 0.4227000861842558,
+      "boundary": 0.435,
+      "Pi_g_boundary": 0.16162479405166513,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
+      "crossings": [
+        0.435
+      ]
+    },
+    {
+      "id": "B4_w2",
+      "B_eff": 0.21527426878237318,
+      "w": 0.9106797291548271,
+      "boundary": 0.375,
+      "Pi_g_boundary": 0.22308344891278217,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
+      "crossings": [
+        0.375
+      ]
+    },
+    {
+      "id": "R0",
+      "B_eff": 0.032264843367045035,
+      "w": 0.8454001723685116,
+      "boundary": 0.22499999999999998,
+      "Pi_g_boundary": 0.29845600763773367,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
+      "crossings": [
+        0.22499999999999998
+      ]
+    },
+    {
+      "id": "R1",
+      "B_eff": 0.045408831332695465,
+      "w": 0.45533986457741354,
+      "boundary": 0.28500000000000003,
+      "Pi_g_boundary": 0.2321292826357336,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
+      "crossings": [
+        0.28500000000000003
+      ]
+    },
+    {
+      "id": "R2",
+      "B_eff": 0.05753320861264561,
+      "w": 0.6340501292763837,
+      "boundary": 0.28500000000000003,
+      "Pi_g_boundary": 0.25511710632559886,
+      "resolved": true,
+      "in_regime": true,
+      "valid": true,
+      "censored": null,
+      "crossings": [
+        0.28500000000000003
+      ]
+    }
+  ]
+}
