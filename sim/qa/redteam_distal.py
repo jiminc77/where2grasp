@@ -109,14 +109,25 @@ def addendum():
     if not (am.exists() and ar.exists()):
         return skip('ADD sufficient-k recompute', 'addendum data not yet generated')
     cfg = json.loads(am.read_text()); r = json.loads(ar.read_text())
-    tol = cfg.get('sufficient_k', {}).get('tol_k', 0.02)
+    # new-seed disjointness (no reuse of the exploratory draws)
+    old = set(range(2000, 2003)) | set(range(3000, 3005)) | set(range(1000, 1012))
+    newseeds = set(cfg['seed_banks']['selection']) | set(cfg['seed_banks']['evaluation']) | set(cfg['seed_banks']['history'])
+    check('ADD new seed banks disjoint from exploratory 2000-2002/3000-3004/1000-series', not (newseeds & old), str(sorted(newseeds & old)))
+    tol = cfg['secondary_b']['sufficient_k']['tol_k']
     ok = True
-    for s, row in r.get('per_setting_truncation', {}).items():
+    for s, row in r['secondary_b_frame_truncation']['per_setting'].items():
         rmse = row['rmse_by_k']; r7 = rmse[-1]
         want = next((k + 1 for k in range(len(rmse)) if rmse[k] <= r7 + tol), 7)
-        if row.get('sufficient_k') not in (want, 'no sufficient k'):
+        if row.get('sufficient_k') != want:
             ok = False
-    check('ADD sufficient-k comparator recompute matches', ok)
+    check('ADD sufficient-k comparator recompute matches (tol_k=%.3f)' % tol, ok)
+    p = r['primary']
+    check('ADD primary recompute: task-only within 1.5x teacher',
+          p['within_1p5x_teacher'] == (p['task_only_full_temporal_map_rmse'] <= 1.5 * p['teacher_map_rmse']))
+    check('ADD primary recompute: task-only better than blind',
+          p['better_than_blind'] == (p['task_only_full_temporal_map_rmse'] < p['blind_map_rmse']))
+    check('ADD feature contrast present (full-temporal vs terminal-only)', 'secondary_a_feature_contrast' in r and 'terminal_only_map_rmse' in r['secondary_a_feature_contrast'])
+    check('ADD frame-truncation named (not adaptation curve)', 'adaptation curve' not in json.dumps(r['secondary_b_frame_truncation']).lower() or 'NOT an adaptation curve' in json.dumps(r['secondary_b_frame_truncation']))
 
 
 def gitprov():
