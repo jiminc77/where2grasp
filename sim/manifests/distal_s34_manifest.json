@@ -1,0 +1,223 @@
+{
+  "co_primary": {
+    "band": "ell_L(first-up)/ell_U(last-down) crossings; censored/regime edges excluded; IoU + per-edge + Hausdorff",
+    "combined_rule": "student-blind CI<0 on map RMSE AND each present in-regime band edge AND student/teacher<=1.5x",
+    "map": "held-out TEST map RMSE",
+    "name": "map_and_band_recovery"
+  },
+  "critic_head": {
+    "epochs": 300,
+    "hidden": [
+      32,
+      32
+    ],
+    "kind": "J_regression",
+    "loss": "mse_on_J",
+    "loss_weights": {
+      "J": 1.0
+    },
+    "note": "J-regression head defines selection (BCE cannot); success head optional",
+    "seed": 3403
+  },
+  "distal_manifest": "distal_manifest.json",
+  "features": {
+    "M": 8,
+    "action_dim": 2,
+    "frame_steps": [
+      60,
+      120,
+      180,
+      240,
+      300,
+      360,
+      "settled"
+    ],
+    "pooled_shape_dim": 32,
+    "proprio_dim": 8,
+    "shape_frames": 7,
+    "student_input": "proprio(8) + pool_temporal(112)->32 + action(2) = 42-D",
+    "task_shape_dim": 112,
+    "transfer_encoder_input": "proprio(8) + pool_temporal(112)->32 = 40-D (source contract)"
+  },
+  "frozen": true,
+  "grouped_cv": {
+    "K": 3,
+    "folds": {
+      "0": [
+        "B1_w0",
+        "B3_w0",
+        "B4_w2"
+      ],
+      "1": [
+        "B1_w2",
+        "B3_w1"
+      ],
+      "2": [
+        "B2_w0",
+        "B4_w0"
+      ]
+    }
+  },
+  "history_policy": {
+    "N_hist_per_setting": 32,
+    "action_metadata": true,
+    "action_note": "grasp index + free-arm length (the action) included in the student input (A-17)",
+    "grasps": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "matched_CRN": true,
+    "seeds": [
+      2000,
+      2001
+    ],
+    "templates": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "honest_nulls": {
+    "Q1": "argmax shift <2 cells / wrong sign -> NO-GO",
+    "Q2": "student & teacher regret CI overlaps blind -> conditioning does not discriminate",
+    "Q3": "frozen not better than blind -> NO (or NOT-ESTABLISHED if overlapping)"
+  },
+  "input_artifact_sha256": {
+    "calibration.json": "0fd6dcaf2743103de20b42be54a975358afc702e3d44bce1986b155ef266ff6b",
+    "distal_gate_verdict.json": "b23768fa3bce2d15286a545cd6e78c08b534348a60a30d3d5681ebcf0611dbc4",
+    "distal_manifest.json": "35fc1c62198caf94befa574d25dd9636e96ea8b55afe8ced5c0a7a8650802ffb",
+    "distal_sweep_landscape.json": "e55377f1b057bf725c89236270a273092c00a7f79b8e3461acaeea559164507b",
+    "distal_sweep_results.npz": "32e5f164be5dd398a17d36a387aa363df4f7321d4d75ad45acb4b5d5941e12ca"
+  },
+  "multi_seed_note": "report seed variability across training_seeds; eval-draw bootstrap LABELED conditional-on-models (A-16)",
+  "primary": {
+    "J_inf": -1.0,
+    "aggregation": "mean over UNIQUE (B,w) TEST groups",
+    "bootstrap": {
+      "kind": "paired block over eval-seed blocks",
+      "label": "LABELED conditional on the trained models; multiple training seeds report seed variability (A-16)",
+      "n": 2000,
+      "seed": 7
+    },
+    "formula": "regret(s) = max_g E[J|s,g] - E[J|s,g_selected] on winner-only evaluation",
+    "name": "selection_regret",
+    "precedence": "PASS if student & teacher regret CI< blind; INCONCLUSIVE if CI overlaps; report null",
+    "ratio_pairs": "invariance controls (ratio-cluster uncertainty), not extra unique groups (A-15)",
+    "sign": "student & teacher regret < blind",
+    "tie": "lowest grid index"
+  },
+  "rows": [
+    "teacher",
+    "blind",
+    "task_student",
+    "sysid",
+    "transfer_student"
+  ],
+  "schema_version": 1,
+  "source_encoder": {
+    "bundle": "source_encoder_bundle.pt",
+    "bundle_sha256": "40e949f8a7fbd2825a80294a8dbf11ff11d99ac01f251ed18825d39d747d6f6c",
+    "note": "FROZEN lift-and-clear task-only encoder; distal TEST disjoint from source TRAIN+VAL",
+    "source_train": [
+      "B1_w0",
+      "B1_w2",
+      "B2_w0",
+      "B3_w0",
+      "B3_w1",
+      "B4_w0",
+      "B4_w2"
+    ],
+    "source_val": [
+      "B2_w2",
+      "B4_w1"
+    ]
+  },
+  "splits": {
+    "final_test_pairs": [
+      [
+        "B1_w1",
+        "R0"
+      ],
+      [
+        "B3_w2",
+        "R1"
+      ],
+      [
+        "B2_w1",
+        "R2"
+      ]
+    ],
+    "test": [
+      "B1_w1",
+      "R0",
+      "B3_w2",
+      "R1",
+      "B2_w1",
+      "R2"
+    ],
+    "train": [
+      "B1_w0",
+      "B1_w2",
+      "B2_w0",
+      "B3_w0",
+      "B3_w1",
+      "B4_w0",
+      "B4_w2"
+    ],
+    "val": [
+      "B2_w2",
+      "B4_w1"
+    ]
+  },
+  "task": "distal_tip_placement",
+  "training_seeds": [
+    3403,
+    3413,
+    3423
+  ],
+  "transfer": {
+    "ci": {
+      "kind": "paired block-bootstrap",
+      "n": 2000,
+      "seed": 7
+    },
+    "equal_budget": {
+      "identical": "histories/preproc/arch/head-init/seeds/updates/early-stop/eval",
+      "report": "equal-update budget AND trainable-param-count difference; multiple seeds",
+      "scratch": "encoder+head joint"
+    },
+    "frozen_state": "requires_grad=False; head optimizer excludes encoder tensors; encoder+scaler hash identical pre/post",
+    "metrics": [
+      "map_rmse",
+      "band_edge_error",
+      "selection_regret"
+    ],
+    "non_inferiority_margin": 0.05,
+    "rows": [
+      "transfer_student(frozen encoder)",
+      "scratch_student",
+      "blind"
+    ],
+    "rule": "YES iff frozen NON-INFERIOR to scratch (CI upper of (frozen-scratch) map RMSE < 0.05) AND BETTER than blind ((blind-frozen) CI excludes 0 positive); NO iff frozen not better than blind; else NOT-ESTABLISHED"
+  },
+  "universe": [
+    "B1_w0",
+    "B1_w1",
+    "B1_w2",
+    "B2_w0",
+    "B2_w1",
+    "B2_w2",
+    "B3_w0",
+    "B3_w1",
+    "B3_w2",
+    "B4_w0",
+    "B4_w1",
+    "B4_w2",
+    "R0",
+    "R1",
+    "R2"
+  ]
+}
