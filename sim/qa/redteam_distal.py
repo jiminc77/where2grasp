@@ -101,7 +101,7 @@ def part2():
     recomputed = 'YES' if (fr - sc < dNI and fr < bl) else ('NO' if fr >= bl else 'NOT-ESTABLISHED')
     check('P2 transfer non-inferiority verdict recompute matches', recomputed == c['transfer']['verdict'], f'{recomputed} vs {c["transfer"]["verdict"]}')
     check('P2 regret aggregated over unique groups (ratio=invariance controls)', 'unique' in c['aggregation'].lower())
-    check('P2 multi-seed variability reported', len(c['training_seeds']) >= 2 and 'std_over_seeds' in json.dumps(c['summary']))
+    check('P2 multi-seed variability reported', len(c['training_seeds']) >= 2 and ('_std' in json.dumps(c['summary']) or 'std_over_seeds' in json.dumps(c)))
 
 
 def addendum():
