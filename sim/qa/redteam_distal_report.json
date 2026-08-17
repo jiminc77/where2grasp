@@ -1,0 +1,83 @@
+{
+  "verdict": "SURVIVES",
+  "passed": 9,
+  "total": 9,
+  "skipped": [
+    "P2 critic/transfer recompute",
+    "ADD sufficient-k recompute",
+    "gitprov distal_s34_manifest.json",
+    "gitprov addendum_manifest.json"
+  ],
+  "failed_checks": [],
+  "checks": [
+    {
+      "check": "P1 digest matches results",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P1 nonconverged == 0",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P1 measured argmax recompute matches",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "P1 committed verdict is a valid token",
+      "ok": true,
+      "detail": "inconclusive"
+    },
+    {
+      "check": "P1 predicted infeasible == {B1_w2}",
+      "ok": true,
+      "detail": "['B1_w2']"
+    },
+    {
+      "check": "P2 critic/transfer recompute",
+      "ok": true,
+      "skipped": true,
+      "detail": "distal Part-3 data not yet generated"
+    },
+    {
+      "check": "ADD sufficient-k recompute",
+      "ok": true,
+      "skipped": true,
+      "detail": "addendum data not yet generated"
+    },
+    {
+      "check": "gitprov distal_manifest.json single-file commit",
+      "ok": true,
+      "detail": "['sim/manifests/distal_manifest.json']"
+    },
+    {
+      "check": "gitprov distal_manifest.json message digest == blob",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "gitprov distal_s34_manifest.json",
+      "ok": true,
+      "skipped": true,
+      "detail": "not yet committed"
+    },
+    {
+      "check": "gitprov addendum_manifest.json",
+      "ok": true,
+      "skipped": true,
+      "detail": "not yet committed"
+    },
+    {
+      "check": "SCOPE hardening-A sweep.py untouched",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "SCOPE hardening-A analyze_gate.py untouched",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}
