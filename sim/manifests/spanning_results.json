@@ -1,0 +1,92 @@
+{
+  "co_primary_map": {
+    "blind": {
+      "map_rmse": 0.5130029174364156,
+      "std": 0.007312955178258333
+    },
+    "task_student": {
+      "map_rmse": 0.33171928886960345,
+      "std": 0.027088749521871007
+    },
+    "teacher": {
+      "map_rmse": 0.23034179817333963,
+      "std": 0.02268823778121353
+    }
+  },
+  "discriminates": true,
+  "manifest_digest": "1ccf7de95194fedcf764a67767f13dc37ebd4bce0065a03462828910770f4a9f",
+  "map_helps": true,
+  "note": "NEW-seed spanning re-test; well-separated TEST bands; selection-regret PRIMARY + map co-primary; ratio pairs = invariance controls; multi-seed variability (A-16)",
+  "primary_selection_regret": {
+    "blind": {
+      "mean": 0.559847071455318,
+      "std": 0.15722875057165903
+    },
+    "task_student": {
+      "mean": 0.4472626493738994,
+      "std": 0.15778922586584906
+    },
+    "teacher": {
+      "mean": 0.447917731367971,
+      "std": 0.15747295461956454
+    }
+  },
+  "ratio_invariance": {
+    "R0": {
+      "invariant": true,
+      "mean_offset_cells": 0.0
+    },
+    "R1": {
+      "invariant": true,
+      "mean_offset_cells": 0.0
+    },
+    "R2": {
+      "invariant": true,
+      "mean_offset_cells": 0.0
+    }
+  },
+  "schema_version": 1,
+  "splits": {
+    "test": [
+      "B1_w1",
+      "B2_w0",
+      "B4_w0"
+    ],
+    "train": [
+      "B1_w0",
+      "B1_w2",
+      "B2_w2",
+      "B3_w0",
+      "B3_w1",
+      "B4_w1",
+      "B4_w2"
+    ],
+    "val": [
+      "B2_w1",
+      "B3_w2"
+    ]
+  },
+  "test_cohort": {
+    "pairwise_cell_gaps": {
+      "B1_w1-B2_w0": 6,
+      "B1_w1-B4_w0": 16,
+      "B2_w0-B4_w0": 10
+    },
+    "rationale": "unique-(B,w)-group TEST optima SPAN l_delta with WELL-SEPARATED bands; pairwise predicted optima >=2 grid cells apart (asserted at freeze from prior committed calibration data)",
+    "test_predicted_argmax": {
+      "B1_w1": 6,
+      "B2_w0": 12,
+      "B4_w0": 22
+    },
+    "test_predicted_ell": {
+      "B1_w1": 0.24,
+      "B2_w0": 0.36,
+      "B4_w0": 0.56
+    }
+  },
+  "training_seeds": [
+    3403,
+    3413,
+    3423
+  ]
+}

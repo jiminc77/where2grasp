@@ -133,7 +133,8 @@ def addendum():
 def gitprov():
     pairs = [('distal_manifest.json', 'distal_sweep_results.npz'),
              ('distal_s34_manifest.json', 'distal_histories.npz'),
-             ('addendum_manifest.json', 'addendum_results.json')]
+             ('addendum_manifest.json', 'addendum_results.json'),
+             ('spanning_manifest.json', 'spanning_results.json')]
     for man, data in pairs:
         if not (MAN / man).exists():
             skip(f'gitprov {man}', 'not yet committed'); continue
@@ -151,6 +152,28 @@ def gitprov():
         check(f'gitprov {man} message digest == blob', sha(MAN / man) in msg)
 
 
+def spanning():
+    sm, sr, sh = MAN / 'spanning_manifest.json', MAN / 'spanning_results.json', MAN / 'spanning_histories.npz'
+    if not (sm.exists() and sr.exists()):
+        return skip('SPAN spanning re-test recompute', 'spanning data not yet generated')
+    cfg = json.loads(sm.read_text()); r = json.loads(sr.read_text())
+    old = set(range(2000, 2003)) | set(range(3000, 3005)) | set(range(1000, 1012)) | set(range(2100, 2103)) | set(range(3100, 3105))
+    newseeds = set(cfg['seed_banks']['selection']) | set(cfg['seed_banks']['evaluation']) | set(cfg['seed_banks']['history'])
+    check('SPAN new seeds disjoint from ALL prior banks', not (newseeds & old), str(sorted(newseeds & old)))
+    # TEST optima pairwise >=2 grid cells (recompute from tip_model)
+    import sim.tip_model as tm
+    grid = np.array(cfg['grasp']['ell']); prop = {c['id']: (c['B_eff'], c['w']) for c in cfg['grid']}
+    ai = {sid: tm.cell_analysis(*prop[sid], grid=grid)['argmax_idx'] for sid in cfg['splits']['test']}
+    gaps = [abs(ai[a] - ai[b]) for i, a in enumerate(cfg['splits']['test']) for b in cfg['splits']['test'][i + 1:]]
+    check('SPAN TEST optima pairwise >=2 grid cells (well-separated)', all(g >= 2 for g in gaps), str(gaps))
+    # primary discrimination recompute
+    reg = r['primary_selection_regret']
+    disc = reg['teacher']['mean'] < reg['blind']['mean'] and reg['task_student']['mean'] < reg['blind']['mean']
+    check('SPAN selection-regret discrimination recompute matches', disc == r['discriminates'])
+    check('SPAN ratio pairs invariant (offset<=1 cell)', all(v['invariant'] for v in r['ratio_invariance'].values()))
+    if sh.exists():
+        h = np.load(sh); check('SPAN histories digest == spanning manifest', str(h['manifest_digest'].item()) == sha(sm))
+
 def scope_guard():
     # SCOPE GUARD: no closed hardening-A artifact modified this run (source hashes frozen in the regression test)
     check('SCOPE hardening-A sweep.py untouched',
@@ -160,7 +183,7 @@ def scope_guard():
 
 
 def main():
-    part1(); part2(); addendum(); gitprov(); scope_guard()
+    part1(); part2(); addendum(); spanning(); gitprov(); scope_guard()
     real = [f for f in findings if not f.get('skipped')]
     n_ok = sum(f['ok'] for f in real); n = len(real)
     verdict = 'SURVIVES' if n_ok == n else 'FAILS'

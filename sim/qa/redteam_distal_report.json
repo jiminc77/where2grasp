@@ -1,7 +1,7 @@
 {
   "verdict": "SURVIVES",
-  "passed": 28,
-  "total": 28,
+  "passed": 36,
+  "total": 36,
   "skipped": [],
   "failed_checks": [],
   "checks": [
@@ -96,6 +96,31 @@
       "detail": ""
     },
     {
+      "check": "SPAN new seeds disjoint from ALL prior banks",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "check": "SPAN TEST optima pairwise >=2 grid cells (well-separated)",
+      "ok": true,
+      "detail": "[6, 16, 10]"
+    },
+    {
+      "check": "SPAN selection-regret discrimination recompute matches",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "SPAN ratio pairs invariant (offset<=1 cell)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "SPAN histories digest == spanning manifest",
+      "ok": true,
+      "detail": ""
+    },
+    {
       "check": "gitprov distal_manifest.json single-file commit",
       "ok": true,
       "detail": "['sim/manifests/distal_manifest.json']"
@@ -131,7 +156,22 @@
       "detail": "['sim/manifests/addendum_manifest.json']"
     },
     {
+      "check": "gitprov addendum_manifest.json ancestor of addendum_results.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
       "check": "gitprov addendum_manifest.json message digest == blob",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "gitprov spanning_manifest.json single-file commit",
+      "ok": true,
+      "detail": "['sim/manifests/spanning_manifest.json']"
+    },
+    {
+      "check": "gitprov spanning_manifest.json message digest == blob",
       "ok": true,
       "detail": ""
     },
