@@ -1,12 +1,12 @@
 # where2grasp
 
-Where to grasp a deformable linear object: a mechanics-derived admissible envelope, an interaction-identified mechanics latent (m_t), and a property-adaptive per-point grasp critic. Paper 1 of a two-paper arc; the sequel (DLO-JEPA) consumes m_t as its history encoder.
+Where to grasp a deformable linear object: a mechanics-predicted feasible-boundary law (validated under a frozen pre-registered gate, same-simulator) and a candidate history-conditioned task latent (m_t), en route to a property-adaptive per-point grasp critic. Paper 1 of a two-paper arc; the sequel (DLO-JEPA) consumes m_t as its history encoder.
 
 **Canonical plan:** [strategy/proposal_v2.md](strategy/proposal_v2.md) (v3) · **Session log:** [STATUS.md](STATUS.md) · **Conventions:** [00_INDEX.md](00_INDEX.md)
 
-## Current state (2026-08-16)
+## Current state (2026-08-17)
 
-Proposal v3 finalized: three external feedback rounds absorbed, every claim and citation audited against primary sources. Nothing has been run yet. Next: fast validation loop, Step 0.
+Fast validation loop (Steps 0–4) complete; hardening-A closed. Q1 (boundary law) passed its formal frozen gate: at fixed h, extracted boundaries are consistent with the B/w fourth-root prediction at the declared grid resolution, conditional on same-simulator self-weight B_eff calibration. Q2 (m_t functional) is NOT ESTABLISHED under the pre-registered rule; the task-only temporal-history student is strong pre-specified secondary evidence (non-confirmatory), with an approved upgrade re-run pending. Hardening-B (optimum-bearing distal-tip task) in progress. External inspection (2026-08-17) logged in [strategy/reviews/](strategy/reviews/). See STATUS.md for the full record; red-team scope note: the 47/47 recompute covers data integrity, metric arithmetic, and gate recomputation, not independent retraining.
 
 ## The fast validation loop
 

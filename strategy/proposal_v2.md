@@ -193,7 +193,7 @@ Across the benchmarks, surveys, and primary sources we checked, and granting eve
 
 **To our knowledge, no prior work in the reviewed DLO literature measures an along-object grasp-quality landscape under controlled mechanics-property interventions and compares its boundary against a task-specific mechanics prediction.**
 
-Alongside it, the material-conditioning by per-point-critic cell is empty, and a mechanics-derived envelope with a stated criterion has not replaced a fitted monotone scalar.
+The neighboring cells are populated — material-aware grasp policies, per-candidate quality predictors, and interaction-based property identification each exist separately in the reviewed corpus — so the claim above rests on the conjunction of its four elements, not on any single element being new. Within that corpus, a mechanics-derived envelope with a stated criterion has, to our knowledge, not replaced a fitted monotone scalar.
 
 ---
 

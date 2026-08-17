@@ -1,5 +1,9 @@
 # STATUS
 
+## 2026-08-17 (external inspection): GPT-5.6 Pro repo audit received + adjudicated
+
+An independent inspection-level review of the public repository (requested by the owner's standing channel) returned 33 findings (2 BLOCKER / 23 MAJOR / 8 MINOR). Full text: `strategy/reviews/gptpro_inspection_2026-08-17.md`; selective-adoption rulings: `strategy/reviews/gptpro_inspection_adjudication_2026-08-17.md`. Headlines: **Q1 formal frozen GO upheld** (no overturning error found), with the prefactor agreement re-characterized as internal closure of the same-simulator B_eff calibration (independent-calibration closure queued as the top post-hardening-B experiment); the **four-conjunct novelty sentence survives** a fresh 2024–2026 search while the adjacent broad claim was reduced (applied to `strategy/proposal_v2.md`); both BLOCKERs concern hardening-B's design (interior-optimum guarantee; dual ℓ_L/ℓ_U boundary estimands for the 0→1→0 landscape) and were delivered to the executor **before** the hardening-B manifest freeze — the executor's own planning independently surfaced the same interior-optimum defect and its feasible-set resolution was confirmed. README/labeling corrections applied in the same commit (stale "nothing run yet", prefactor phrasing, task-only student relabeled "pre-specified secondary, non-confirmatory").
+
 ## 2026-08-17 (hardening-A CLOSURE): report + STOP
 
 **Two questions, answered only from committed artifacts.**
