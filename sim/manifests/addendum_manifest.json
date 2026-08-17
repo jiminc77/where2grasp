@@ -1,0 +1,162 @@
+{
+  "adopt_now": {
+    "A15": "ratio pairs = invariance controls; generalization + uncertainty at the unique-(B,w)-group level (not per-rollout, not extra unique settings)",
+    "A16": "multiple training seeds [3403,3413,3423] + seed variability reported; eval-draw bootstrap LABELED conditional on the trained models; carry hardening-A degenerate-bootstrap caveat",
+    "A17": "explicit grasp/free-length action metadata in the history features",
+    "A22": "outputs named history-variant comparisons; frame-truncation curve is a k-FRAME prefix, never \"adaptation curve\""
+  },
+  "critic_head": {
+    "epochs": 300,
+    "hidden": [
+      32,
+      32
+    ],
+    "kind": "J_regression_plus_success",
+    "seed": 3403
+  },
+  "features": {
+    "M": 8,
+    "action_dim": 2,
+    "frame_steps": [
+      60,
+      120,
+      180,
+      240,
+      300,
+      360,
+      "settled"
+    ],
+    "full_temporal": "proprio(8) + pool_temporal(112)->32 + action(2) = 42-D",
+    "pooled_shape_dim": 32,
+    "proprio_dim": 8,
+    "shape_frames": 7,
+    "task_shape_dim": 112,
+    "terminal_only": "proprio(8) + settled-frame(16) + action(2) = 26-D (settled-terminal summary)"
+  },
+  "follow_up_out_of_scope": "adaptive stopping rule (watch until the latent stabilizes) is a deployment-protocol follow-up, NOT run here",
+  "frozen": true,
+  "history_policy": {
+    "action_metadata": true,
+    "action_note": "grasp index + free-arm length in the student input (A-17)",
+    "grasps": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "seeds": [
+      2100,
+      2101
+    ],
+    "templates": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "input_artifact_sha256": {
+    "calibration.json": "0fd6dcaf2743103de20b42be54a975358afc702e3d44bce1986b155ef266ff6b",
+    "hard_s34_manifest.json": "a08cabb7a899bf5dac80d0978ab5119fffe422bdfce1b7f3c392eceb7a0d3908",
+    "hard_sweep_manifest.json": "c79165483624a6db21497435cb6de62a69606012f657db23a64fecd537609ba8"
+  },
+  "primary": {
+    "metric": "held-out TEST map RMSE + tau=0.5 boundary-index error",
+    "name": "task_only_temporal_student_approaches_teacher",
+    "note": "PRE-REGISTERED as PRIMARY (fixes the exploratory \"no frozen task-only rule\" caveat)",
+    "rule": "task-only temporal-history student map RMSE within 1.5x teacher AND student-blind CI/contrast < 0 on map RMSE AND the tau=0.5 boundary-index error, on held-out TEST"
+  },
+  "purpose": "upgrade re-run: task-only Q2 graduation",
+  "schema_version": 1,
+  "secondary_a": {
+    "name": "feature_schema_contrast",
+    "note": "pins whether the temporal schema (not just capacity) fixed the student",
+    "rule": "full temporal (y,z) 112-D vs settled-terminal-only summary at MATCHED encoder capacity"
+  },
+  "secondary_b": {
+    "k_range": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "name": "frame_truncation_curve",
+    "naming": "named \"frame-truncation curve\" (frame-prefix), NEVER \"adaptation curve\" (reserved for interaction-prefix, deferred to finding 32)",
+    "stratified": "PER-SETTING (A owner: watching horizon is property-dependent), not only the average",
+    "sufficient_k": {
+      "rule": "smallest k with per-setting map RMSE_k <= RMSE_7 + tol_k; else 7; unresolved RMSE_7 -> no sufficient k",
+      "tol_k": 0.02
+    },
+    "timescale_panel": {
+      "descriptive": true,
+      "formula": "sufficient_k vs predicted settling timescale ~ ell^2*sqrt(lambda/B_eff), lambda=segment_mass/interval=w/g",
+      "note": "DESCRIPTIVE observation only (theory prescribing how long to watch), NOT a pre-registered claim"
+    }
+  },
+  "seed_banks": {
+    "evaluation": [
+      3100,
+      3101,
+      3102,
+      3103,
+      3104
+    ],
+    "history": [
+      2100,
+      2101
+    ],
+    "note": "NEW draws; disjoint from exploratory 2000-2002/3000-3004/1000-series (red-team asserts)",
+    "selection": [
+      2100,
+      2101,
+      2102
+    ]
+  },
+  "splits": {
+    "final_test_pairs": [
+      [
+        "B1_w1",
+        "R0"
+      ],
+      [
+        "B3_w2",
+        "R1"
+      ],
+      [
+        "B2_w1",
+        "R2"
+      ]
+    ],
+    "test": [
+      "B1_w1",
+      "R0",
+      "B3_w2",
+      "R1",
+      "B2_w1",
+      "R2"
+    ],
+    "train": [
+      "B1_w0",
+      "B1_w2",
+      "B2_w0",
+      "B3_w0",
+      "B3_w1",
+      "B4_w0",
+      "B4_w2"
+    ],
+    "val": [
+      "B2_w2",
+      "B4_w1"
+    ]
+  },
+  "sweep_grid_source": "hard_sweep_manifest.json",
+  "task": "lift_and_clear",
+  "training_seeds": [
+    3403,
+    3413,
+    3423
+  ]
+}
