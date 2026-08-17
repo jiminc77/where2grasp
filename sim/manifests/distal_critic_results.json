@@ -1,0 +1,1271 @@
+{
+  "aggregation": "regret aggregated over UNIQUE (B,w) TEST groups; ratio pairs = invariance controls (A-15)",
+  "bootstrap_label": "multi-seed variability reported; eval-draw contrast LABELED conditional on the trained models (A-16)",
+  "co_primary_map": {
+    "blind": {
+      "iou": null,
+      "map_rmse": 0.5197354823197364
+    },
+    "scratch_student": {
+      "iou": null,
+      "map_rmse": 0.415571246959741
+    },
+    "task_student": {
+      "iou": 0.0,
+      "map_rmse": 0.4139906315159764
+    },
+    "teacher": {
+      "iou": null,
+      "map_rmse": 0.39156362963495184
+    },
+    "transfer_student": {
+      "iou": null,
+      "map_rmse": 0.40735862527634453
+    }
+  },
+  "honest_nulls": {
+    "Q1": "argmax shift <2 cells / wrong sign -> NO-GO",
+    "Q2": "student & teacher regret CI overlaps blind -> conditioning does not discriminate",
+    "Q3": "frozen not better than blind -> NO (or NOT-ESTABLISHED if overlapping)"
+  },
+  "manifest_digest": "aa8ff70a0d0362dfcbc3ff934b3a8b5d1d7872e841dd2fefe6a8d99c248b144d",
+  "metric_note": "map RMSE + IoU on the predicted SUCCESS-probability curve; selection regret via the J head (feasible-masked)",
+  "per_seed": {
+    "3403": {
+      "blind": {
+        "iou": null,
+        "map_rmse": 0.5289508539113964,
+        "n_unique_groups": 6,
+        "per_setting": [
+          {
+            "iou": null,
+            "map_rmse": 0.533928135544685,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": 0.31697276928669676,
+            "pred_ell_U": null,
+            "regret": 0.0018667694098490656,
+            "sel_idx": 7,
+            "setting": "B1_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.533928135544685,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": 0.31697276928669676,
+            "pred_ell_U": null,
+            "regret": 0.0018665581057564422,
+            "sel_idx": 7,
+            "setting": "R0"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.5264622130947522,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": 0.31697276928669676,
+            "pred_ell_U": null,
+            "regret": 0.0,
+            "sel_idx": 10,
+            "setting": "B3_w2"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.5264622130947522,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": 0.31697276928669676,
+            "pred_ell_U": null,
+            "regret": 0.0,
+            "sel_idx": 10,
+            "setting": "R1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.5264622130947522,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": 0.31697276928669676,
+            "pred_ell_U": null,
+            "regret": 0.0005953729624830414,
+            "sel_idx": 10,
+            "setting": "B2_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.5264622130947522,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": 0.31697276928669676,
+            "pred_ell_U": null,
+            "regret": 0.0005953620327427064,
+            "sel_idx": 10,
+            "setting": "R2"
+          }
+        ],
+        "regret_group_mean": 0.0008206770851385426
+      },
+      "scratch_student": {
+        "iou": null,
+        "map_rmse": 0.41905553758534125,
+        "n_unique_groups": 6,
+        "per_setting": [
+          {
+            "iou": null,
+            "map_rmse": 0.3259651570185956,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.0018667694098490656,
+            "sel_idx": 7,
+            "setting": "B1_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.32604188503286824,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.0018665581057564422,
+            "sel_idx": 7,
+            "setting": "R0"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.471882040680623,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893870769566,
+            "sel_idx": 12,
+            "setting": "B3_w2"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.47170914467191366,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893899318347,
+            "sel_idx": 12,
+            "setting": "R1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4596187333703467,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257376925113564,
+            "sel_idx": 11,
+            "setting": "B2_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.45911626473770023,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257368258654747,
+            "sel_idx": 11,
+            "setting": "R2"
+          }
+        ],
+        "regret_group_mean": 0.3371711416180276
+      },
+      "task_student": {
+        "iou": null,
+        "map_rmse": 0.41330938992178057,
+        "n_unique_groups": 6,
+        "per_setting": [
+          {
+            "iou": null,
+            "map_rmse": 0.31445983597191357,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.0018667694098490656,
+            "sel_idx": 7,
+            "setting": "B1_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.3145944021653858,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.0018665581057564422,
+            "sel_idx": 7,
+            "setting": "R0"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4675554383866444,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893870769566,
+            "sel_idx": 12,
+            "setting": "B3_w2"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.46707318963613553,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893899318347,
+            "sel_idx": 12,
+            "setting": "R1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.45833879169186076,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257376925113564,
+            "sel_idx": 11,
+            "setting": "B2_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4578346816787433,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257368258654747,
+            "sel_idx": 11,
+            "setting": "R2"
+          }
+        ],
+        "regret_group_mean": 0.3371711416180276
+      },
+      "teacher": {
+        "iou": null,
+        "map_rmse": 0.39864762112125773,
+        "n_unique_groups": 6,
+        "per_setting": [
+          {
+            "iou": null,
+            "map_rmse": 0.3361242912909915,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.0018667694098490656,
+            "sel_idx": 7,
+            "setting": "B1_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.3092722294787128,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.0018665581057564422,
+            "sel_idx": 7,
+            "setting": "R0"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4328001915505033,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893870769566,
+            "sel_idx": 12,
+            "setting": "B3_w2"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4435095427874557,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.0034708984277421976,
+            "sel_idx": 11,
+            "setting": "R1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4393578573521565,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.0005953729624830414,
+            "sel_idx": 10,
+            "setting": "B2_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.43082161426772625,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257368258654747,
+            "sel_idx": 11,
+            "setting": "R2"
+          }
+        ],
+        "regret_group_mean": 0.16957439237357366
+      },
+      "transfer_student": {
+        "iou": null,
+        "map_rmse": 0.41078390694106565,
+        "n_unique_groups": 6,
+        "per_setting": [
+          {
+            "iou": null,
+            "map_rmse": 0.31155397621570574,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.0018667694098490656,
+            "sel_idx": 7,
+            "setting": "B1_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.31200395984220153,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.0018665581057564422,
+            "sel_idx": 7,
+            "setting": "R0"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4691613277687924,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893870769566,
+            "sel_idx": 12,
+            "setting": "B3_w2"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4687034967588844,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893899318347,
+            "sel_idx": 12,
+            "setting": "R1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.45171495787708393,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257376925113564,
+            "sel_idx": 11,
+            "setting": "B2_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.45156572318372573,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257368258654747,
+            "sel_idx": 11,
+            "setting": "R2"
+          }
+        ],
+        "regret_group_mean": 0.3371711416180276
+      }
+    },
+    "3413": {
+      "blind": {
+        "iou": null,
+        "map_rmse": 0.5246765807506096,
+        "n_unique_groups": 6,
+        "per_setting": [
+          {
+            "iou": null,
+            "map_rmse": 0.5259434575261188,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": 0.3284297141933462,
+            "pred_ell_U": null,
+            "regret": 0.0018667694098490656,
+            "sel_idx": 7,
+            "setting": "B1_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.5259434575261188,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": 0.3284297141933462,
+            "pred_ell_U": null,
+            "regret": 0.0018665581057564422,
+            "sel_idx": 7,
+            "setting": "R0"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.524043142362855,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": 0.3284297141933462,
+            "pred_ell_U": null,
+            "regret": 1.0053893870769566,
+            "sel_idx": 12,
+            "setting": "B3_w2"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.524043142362855,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": 0.3284297141933462,
+            "pred_ell_U": null,
+            "regret": 1.0053893899318347,
+            "sel_idx": 12,
+            "setting": "R1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.524043142362855,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": 0.3284297141933462,
+            "pred_ell_U": null,
+            "regret": 0.004257376925113564,
+            "sel_idx": 11,
+            "setting": "B2_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.524043142362855,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": 0.3284297141933462,
+            "pred_ell_U": null,
+            "regret": 0.004257368258654747,
+            "sel_idx": 11,
+            "setting": "R2"
+          }
+        ],
+        "regret_group_mean": 0.3371711416180276
+      },
+      "scratch_student": {
+        "iou": null,
+        "map_rmse": 0.4031447449362017,
+        "n_unique_groups": 6,
+        "per_setting": [
+          {
+            "iou": null,
+            "map_rmse": 0.31693154757884073,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0050773176376782,
+            "sel_idx": 0,
+            "setting": "B1_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.3169863273403118,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.005077327795508,
+            "sel_idx": 0,
+            "setting": "R0"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.45446566044527076,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893870769566,
+            "sel_idx": 12,
+            "setting": "B3_w2"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4536884270186782,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893899318347,
+            "sel_idx": 12,
+            "setting": "R1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4387785513973194,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257376925113564,
+            "sel_idx": 11,
+            "setting": "B2_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4380179558367893,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257368258654747,
+            "sel_idx": 11,
+            "setting": "R2"
+          }
+        ],
+        "regret_group_mean": 0.6715746946042908
+      },
+      "task_student": {
+        "iou": null,
+        "map_rmse": 0.40061566629151635,
+        "n_unique_groups": 6,
+        "per_setting": [
+          {
+            "iou": null,
+            "map_rmse": 0.3271412080491183,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0050773176376782,
+            "sel_idx": 0,
+            "setting": "B1_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.32707379432289413,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.005077327795508,
+            "sel_idx": 0,
+            "setting": "R0"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4384610290903065,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893870769566,
+            "sel_idx": 12,
+            "setting": "B3_w2"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.43873614490530244,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893899318347,
+            "sel_idx": 12,
+            "setting": "R1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.43647230994190783,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257376925113564,
+            "sel_idx": 11,
+            "setting": "B2_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4358095114395686,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257368258654747,
+            "sel_idx": 11,
+            "setting": "R2"
+          }
+        ],
+        "regret_group_mean": 0.6715746946042908
+      },
+      "teacher": {
+        "iou": null,
+        "map_rmse": 0.3887147149676388,
+        "n_unique_groups": 6,
+        "per_setting": [
+          {
+            "iou": null,
+            "map_rmse": 0.3153094833542761,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0050773176376782,
+            "sel_idx": 0,
+            "setting": "B1_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.3114576913862543,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.005077327795508,
+            "sel_idx": 0,
+            "setting": "R0"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.42452430373633865,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893870769566,
+            "sel_idx": 12,
+            "setting": "B3_w2"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.43008539317910915,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893899318347,
+            "sel_idx": 12,
+            "setting": "R1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.42536291089231143,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257376925113564,
+            "sel_idx": 11,
+            "setting": "B2_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.42554850725754334,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257368258654747,
+            "sel_idx": 11,
+            "setting": "R2"
+          }
+        ],
+        "regret_group_mean": 0.6715746946042908
+      },
+      "transfer_student": {
+        "iou": null,
+        "map_rmse": 0.4005592411166521,
+        "n_unique_groups": 6,
+        "per_setting": [
+          {
+            "iou": null,
+            "map_rmse": 0.3119329580628948,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0050773176376782,
+            "sel_idx": 0,
+            "setting": "B1_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.3122217480758661,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.005077327795508,
+            "sel_idx": 0,
+            "setting": "R0"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.45339436793799015,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893870769566,
+            "sel_idx": 12,
+            "setting": "B3_w2"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4530404404764911,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893899318347,
+            "sel_idx": 12,
+            "setting": "R1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.43643450545603235,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257376925113564,
+            "sel_idx": 11,
+            "setting": "B2_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.43633142669063785,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257368258654747,
+            "sel_idx": 11,
+            "setting": "R2"
+          }
+        ],
+        "regret_group_mean": 0.6715746946042908
+      }
+    },
+    "3423": {
+      "blind": {
+        "iou": null,
+        "map_rmse": 0.5055790122972031,
+        "n_unique_groups": 6,
+        "per_setting": [
+          {
+            "iou": null,
+            "map_rmse": 0.5110350188760668,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": 0.3186155860372885,
+            "pred_ell_U": null,
+            "regret": 0.0018667694098490656,
+            "sel_idx": 7,
+            "setting": "B1_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.5110350188760668,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": 0.3186155860372885,
+            "pred_ell_U": null,
+            "regret": 0.0018665581057564422,
+            "sel_idx": 7,
+            "setting": "R0"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.5028510090077714,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": 0.3186155860372885,
+            "pred_ell_U": null,
+            "regret": 0.0,
+            "sel_idx": 10,
+            "setting": "B3_w2"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.5028510090077714,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": 0.3186155860372885,
+            "pred_ell_U": null,
+            "regret": 0.0,
+            "sel_idx": 10,
+            "setting": "R1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.5028510090077714,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": 0.3186155860372885,
+            "pred_ell_U": null,
+            "regret": 0.0005953729624830414,
+            "sel_idx": 10,
+            "setting": "B2_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.5028510090077714,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": 0.3186155860372885,
+            "pred_ell_U": null,
+            "regret": 0.0005953620327427064,
+            "sel_idx": 10,
+            "setting": "R2"
+          }
+        ],
+        "regret_group_mean": 0.0008206770851385426
+      },
+      "scratch_student": {
+        "iou": null,
+        "map_rmse": 0.4245134583576802,
+        "n_unique_groups": 6,
+        "per_setting": [
+          {
+            "iou": null,
+            "map_rmse": 0.3207693046963926,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0050773176376782,
+            "sel_idx": 5,
+            "setting": "B1_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.32080195721157473,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.005077327795508,
+            "sel_idx": 5,
+            "setting": "R0"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4861600183745213,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": 0.33576056463010673,
+            "pred_ell_U": null,
+            "regret": 1.0053893870769566,
+            "sel_idx": 12,
+            "setting": "B3_w2"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4857960390647851,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": 0.336719166273978,
+            "pred_ell_U": null,
+            "regret": 1.0053893899318347,
+            "sel_idx": 12,
+            "setting": "R1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.46693137047123257,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257376925113564,
+            "sel_idx": 11,
+            "setting": "B2_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4666220603275747,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257368258654747,
+            "sel_idx": 11,
+            "setting": "R2"
+          }
+        ],
+        "regret_group_mean": 0.6715746946042908
+      },
+      "task_student": {
+        "iou": 0.0,
+        "map_rmse": 0.42804683833463225,
+        "n_unique_groups": 6,
+        "per_setting": [
+          {
+            "iou": null,
+            "map_rmse": 0.3324932643475724,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.0,
+            "sel_idx": 6,
+            "setting": "B1_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.33270723435991145,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.0,
+            "sel_idx": 6,
+            "setting": "R0"
+          },
+          {
+            "iou": 0.0,
+            "map_rmse": 0.47992735798409647,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": 0.36286217087406736,
+            "pred_ell_U": 0.5713378384111565,
+            "regret": 1.0053893870769566,
+            "sel_idx": 12,
+            "setting": "B3_w2"
+          },
+          {
+            "iou": 0.0,
+            "map_rmse": 0.4794796574302049,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": 0.3706040638999649,
+            "pred_ell_U": 0.5610975673587142,
+            "regret": 1.0053893899318347,
+            "sel_idx": 12,
+            "setting": "R1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.47196209703599573,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257376925113564,
+            "sel_idx": 11,
+            "setting": "B2_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.47171141885001244,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257368258654747,
+            "sel_idx": 11,
+            "setting": "R2"
+          }
+        ],
+        "regret_group_mean": 0.3365489203654266
+      },
+      "teacher": {
+        "iou": null,
+        "map_rmse": 0.3873285528159589,
+        "n_unique_groups": 6,
+        "per_setting": [
+          {
+            "iou": null,
+            "map_rmse": 0.33374234602081987,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.0,
+            "sel_idx": 6,
+            "setting": "B1_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.2999904447614595,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.005077327795508,
+            "sel_idx": 5,
+            "setting": "R0"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4175728549537191,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893870769566,
+            "sel_idx": 12,
+            "setting": "B3_w2"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.43064541994430067,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893899318347,
+            "sel_idx": 12,
+            "setting": "R1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.42855434914708457,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257376925113564,
+            "sel_idx": 11,
+            "setting": "B2_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4134659020683698,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257368258654747,
+            "sel_idx": 11,
+            "setting": "R2"
+          }
+        ],
+        "regret_group_mean": 0.5040618083313445
+      },
+      "transfer_student": {
+        "iou": null,
+        "map_rmse": 0.41073272777131575,
+        "n_unique_groups": 6,
+        "per_setting": [
+          {
+            "iou": null,
+            "map_rmse": 0.31140885237990773,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0050773176376782,
+            "sel_idx": 5,
+            "setting": "B1_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.311710407463756,
+            "meas_ell_L": 0.22999999999999998,
+            "meas_ell_U": 0.27,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.005077327795508,
+            "sel_idx": 5,
+            "setting": "R0"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.46861005574997955,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893870769566,
+            "sel_idx": 12,
+            "setting": "B3_w2"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4683890460270879,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 1.0053893899318347,
+            "sel_idx": 12,
+            "setting": "R1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4521653693017105,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257376925113564,
+            "sel_idx": 11,
+            "setting": "B2_w1"
+          },
+          {
+            "iou": null,
+            "map_rmse": 0.4521126357054529,
+            "meas_ell_L": 0.25,
+            "meas_ell_U": 0.35,
+            "pred_ell_L": null,
+            "pred_ell_U": null,
+            "regret": 0.004257368258654747,
+            "sel_idx": 11,
+            "setting": "R2"
+          }
+        ],
+        "regret_group_mean": 0.6715746946042908
+      }
+    }
+  },
+  "primary_selection_regret": {
+    "blind": {
+      "mean": 0.11293749859610157,
+      "std_over_seeds": 0.15855712955096746
+    },
+    "scratch_student": {
+      "mean": 0.5601068436088696,
+      "std_over_seeds": 0.15763934664630777
+    },
+    "task_student": {
+      "mean": 0.4484315855292483,
+      "std_over_seeds": 0.15778621007675547
+    },
+    "teacher": {
+      "mean": 0.44840363176973624,
+      "std_over_seeds": 0.20868548955075145
+    },
+    "transfer_student": {
+      "mean": 0.5601068436088696,
+      "std_over_seeds": 0.15763934664630777
+    }
+  },
+  "rows": [
+    "teacher",
+    "blind",
+    "task_student",
+    "scratch_student",
+    "transfer_student"
+  ],
+  "schema_version": 1,
+  "splits": {
+    "final_test_pairs": [
+      [
+        "B1_w1",
+        "R0"
+      ],
+      [
+        "B3_w2",
+        "R1"
+      ],
+      [
+        "B2_w1",
+        "R2"
+      ]
+    ],
+    "test": [
+      "B1_w1",
+      "R0",
+      "B3_w2",
+      "R1",
+      "B2_w1",
+      "R2"
+    ],
+    "train": [
+      "B1_w0",
+      "B1_w2",
+      "B2_w0",
+      "B3_w0",
+      "B3_w1",
+      "B4_w0",
+      "B4_w2"
+    ],
+    "val": [
+      "B2_w2",
+      "B4_w1"
+    ]
+  },
+  "summary": {
+    "blind": {
+      "iou_mean": null,
+      "map_rmse_mean": 0.5197354823197364,
+      "map_rmse_std": 0.010161088701099484,
+      "regret_mean": 0.11293749859610157,
+      "regret_std": 0.15855712955096746
+    },
+    "scratch_student": {
+      "iou_mean": null,
+      "map_rmse_mean": 0.415571246959741,
+      "map_rmse_std": 0.00906497616084574,
+      "regret_mean": 0.5601068436088696,
+      "regret_std": 0.15763934664630777
+    },
+    "task_student": {
+      "iou_mean": 0.0,
+      "map_rmse_mean": 0.4139906315159764,
+      "map_rmse_std": 0.011209084633962542,
+      "regret_mean": 0.4484315855292483,
+      "regret_std": 0.15778621007675547
+    },
+    "teacher": {
+      "iou_mean": null,
+      "map_rmse_mean": 0.39156362963495184,
+      "map_rmse_std": 0.0050410027382938065,
+      "regret_mean": 0.44840363176973624,
+      "regret_std": 0.20868548955075145
+    },
+    "transfer_student": {
+      "iou_mean": null,
+      "map_rmse_mean": 0.40735862527634453,
+      "map_rmse_std": 0.004807936046452164,
+      "regret_mean": 0.5601068436088696,
+      "regret_std": 0.15763934664630777
+    }
+  },
+  "training_seeds": [
+    3403,
+    3413,
+    3423
+  ],
+  "transfer": {
+    "blind_map_rmse": 0.5197354823197364,
+    "delta_NI": 0.05,
+    "encoder_hash_after": "2a3ebcb53341a9370b894d17b511b188f59958c4cd5dfa26f09104dd43888c68",
+    "encoder_hash_before": "2a3ebcb53341a9370b894d17b511b188f59958c4cd5dfa26f09104dd43888c68",
+    "encoder_unchanged": true,
+    "frozen_map_rmse": 0.40735862527634453,
+    "rule": "YES iff frozen NON-INFERIOR to scratch (CI upper of (frozen-scratch) map RMSE < 0.05) AND BETTER than blind ((blind-frozen) CI excludes 0 positive); NO iff frozen not better than blind; else NOT-ESTABLISHED",
+    "scratch_map_rmse": 0.415571246959741,
+    "verdict": "YES"
+  }
+}

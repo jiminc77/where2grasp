@@ -1,11 +1,9 @@
 {
   "verdict": "SURVIVES",
-  "passed": 9,
-  "total": 9,
+  "passed": 19,
+  "total": 19,
   "skipped": [
-    "P2 critic/transfer recompute",
     "ADD sufficient-k recompute",
-    "gitprov distal_s34_manifest.json",
     "gitprov addendum_manifest.json"
   ],
   "failed_checks": [],
@@ -36,10 +34,39 @@
       "detail": "['B1_w2']"
     },
     {
-      "check": "P2 critic/transfer recompute",
+      "check": "P2 split disjoint+complete",
       "ok": true,
-      "skipped": true,
-      "detail": "distal Part-3 data not yet generated"
+      "detail": ""
+    },
+    {
+      "check": "P2 distal TEST disjoint from source encoder TRAIN+VAL (leak-free transfer)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 action metadata present in histories",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 frozen encoder hash identical before==after head training",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 transfer non-inferiority verdict recompute matches",
+      "ok": true,
+      "detail": "YES vs YES"
+    },
+    {
+      "check": "P2 regret aggregated over unique groups (ratio=invariance controls)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "P2 multi-seed variability reported",
+      "ok": true,
+      "detail": ""
     },
     {
       "check": "ADD sufficient-k recompute",
@@ -53,15 +80,24 @@
       "detail": "['sim/manifests/distal_manifest.json']"
     },
     {
+      "check": "gitprov distal_manifest.json ancestor of distal_sweep_results.npz",
+      "ok": true,
+      "detail": ""
+    },
+    {
       "check": "gitprov distal_manifest.json message digest == blob",
       "ok": true,
       "detail": ""
     },
     {
-      "check": "gitprov distal_s34_manifest.json",
+      "check": "gitprov distal_s34_manifest.json single-file commit",
       "ok": true,
-      "skipped": true,
-      "detail": "not yet committed"
+      "detail": "['sim/manifests/distal_s34_manifest.json']"
+    },
+    {
+      "check": "gitprov distal_s34_manifest.json message digest == blob",
+      "ok": true,
+      "detail": ""
     },
     {
       "check": "gitprov addendum_manifest.json",
