@@ -43,10 +43,13 @@ def score_tip(state, B_eff, w, ell, Delta=tm.DELTA, rho=tm.RHO, d=tm.D, rho_x=tm
                  success=bool(success[e]), J=float(J[e])) for e in range(state.shape[0])]
 
 
-def run_rollout(bending_stiffness, segment_mass, ell, n_vertices=None, template=None,
+def run_rollout(raw_E, B_eff, segment_mass, ell, n_vertices=None, template=None,
                 Delta=tm.DELTA, rho=tm.RHO, d=tm.D, rho_x=tm.RHO_X, interval=0.01,
                 seed=0, n_envs=1, render=False, dt=2.5e-4, substeps=20):
-    """One clamp-frame distal-placement result per environment (settled cantilever sag)."""
+    """One clamp-frame distal-placement result per environment (settled cantilever sag).
+
+    raw_E is the Genesis bending_stiffness setter knob; B_eff is the calibrated continuum
+    stiffness used for scoring/Pi_g (the two are distinct -- see calibrate_beff)."""
     np.random.seed(seed)
     if n_vertices is None:
         n_vertices = int(round(ell / interval)) + 2
@@ -55,7 +58,7 @@ def run_rollout(bending_stiffness, segment_mass, ell, n_vertices=None, template=
     surface = (gs.surfaces.Default(
         diffuse_texture=gs.textures.ImageTexture(image_path="dlo-lab/textures/rope01.png"),
         vis_mode="recon") if render else None)
-    rod = add_straight_rod(scene, n_vertices, interval=interval, E=bending_stiffness,
+    rod = add_straight_rod(scene, n_vertices, interval=interval, E=raw_E,
                            segment_mass=segment_mass, pos=(0, 0, .5), surface=surface)
     box = add_moving_clamp(scene, pos=(0, 0, .5))
     camera = None
@@ -71,7 +74,7 @@ def run_rollout(bending_stiffness, segment_mass, ell, n_vertices=None, template=
     if not ok:
         raise RuntimeError(f"distal rollout did not settle (full-3D): steps={steps} speed={speed}")
     state = vertices(rod)
-    out = score_tip(state, bending_stiffness, segment_mass, ell, Delta, rho, d, rho_x)
+    out = score_tip(state, B_eff, segment_mass * 9.81 / interval, ell, Delta, rho, d, rho_x)
     for e in out:
         e.update(ell=float(ell), converged=True, settle_steps=int(steps))
     return (out, frames) if render else out
@@ -89,7 +92,7 @@ def demo(win_cell=("B2_w1", 5621387.729022082, 0.00043088693800637695),
         w = mass * 9.81 / 0.01
         a = tm.cell_analysis(B, w, grid=grid)
         ell = grid[a['argmax_idx']] if a['argmax_idx'] is not None else grid[tm.nearest_grid_index(tm.ell_optimum(B, w), grid)]
-        result, frames = run_rollout(E, mass, float(ell), template={"kind": "ease", "terminal_pos": (0, 0, .7)}, render=True)
+        result, frames = run_rollout(E, B, mass, float(ell), template={"kind": "ease", "terminal_pos": (0, 0, .7)}, render=True)
         # serial replay movie
         scene = build_scene(dt=2.5e-4, substeps=20)
         surface = gs.surfaces.Default(diffuse_texture=gs.textures.ImageTexture(image_path="dlo-lab/textures/rope01.png"), vis_mode="recon")
