@@ -1,11 +1,8 @@
 {
   "verdict": "SURVIVES",
-  "passed": 19,
-  "total": 19,
-  "skipped": [
-    "ADD sufficient-k recompute",
-    "gitprov addendum_manifest.json"
-  ],
+  "passed": 28,
+  "total": 28,
+  "skipped": [],
   "failed_checks": [],
   "checks": [
     {
@@ -69,10 +66,34 @@
       "detail": ""
     },
     {
-      "check": "ADD sufficient-k recompute",
+      "check": "ADD new seed banks disjoint from exploratory 2000-2002/3000-3004/1000-series",
       "ok": true,
-      "skipped": true,
-      "detail": "addendum data not yet generated"
+      "detail": "[]"
+    },
+    {
+      "check": "ADD sufficient-k comparator recompute matches (tol_k=0.020)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ADD primary recompute: task-only within 1.5x teacher",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ADD primary recompute: task-only better than blind",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ADD feature contrast present (full-temporal vs terminal-only)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "ADD frame-truncation named (not adaptation curve)",
+      "ok": true,
+      "detail": ""
     },
     {
       "check": "gitprov distal_manifest.json single-file commit",
@@ -95,15 +116,24 @@
       "detail": "['sim/manifests/distal_s34_manifest.json']"
     },
     {
+      "check": "gitprov distal_s34_manifest.json ancestor of distal_histories.npz",
+      "ok": true,
+      "detail": ""
+    },
+    {
       "check": "gitprov distal_s34_manifest.json message digest == blob",
       "ok": true,
       "detail": ""
     },
     {
-      "check": "gitprov addendum_manifest.json",
+      "check": "gitprov addendum_manifest.json single-file commit",
       "ok": true,
-      "skipped": true,
-      "detail": "not yet committed"
+      "detail": "['sim/manifests/addendum_manifest.json']"
+    },
+    {
+      "check": "gitprov addendum_manifest.json message digest == blob",
+      "ok": true,
+      "detail": ""
     },
     {
       "check": "SCOPE hardening-A sweep.py untouched",

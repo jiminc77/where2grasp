@@ -94,6 +94,33 @@ def _crossing(curve, ell, tau=0.5):
     return None
 
 
+def _render_new_draw_mp4(am, sm):
+    """Render one lift-and-clear rollout from the NEW draws (owner viz mandate)."""
+    import imageio.v2 as iio
+    import genesis as gs
+    from sim.scene import build_scene, add_straight_rod, add_moving_clamp, attach_moving_clamp
+    from sim.material import apply_properties
+    from sim.sweep import draws
+    ss = {s['id']: s for s in settings(sm)}; cell = ss['B3_w0']          # a stiff, clearing material
+    seed = am['seed_banks']['history'][0]                                # a NEW-draw seed
+    q = draws(seed, sm['stochastic_distribution']); nv = sm['grasp']['n_vertices'][8]
+    scene = build_scene(sm['integrator']['dt'], sm['integrator']['substeps'], sm['integrator']['damping'], sm['integrator']['angular_damping'])
+    surface = gs.surfaces.Default(diffuse_texture=gs.textures.ImageTexture(image_path='dlo-lab/textures/rope01.png'), vis_mode='recon')
+    rod = add_straight_rod(scene, nv, sm['interval'], 1e7, .001, pos=(0, 0, .5), surface=surface); box = add_moving_clamp(scene, (0, 0, .5))
+    cam = scene.add_camera(res=(480, 480), pos=(.12, -.85, .6), lookat=(.1, 0, .5), fov=40, GUI=False)
+    scene.build(n_envs=1); apply_properties(rod, np.array([cell['raw_E']]), np.array([cell['mass']])); attach_moving_clamp(rod, box)
+    movie = []
+    for i in range(480):
+        u = min(1., (i + 1) / (360 * q['dur'])); s = u * u * (3 - 2 * u)
+        box.set_pos(np.array([[q['dx'] * (1 - s), q['dy'] * (1 - s), .5 + .2 * s]])); scene.step()
+        if i % 12 == 0:
+            movie.append(np.asarray(cam.render()[0])[..., :3])
+    path = ROOT / 'figures' / 'addendum_new_draw_rollout.mp4'; iio.mimwrite(path, movie, fps=15, codec='libx264')
+    reader = iio.get_reader(path); dec = reader.count_frames(); mid = np.asarray(reader.get_data(dec // 2)); reader.close()
+    assert dec == len(movie) and float(mid.std()) > 3, (dec, len(movie), float(mid.std()))
+    print(json.dumps({'mp4': str(path), 'frames': dec, 'std': float(mid.std()), 'cell': 'B3_w0', 'new_seed': int(seed)}), flush=True)
+
+
 def run(expected_digest=None):
     am = json.loads((MAN / 'addendum_manifest.json').read_text()); live = sha256(MAN / 'addendum_manifest.json')
     if expected_digest and live != expected_digest:
@@ -129,14 +156,17 @@ def run(expected_digest=None):
     def map_metrics(phi, q, qb, student=None, feat_fn=None, feat=None):
         per = []
         for sid in TEST:
-            if student is None:      # teacher or blind
-                z = np.zeros(4) if qb is not None and student == 'blind' else (phi(torch.tensor(props[sid][None], dtype=torch.double)).detach().numpy()[0] if phi is not None else np.zeros(4))
-            else:
+            if student == 'blind':
+                z = np.zeros(4); qq = qb
+            elif student is None:                       # teacher
+                z = phi(torch.tensor(props[sid][None], dtype=torch.double)).detach().numpy()[0]; qq = q
+            else:                                       # distilled student model
                 idx = np.where(S == sid)[0]
                 with torch.no_grad():
                     z = student(torch.tensor(feat[idx], dtype=torch.double)).mean(0).numpy()
+                qq = q
             with torch.no_grad():
-                sl, _ = (qb if student == 'blind' else q)(torch.tensor(gf, dtype=torch.double), torch.tensor(np.tile(z, (ng, 1)), dtype=torch.double))
+                sl, _ = qq(torch.tensor(gf, dtype=torch.double), torch.tensor(np.tile(z, (ng, 1)), dtype=torch.double))
                 pS = torch.sigmoid(sl).numpy()
             measS = np.array(land[sid]['success_rate'])
             pb, mb = _crossing(pS, ell), _crossing(measS, ell)
@@ -172,6 +202,7 @@ def run(expected_digest=None):
         agg['blind'].append(map_metrics(phi, q, qb, student='blind')['map_rmse'])
         agg['task_full'].append(map_metrics(phi, q, None, student=st_full, feat=Xfn)['map_rmse'])
         agg['terminal'].append(map_metrics(phi, q, None, student=st_term, feat=Xtn)['map_rmse'])
+        last_models = (phi, q, qb, st_full, Xfn)         # keep the last seed's models for the map-recovery figure
         # frame-truncation k=1..7, per-setting map RMSE
         tk = {}
         for k in range(1, 8):
@@ -206,15 +237,47 @@ def run(expected_digest=None):
                   summary=summary, multi_seed='seed variability reported; eval-draw contrast LABELED conditional on trained models (A-16)',
                   aggregation='map recovery over TEST; ratio pairs treated as invariance controls (A-15)')
     (MAN / 'addendum_results.json').write_text(json.dumps(result, indent=2, sort_keys=True) + '\n')
-    # figures
-    fig, ax = plt.subplots(1, 2, figsize=(11, 4))
+    # figures (owner viz mandate): (1) history-variant bars + per-row map recovery overlay; (2)
+    # STRATIFIED frame-truncation + a DESCRIPTIVE settling-timescale panel
+    phiL, qL, qbL, stL, XfnL = last_models
+    def curve_for(kind, sid):
+        if kind == 'teacher':
+            z = phiL(torch.tensor(props[sid][None], dtype=torch.double)).detach().numpy()[0]; qq = qL
+        elif kind == 'blind':
+            z = np.zeros(4); qq = qbL
+        else:
+            idx = np.where(S == sid)[0]
+            with torch.no_grad():
+                z = stL(torch.tensor(XfnL[idx], dtype=torch.double)).mean(0).numpy()
+            qq = qL
+        with torch.no_grad():
+            sl, _ = qq(torch.tensor(gf, dtype=torch.double), torch.tensor(np.tile(z, (ng, 1)), dtype=torch.double))
+            return torch.sigmoid(sl).numpy()
+    fig, ax = plt.subplots(1, 2, figsize=(12, 4.5))
     labels = ['teacher', 'blind', 'task_full', 'terminal']
     ax[0].bar(labels, [summary[r]['map_rmse_mean'] for r in labels], yerr=[summary[r]['map_rmse_std'] for r in labels])
-    ax[0].set_ylabel('map RMSE'); ax[0].set_title('History-variant comparison (task-only PRIMARY + feature contrast)'); ax[0].tick_params(axis='x', rotation=15)
+    ax[0].set_ylabel('held-out map RMSE'); ax[0].set_title('History-variant comparison\n(task-only PRIMARY + feature contrast)'); ax[0].tick_params(axis='x', rotation=15)
+    sid0 = TEST[0]
+    ax[1].plot(ell, land[sid0]['success_rate'], 'k-o', ms=3, label='measured')
+    for kind, c in (('teacher', 'tab:green'), ('task_full', 'tab:blue'), ('blind', 'tab:red')):
+        ax[1].plot(ell, curve_for(kind, sid0), '--', color=c, label=kind)
+    ax[1].axhline(0.5, color='gray', ls=':'); ax[1].set_xlabel('free-arm ell (m)'); ax[1].set_ylabel('success rate')
+    ax[1].set_title('Per-row map recovery: %s' % sid0); ax[1].legend(fontsize=7)
+    fig.tight_layout(); fig.savefig(ROOT / 'figures/addendum_map_recovery_by_row.png', dpi=160); plt.close(fig)
+    fig, ax = plt.subplots(1, 2, figsize=(12, 4.5))
+    for sid in TEST:                                   # STRATIFIED by property setting (owner)
+        ax[0].plot(range(1, 8), suff[sid]['rmse_by_k'], 'o-', ms=3, label='%s (k*=%d)' % (sid, suff[sid]['sufficient_k']))
+    ax[0].set_xlabel('k frames'); ax[0].set_ylabel('map RMSE_k'); ax[0].set_title('Frame-truncation curve (per-setting)'); ax[0].legend(fontsize=7)
     for sid in TEST:
-        ax[1].plot(range(1, 8), suff[sid]['rmse_by_k'], 'o-', ms=3, label=sid)
-    ax[1].set_xlabel('k frames'); ax[1].set_ylabel('map RMSE_k'); ax[1].set_title('Frame-truncation curve (per-setting)'); ax[1].legend(fontsize=7)
-    fig.tight_layout(); fig.savefig(ROOT / 'figures/addendum_history_variant_and_frame_truncation.png', dpi=160); plt.close(fig)
+        if suff[sid]['timescale_proxy'] is not None:
+            ax[1].scatter([suff[sid]['timescale_proxy']], [suff[sid]['sufficient_k']]); ax[1].annotate(sid, (suff[sid]['timescale_proxy'], suff[sid]['sufficient_k']), fontsize=7)
+    ax[1].set_xlabel('predicted settling timescale ~ ell^2*sqrt(lambda/B)'); ax[1].set_ylabel('sufficient k')
+    ax[1].set_title('DESCRIPTIVE: sufficient-k vs settling timescale\n(how long to watch; NOT pre-registered)')
+    fig.tight_layout(); fig.savefig(ROOT / 'figures/addendum_frame_truncation_stratified.png', dpi=160); plt.close(fig)
+    try:
+        _render_new_draw_mp4(am, sm)
+    except Exception as e:
+        print('mp4 render skipped:', e, flush=True)
     print(json.dumps({'primary_PASS': primary_pass, 'task_full': round(task_full, 4), 'teacher': round(teacher, 4), 'blind': round(blind, 4),
                       'terminal': round(summary['terminal']['map_rmse_mean'], 4),
                       'sufficient_k': {sid: suff[sid]['sufficient_k'] for sid in TEST}}, indent=2))

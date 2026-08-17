@@ -1,0 +1,174 @@
+{
+  "aggregation": "map recovery over TEST; ratio pairs treated as invariance controls (A-15)",
+  "manifest_digest": "f1a00cbea4e5c1456861b8e8482d09c5ae0425ba07810412f1940cd2539a7447",
+  "multi_seed": "seed variability reported; eval-draw contrast LABELED conditional on trained models (A-16)",
+  "primary": {
+    "PASS": true,
+    "better_than_blind": true,
+    "blind_map_rmse": 0.32752392768277555,
+    "name": "task_only_temporal_student_approaches_teacher",
+    "note": "PRE-REGISTERED task-only temporal student vs teacher/blind on held-out map recovery (new draws)",
+    "task_only_full_temporal_map_rmse": 0.04330431060176871,
+    "teacher_map_rmse": 0.1227764047864961,
+    "within_1p5x_teacher": true
+  },
+  "schema_version": 1,
+  "secondary_a_feature_contrast": {
+    "full_temporal_map_rmse": 0.04330431060176871,
+    "note": "matched encoder capacity; full temporal (y,z) vs settled-terminal-only",
+    "temporal_helps": true,
+    "terminal_only_map_rmse": 0.09486869172587843
+  },
+  "secondary_b_frame_truncation": {
+    "naming": "frame-truncation curve (k-frame prefix), NOT an adaptation curve",
+    "per_setting": {
+      "B1_w1": {
+        "boundary": 0.22499999999999998,
+        "rmse_by_k": [
+          0.17758551770967856,
+          0.04204473568869618,
+          0.03827000930024954,
+          0.03808821388132808,
+          0.050589007827982146,
+          0.06479024972333612,
+          0.04252136225944075
+        ],
+        "sufficient_k": 2,
+        "timescale_proxy": 0.08280633380349432
+      },
+      "B2_w1": {
+        "boundary": 0.28500000000000003,
+        "rmse_by_k": [
+          0.047229679224372656,
+          0.059646359716858756,
+          0.03659158553370484,
+          0.040401480973401356,
+          0.09843065627456012,
+          0.03657691490387476,
+          0.040261984738161526
+        ],
+        "sufficient_k": 1,
+        "timescale_proxy": 0.0861992346684121
+      },
+      "B3_w2": {
+        "boundary": 0.28500000000000003,
+        "rmse_by_k": [
+          0.08816070732556708,
+          0.041525526456968415,
+          0.09006079429293196,
+          0.03418488959845455,
+          0.10695010750806493,
+          0.048690160478858636,
+          0.04616040096770565
+        ],
+        "sufficient_k": 2,
+        "timescale_proxy": 0.08199048555378419
+      },
+      "R0": {
+        "boundary": 0.22499999999999998,
+        "rmse_by_k": [
+          0.1775926416916304,
+          0.04204174398595517,
+          0.038264885982877896,
+          0.0380665108610682,
+          0.05056436090982424,
+          0.06467083925512586,
+          0.042734091650298955
+        ],
+        "sufficient_k": 2,
+        "timescale_proxy": 0.08273645675332494
+      },
+      "R1": {
+        "boundary": 0.28500000000000003,
+        "rmse_by_k": [
+          0.0881706279435035,
+          0.04152204717527441,
+          0.0900075971048671,
+          0.034185922607775414,
+          0.10694813534138427,
+          0.048602169386502116,
+          0.0479573302791003
+        ],
+        "sufficient_k": 2,
+        "timescale_proxy": 0.0821207469500333
+      },
+      "R2": {
+        "boundary": 0.28500000000000003,
+        "rmse_by_k": [
+          0.04724256900441581,
+          0.0595155667910301,
+          0.03660179607849933,
+          0.04033004678574525,
+          0.09845154050848597,
+          0.03655754093948165,
+          0.040190693715905085
+        ],
+        "sufficient_k": 1,
+        "timescale_proxy": 0.08609099286378774
+      }
+    },
+    "stratified": "per-setting sufficient_k",
+    "timescale_note": "descriptive: sufficient_k vs ell^2*sqrt(lambda/B); NOT a pre-registered claim",
+    "tol_k": 0.02
+  },
+  "splits": {
+    "final_test_pairs": [
+      [
+        "B1_w1",
+        "R0"
+      ],
+      [
+        "B3_w2",
+        "R1"
+      ],
+      [
+        "B2_w1",
+        "R2"
+      ]
+    ],
+    "test": [
+      "B1_w1",
+      "R0",
+      "B3_w2",
+      "R1",
+      "B2_w1",
+      "R2"
+    ],
+    "train": [
+      "B1_w0",
+      "B1_w2",
+      "B2_w0",
+      "B3_w0",
+      "B3_w1",
+      "B4_w0",
+      "B4_w2"
+    ],
+    "val": [
+      "B2_w2",
+      "B4_w1"
+    ]
+  },
+  "summary": {
+    "blind": {
+      "map_rmse_mean": 0.32752392768277555,
+      "map_rmse_std": 0.0077662184762930285
+    },
+    "task_full": {
+      "map_rmse_mean": 0.04330431060176871,
+      "map_rmse_std": 0.017860136639333956
+    },
+    "teacher": {
+      "map_rmse_mean": 0.1227764047864961,
+      "map_rmse_std": 0.028701631483946694
+    },
+    "terminal": {
+      "map_rmse_mean": 0.09486869172587843,
+      "map_rmse_std": 0.02060466399793662
+    }
+  },
+  "training_seeds": [
+    3403,
+    3413,
+    3423
+  ]
+}
