@@ -20,7 +20,7 @@ def sha256(p):
     return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 
-def extract_real(s34_manifest=None, expected_digest=None, batch_size=50):
+def extract_real(s34_manifest=None, expected_digest=None, batch_size=50, out=None):
     s34 = Path(s34_manifest) if s34_manifest else (MAN / 'distal_s34_manifest.json')
     if expected_digest and sha256(s34) != expected_digest:
         raise RuntimeError('distal s34 manifest digest mismatch')
@@ -78,7 +78,7 @@ def extract_real(s34_manifest=None, expected_digest=None, batch_size=50):
                                 temporal_shape(fr), drive_summary(dm['templates'][x['template']], x['seed'], bounds),
                                 supported_wrench(s['mass'], nv, interval, g), action, int(steps)))
             print(json.dumps({'complete': len(records), 'total': len(specs), 'grasp': gi, 'off': off}), flush=True)
-    out = MAN / 'distal_histories.npz'; f = list(zip(*records))
+    out = Path(out) if out else (MAN / 'distal_histories.npz'); f = list(zip(*records))
     np.savez_compressed(out, setting=np.array(f[0]), grasp=np.array(f[1]), template=np.array(f[2]),
                         seed=np.array(f[3]), shape=np.array(f[4]), proprio=np.array(f[5]),
                         wrench=np.array(f[6]), action=np.array(f[7]), settle_steps=np.array(f[8]),
