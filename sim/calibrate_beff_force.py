@@ -46,21 +46,32 @@ def build_baseline_tensors(nv, m_loads, m0=ic.BASELINE_ARM_MASS):
     return baseline, loaded
 
 
-def _settle(scene, rods, chunk=200, max_steps=16000, drift_tol=5e-3, interval=0.01):
-    """Chunked static settle keyed on per-rod tip drift. Returns (converged, steps)."""
+def _settle(scene, rods, chunk=200, max_steps=16000, drift_tol=5e-3, interval=0.01, consec=3):
+    """Chunked static settle with a CONSECUTIVE-window per-(rod, env) tip-drift criterion: quiet_run
+    RESETS on any drift (NOT a sticky ever-quiet latch), so a rod that momentarily pauses then resumes
+    drifting is not falsely marked settled. Returns (all_converged, steps, per_cell_converged,
+    per_cell_final_drift); the final drift is raw, independently-checkable settle evidence."""
     tips = [ic.tip_index(r.n_vertices) for r in rods]
     prev = [vertices(r)[:, ti, 2].copy() for r, ti in zip(rods, tips)]
+    n_envs = prev[0].shape[0]
+    thr = drift_tol * interval
+    quiet_run = np.zeros((len(rods), n_envs), dtype=int)
+    last_drift = np.full((len(rods), n_envs), np.inf)
     steps = 0
     while steps < max_steps:
         for _ in range(chunk):
             scene.step()
         steps += chunk
         cur = [vertices(r)[:, ti, 2].copy() for r, ti in zip(rods, tips)]
-        drift = max(float(np.max(np.abs(c - p))) for c, p in zip(cur, prev))
+        for i, (c, p) in enumerate(zip(cur, prev)):
+            d = np.abs(c - p)
+            last_drift[i] = d
+            quiet_run[i] = np.where(d < thr, quiet_run[i] + 1, 0)
         prev = cur
-        if drift < drift_tol * interval:
-            return True, steps
-    return False, steps
+        if (quiet_run >= consec).all():
+            break
+    converged = last_drift < thr          # final-chunk quiet, consistent with the raw evidence
+    return bool((quiet_run >= consec).all()), steps, converged, last_drift
 
 
 def force_calibrate_baseline(raw_es, b_eff_sizing, interval, m0=ic.BASELINE_ARM_MASS,
@@ -98,12 +109,14 @@ def force_calibrate_baseline(raw_es, b_eff_sizing, interval, m0=ic.BASELINE_ARM_
         assert np.allclose(got, b2d, rtol=1e-5, atol=1e-12), "baseline segment-mass read-back mismatch"
 
     z0 = [vertices(r).copy() for r in rods]
-    conv_sw, steps_sw = _settle(scene, rods, max_steps=max_steps, interval=interval)
+    conv_sw, steps_sw, csw, dsw = _settle(scene, rods, max_steps=max_steps, interval=interval)
     z_sw = [vertices(r).copy() for r in rods]
     for rod, nv, l2d in zip(rods, nvs, loadeds):     # add the concentrated tip load
         rod.set_segment_mass(torch.tensor(l2d, dtype=gs.tc_float, device="cuda"))
-    conv_tot, steps_tot = _settle(scene, rods, max_steps=max_steps, interval=interval)
+    conv_tot, steps_tot, ctot, dtot = _settle(scene, rods, max_steps=max_steps, interval=interval)
     z_tot = [vertices(r).copy() for r in rods]
+    settle_drift = np.maximum(dsw, dtot)             # (n_lengths, n_materials) worst final drift of the two phases
+    settle_conv = (csw & ctot)
 
     ell = np.array([(nv - 2) * interval for nv in nvs])
     d_sw = np.empty((len(lengths), n_envs))
@@ -142,6 +155,8 @@ def force_calibrate_baseline(raw_es, b_eff_sizing, interval, m0=ic.BASELINE_ARM_
                 shape={str(k): v.tolist() for k, v in shape.items()},
                 converged=bool(conv_sw and conv_tot), steps=int(steps_sw + steps_tot),
                 finite=bool(np.isfinite(d_point).all()), per_material=per_material,
+                settle_drift=settle_drift.tolist(), settle_converged=settle_conv.tolist(),
+                drift_threshold=float(5e-3 * interval),
                 m_loads=m_loads.tolist(), forces=forces.tolist())
 
 

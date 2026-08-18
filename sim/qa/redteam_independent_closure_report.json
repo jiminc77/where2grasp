@@ -38,12 +38,12 @@
     {
       "check": "no_refit_recompute",
       "status": "survives",
-      "detail": "independent arithmetic: a max_rel=0.1070 (>5%=True) b meanK=0.5092 (in-bound=True) c worst=1 cell(s)"
+      "detail": "independent arithmetic: a max_rel=0.1066 (>5%=True) b meanK=0.5091 (in-bound=True) c worst=1 cell(s)"
     },
     {
       "check": "no_refit_prospective_recompute",
       "status": "survives",
-      "detail": "prospective (mass 0.0003) max_rel=0.1020 (>5%=True) vs stored 0.1020"
+      "detail": "prospective (mass 0.0003) max_rel=0.0986 (>5%=True) vs stored 0.0986"
     },
     {
       "check": "mesh_gate_recompute",
@@ -53,17 +53,17 @@
     {
       "check": "settle_integrity_verify",
       "status": "survives",
-      "detail": "settle_all_ok=True calib+prosp_converged=True every_resolved_boundary_bracket_converged=True"
+      "detail": "RAW final-drift evidence: calib(F1+F2)<thr=True prospective<thr=True every_resolved_bracket_drift<thr=True"
     },
     {
       "check": "finding7_recompute",
       "status": "survives",
-      "detail": "ok (F2 committed arrays; worst 0.424%)"
+      "detail": "ok (F2 committed arrays; worst 0.225%)"
     },
     {
       "check": "deterministic_replay_B4",
       "status": "survives",
-      "detail": "replay B_eff_force=0.23229 vs committed 0.23198 (arrays not fabricated)"
+      "detail": "replay B_eff_force=0.23223 vs committed 0.23224 (arrays not fabricated)"
     },
     {
       "check": "dataflow_provenance",

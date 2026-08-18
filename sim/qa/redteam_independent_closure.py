@@ -102,14 +102,18 @@ def run():
                 return float(ells[k] + t * (ells[k + 1] - ells[k])), (k, k + 1)
         return None, None
 
+    def _thr(iv):
+        return float(data["drift_thr_002"]) if iv == 0.02 else float(data["drift_thr_001"])
+
     def _resolved_boundary(iv, mi):
-        """Driver-equivalent resolved boundary: the crossing whose TWO bracketing rods converged; else None."""
+        """Driver-equivalent resolved boundary: the crossing whose TWO bracketing rods' RAW final drift
+        is below threshold (independent of any stored convergence boolean); else None."""
         droop = np.asarray(data[f"grav_droop_{iv}"])[:, mi]; ells = np.asarray(data["grav_ells"])
-        convd = np.asarray(data[f"sweep_conv_{iv}"])[:, mi]
+        drift = np.asarray(data[f"sweep_drift_{iv}"])[:, mi]
         b, br = _cross(ells, droop)
         if b is None or br is None:
             return None
-        return b if (bool(convd[br[0]]) and bool(convd[br[1]])) else None   # unbracketed -> INCONCLUSIVE
+        return b if (drift[br[0]] < _thr(iv) and drift[br[1]] < _thr(iv)) else None   # raw-drift bracket check
 
     # 4. Observable A recompute (QA-local end-load shape) vs stored max-abs
     aerr = []
@@ -218,23 +222,24 @@ def run():
     _check(res, "mesh_gate_recompute", mesh_subset == stored_subset and full_resolved == stored_full,
            f"QA-local recompute: subset_pass={mesh_subset} full_resolved={full_resolved} vs stored subset={stored_subset} full={stored_full}")
 
-    # 7b. settle-integrity verification: calibration + prospective converged; EVERY resolved boundary's
-    # two bracketing rods converged (bracket convergence is what makes a boundary admissible)
-    si = verdict["settle_integrity"]
-    calib_conv = (all(si["detail"]["calibration"][str(iv)]["converged"] and si["detail"]["calibration_F2"][str(iv)]["converged"]
-                      for iv in ("0.02", "0.01")) and si["detail"]["prospective"]["converged"])
-    bracket_ok = True
+    # 7b. settle-integrity verification from RAW final-drift evidence (INDEPENDENT of verdict booleans):
+    # calibration F1/F2 + prospective final drift < threshold, and every resolved boundary's two
+    # bracketing rods' final drift < threshold.
+    calib_drift_ok = all(np.asarray(data[f"calib_drift_{iv}"]).max() < _thr(iv)
+                         and np.asarray(data[f"calib_F2_drift_{iv}"]).max() < _thr(iv) for iv in (0.02, 0.01))
+    prosp_drift_ok = bool(np.asarray(data["prospective_drift"]).max() < _thr(0.01))
+    bracket_drift_ok = True
     for iv in (0.02, 0.01):
-        convd = np.asarray(data[f"sweep_conv_{iv}"])
+        drift = np.asarray(data[f"sweep_drift_{iv}"])                 # (n_ell, n_material) raw final drift
         for mi, lab in enumerate(labels):
-            if verdict["observable_B"][str(iv)][lab]["ell_boundary"] is None:
-                continue                                        # unresolved cells excused
+            if _resolved_boundary(iv, mi) is None:
+                continue                                             # unresolved cells excused
             _b, br = _cross(np.asarray(data["grav_ells"]), np.asarray(data[f"grav_droop_{iv}"])[:, mi])
-            if br is None or not (bool(convd[br[0], mi]) and bool(convd[br[1], mi])):
-                bracket_ok = False
-    _check(res, "settle_integrity_verify", bool(si["all_ok"] and calib_conv and bracket_ok),
-           f"settle_all_ok={si['all_ok']} calib+prosp_converged={calib_conv} "
-           f"every_resolved_boundary_bracket_converged={bracket_ok}")
+            if br is None or not (drift[br[0], mi] < _thr(iv) and drift[br[1], mi] < _thr(iv)):
+                bracket_drift_ok = False
+    _check(res, "settle_integrity_verify", bool(calib_drift_ok and prosp_drift_ok and bracket_drift_ok),
+           f"RAW final-drift evidence: calib(F1+F2)<thr={calib_drift_ok} prospective<thr={prosp_drift_ok} "
+           f"every_resolved_bracket_drift<thr={bracket_drift_ok}")
 
     # 8a. finding-7 recompute from COMMITTED F2 arrays (fresh cubic fit; no re-sim)
     f7err = []

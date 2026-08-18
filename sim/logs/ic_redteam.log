@@ -8,10 +8,10 @@ RED-TEAM: SURVIVES 14/14 (fails=0) -> /home/simx2204/where2grasp/sim/qa/redteam_
   [survives] observable_A_recompute: ok (QA-local shape)
   [survives] observable_B_recompute: ok (QA-local crossing + K_N, bracket-convergence checked)
   [survives] mesh_completeness: unresolved recomputed 0.02=['B4'] 0.01=[] vs stored {'0.02': ['B4'], '0.01': []}; full_cohort_B_resolved stored=False (unresolved cells REPORTED, not dropped; bracket-convergence enforced)
-  [survives] no_refit_recompute: independent arithmetic: a max_rel=0.1070 (>5%=True) b meanK=0.5092 (in-bound=True) c worst=1 cell(s)
-  [survives] no_refit_prospective_recompute: prospective (mass 0.0003) max_rel=0.1020 (>5%=True) vs stored 0.1020
+  [survives] no_refit_recompute: independent arithmetic: a max_rel=0.1066 (>5%=True) b meanK=0.5091 (in-bound=True) c worst=1 cell(s)
+  [survives] no_refit_prospective_recompute: prospective (mass 0.0003) max_rel=0.0986 (>5%=True) vs stored 0.0986
   [survives] mesh_gate_recompute: QA-local recompute: subset_pass=True full_resolved=False vs stored subset=True full=False
-  [survives] settle_integrity_verify: settle_all_ok=True calib+prosp_converged=True every_resolved_boundary_bracket_converged=True
-  [survives] finding7_recompute: ok (F2 committed arrays; worst 0.424%)
-  [survives] deterministic_replay_B4: replay B_eff_force=0.23229 vs committed 0.23198 (arrays not fabricated)
+  [survives] settle_integrity_verify: RAW final-drift evidence: calib(F1+F2)<thr=True prospective<thr=True every_resolved_bracket_drift<thr=True
+  [survives] finding7_recompute: ok (F2 committed arrays; worst 0.225%)
+  [survives] deterministic_replay_B4: replay B_eff_force=0.23223 vs committed 0.23224 (arrays not fabricated)
   [survives] dataflow_provenance: B_eff_force fit is cubic on the force residual delta_point; no gravity-sag law fit in the calibration path
