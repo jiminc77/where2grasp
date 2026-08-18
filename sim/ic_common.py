@@ -53,6 +53,14 @@ FORCE_TARGET_RATIO = 0.03                   # operating point (half the 0.0625 c
 UPPER_BRACKET_ELL = 0.24                    # finding-3 conservative upper-bracket endpoint
 F2_RATIO = 0.5                              # second force level for finding-7 load-invariance
 
+# --- BASELINE-SUBTRACTION realization (owner ruling; supersedes the epsilon-arm option iv) ---
+# The frozen <1% contamination bound is NOT relaxed; it is SUPERSEDED by this subtraction
+# design (the self-weight is MEASURED and subtracted, so there is no epsilon-arm distributed-
+# mass contamination to bound). Authorization: escalation commits a6cfb21 + bf688ec + the
+# owner ruling. See sim/calibrate_beff_force.force_calibrate_baseline.
+BASELINE_ARM_MASS = 0.0002                  # m0: normal stable uniform arm mass (== committed gravity mass)
+SUPERPOSITION_GUARD = GUARD_DEFLECTION_RATIO  # 0.0625: TOTAL delta/ell cap for linear superposition
+
 # --- calibration acceptance (analog of sim/calibrate_beff.py:main accept code) ---
 ACCEPT_CV = 0.05
 ACCEPT_RESIDUAL = 0.05
@@ -167,8 +175,43 @@ def guard_ok(delta_tip, ell, cap=GUARD_DEFLECTION_RATIO):
     return deflection_ratio(delta_tip, ell) <= cap
 
 
+def sw_deflection_ratio(b_eff, m0=BASELINE_ARM_MASS, interval=REFERENCE_INTERVAL, ell=UPPER_BRACKET_ELL, g=G):
+    """Self-weight baseline deflection ratio delta_sw/ell = Pi_g(m0)/8 = (m0*g/interval)*ell**3/(8B),
+    computed from a PRIOR committed B_eff (no new data). Upper-bracket ell by finding-3 convention."""
+    w0 = m0 * g / interval
+    return float(w0 * ell ** 3 / (8.0 * b_eff))
+
+
+def superposition_total_ratio(b_eff, m0=BASELINE_ARM_MASS, target_ratio=FORCE_TARGET_RATIO,
+                              interval=REFERENCE_INTERVAL, ell=UPPER_BRACKET_ELL):
+    """TOTAL tip-deflection ratio delta_total/ell = delta_sw/ell + delta_point/ell (design target).
+    Pre-computable from committed numbers; the linear-superposition inclusion guard."""
+    return sw_deflection_ratio(b_eff, m0, interval, ell) + target_ratio
+
+
+def superposition_included(b_eff, m0=BASELINE_ARM_MASS, target_ratio=FORCE_TARGET_RATIO,
+                           interval=REFERENCE_INTERVAL, ell=UPPER_BRACKET_ELL, cap=SUPERPOSITION_GUARD):
+    """Linear-superposition INCLUSION guard: total delta/ell <= 0.0625 (Pi_g_max/8). A material is
+    in-regime iff its self-weight baseline + tip operating point stays in the committed small-
+    deflection regime. Excludes the softest B0 as regime-of-validity (like hardening-A)."""
+    return superposition_total_ratio(b_eff, m0, target_ratio, interval, ell) <= cap
+
+
+def included_cohort(m0=BASELINE_ARM_MASS):
+    """The raw_E in the superposition cohort: 5 grid (B0..B4) + 3 ratio, keeping only in-regime.
+    Returns list of (raw_E, gravity_B_eff, label). B0 (softest) falls out by the guard."""
+    out = []
+    for raw_e, gb, lab in (list(zip(RAW_E_GRID, GRAV_B_EFF, [f"B{i}" for i in range(5)]))
+                           + list(zip(RATIO_RAW_E, RATIO_GRAV_B_EFF, RATIO_IDS))):
+        if superposition_included(gb, m0):
+            out.append((raw_e, gb, lab))
+    return out
+
+
+# --- SUPERSEDED epsilon-arm contamination machinery (retained to document the superseded
+#     option-(iv) design and for the C0 tests; NOT used by the baseline-subtraction method) ---
 def contamination_ratio(nv, interval, f_eps):
-    """EXACT discrete self-weight contamination of the tip-load response.
+    """SUPERSEDED (epsilon-arm option iv). EXACT discrete self-weight contamination of the tip-load response.
 
     Free interior verts 2..nv-2 each carry eps = f_eps*m_tip at distance
     x_i = (i-1)*interval from the clamped root (vertex 1). Cantilever point-load

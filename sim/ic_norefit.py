@@ -37,25 +37,42 @@ def _rawE_for_beff(b_eff, tol=1e-6):
     return keys[int(np.argmin([abs(np.log(v) - np.log(b_eff)) for v in vals]))]
 
 
-def score_sag_retrospective(beff_force_by_rawE):
-    """(a) retrospective no-refit sag vs calibration.json delta table; PRIMARY = in-regime
-    (Pi_g <= 0.5) rows only; out-of-regime rows kept as a descriptive stress list."""
+def score_sag_retrospective(beff_force_by_rawE, m0=ic.BASELINE_ARM_MASS):
+    """(a) retrospective no-refit sag vs calibration.json delta table.
+
+    PRIMARY rows: material in the superposition cohort (B1..B4 + R) AND Pi_g <= 0.5 AND
+    mass != m0. The mass == m0 rows are DESCRIPTIVE, not primary: their self-weight settle is
+    the subtracted baseline (the gravity channel reused as data), so predicting them would be
+    near-circular. Out-of-superposition-regime materials (B0) and Pi_g>0.5 rows are descriptive.
+    """
     cal = _load("calibration.json")
     primary, descriptive = [], []
     for mat in cal["materials"]:
         raw_e = mat["raw_E"]
-        bff = beff_force_by_rawE.get(raw_e) or beff_force_by_rawE[_rawE_for_beff(mat["fitted_B_eff"])]
+        in_cohort = ic.superposition_included(mat["fitted_B_eff"], m0)
+        bff = beff_force_by_rawE.get(raw_e)
         for mass_key, pl in mat["per_length"].items():
             mass = float(mass_key)
             for ell, d_obs, pig in zip(pl["ell"], pl["delta"], pl["Pi_g"]):
+                is_baseline_mass = abs(mass - m0) <= 1e-12
+                if bff is None or not in_cohort:
+                    descriptive.append(dict(raw_E=raw_e, mass=mass, ell=ell, Pi_g=pig,
+                                            delta_obs=d_obs, delta_pred=None, rel_err=None,
+                                            reason="out-of-superposition-regime (no B_eff_force)"))
+                    continue
                 d_pred = ic.predict_sag(ell, mass, bff, interval=cal["interval"])
                 rel = abs(d_pred - d_obs) / abs(d_obs)
                 row = dict(raw_E=raw_e, mass=mass, ell=ell, Pi_g=pig,
                            delta_obs=d_obs, delta_pred=d_pred, rel_err=rel)
-                (primary if pig <= ic.PI_G_MAX else descriptive).append(row)
+                if pig <= ic.PI_G_MAX and not is_baseline_mass:
+                    primary.append(row)
+                else:
+                    row["reason"] = ("baseline-mass (subtracted; near-circular)" if is_baseline_mass
+                                     else "out-of-regime Pi_g>0.5")
+                    descriptive.append(row)
     max_rel = max((r["rel_err"] for r in primary), default=float("nan"))
     return dict(family="a_retrospective", primary=primary, descriptive=descriptive,
-                max_rel_err=max_rel, tol=ic.NOREFIT_SAG_TOL,
+                max_rel_err=max_rel, tol=ic.NOREFIT_SAG_TOL, m0=m0,
                 passed=bool(max_rel <= ic.NOREFIT_SAG_TOL))
 
 

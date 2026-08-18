@@ -1,45 +1,37 @@
-# IC C0 stability/feasibility probe  (2026-08-18T02:55:56.640284+00:00)
-# NON-scoring: no headline observable is measured or frozen here.
-# Option (iv): concentrated tip point-load, arm mass = f_eps*m_tip, gravity ON.
-# Instability source = tip/arm mass ratio (rod_solver.py:625 gradient/mass); f_eps
-# is chosen per-mesh at the largest value keeping exact-discrete contamination <1%.
+# IC C0 per-mesh feasibility probe (baseline subtraction)  (2026-08-18T03:41:29.269414+00:00)
+# NON-scoring. Method: arm uniform m0=0.0002; residual = (arm+tip)-(arm) fit to cubic F*ell^3/(3B).
+# in-regime cohort (superposition guard, total delta/ell<=0.0625): ['B1', 'B2', 'B3', 'B4', 'R0', 'R1', 'R2']  (B0 excluded as regime-of-validity)
 
-[interval 0.02]  nv(ell=0.24)=14  free_verts=12  contam_cap=0.00249  f_eps=0.00224 (contamination 0.900%)
-    B_eff~0.006714 (raw_E=1e+06): delta=0.007027  delta/ell=0.0293  -> STABLE
-    B_eff~0.01611 (raw_E=2.37e+06): delta=0.007108  delta/ell=0.0296  -> STABLE
-    B_eff~0.03826 (raw_E=5.62e+06): delta=0.007122  delta/ell=0.0297  -> STABLE
-    B_eff~0.09111 (raw_E=1.33e+07): delta=0.007153  delta/ell=0.0298  -> STABLE
-    B_eff~0.2153 (raw_E=3.16e+07): delta=0.007129  delta/ell=0.0297  -> STABLE
-    scene converged=True steps=1200
+[interval 0.02]
+    B1 B_eff_force=0.016361  CV=1.51%  resid=2.78%  exp=2.861  point/ell(ub)=0.0291 guard_ok=True  total/ell(ub)=0.0410 super_ok=True
+    B2 B_eff_force=0.038705  CV=1.43%  resid=2.84%  exp=2.868  point/ell(ub)=0.0293 guard_ok=True  total/ell(ub)=0.0343 super_ok=True
+    B3 B_eff_force=0.091772  CV=1.44%  resid=2.95%  exp=2.867  point/ell(ub)=0.0295 guard_ok=True  total/ell(ub)=0.0316 super_ok=True
+    B4 B_eff_force=0.21753  CV=1.44%  resid=2.96%  exp=2.867  point/ell(ub)=0.0294 guard_ok=True  total/ell(ub)=0.0303 super_ok=True
+    R0 B_eff_force=0.032668  CV=1.41%  resid=2.88%  exp=2.870  point/ell(ub)=0.0294 guard_ok=True  total/ell(ub)=0.0352 super_ok=True
+    R1 B_eff_force=0.045922  CV=1.50%  resid=3.06%  exp=2.862  point/ell(ub)=0.0294 guard_ok=True  total/ell(ub)=0.0336 super_ok=True
+    R2 B_eff_force=0.058063  CV=1.46%  resid=3.00%  exp=2.865  point/ell(ub)=0.0294 guard_ok=True  total/ell(ub)=0.0328 super_ok=True
+    -> converged=True finite=True guard=True superposition=True clean_cubic=True  => VIABLE
 
-[interval 0.01]  nv(ell=0.24)=26  free_verts=24  contam_cap=0.00118  f_eps=0.00106 (contamination 0.900%)
-    B_eff~0.006714 (raw_E=1e+06): delta=-0.03276  delta/ell=-0.1365  -> UNSTABLE
-    B_eff~0.01611 (raw_E=2.37e+06): delta=0.02057  delta/ell=0.0857  -> UNSTABLE
-    B_eff~0.03826 (raw_E=5.62e+06): delta=-0.01881  delta/ell=-0.0784  -> UNSTABLE
-    B_eff~0.09111 (raw_E=1.33e+07): delta=0.007014  delta/ell=0.0292  -> STABLE
-    B_eff~0.2153 (raw_E=3.16e+07): delta=0.1292  delta/ell=0.5382  -> UNSTABLE
-    scene converged=False steps=8000
+[interval 0.01]
+    B1 B_eff_force=0.017331  CV=0.37%  resid=0.63%  exp=2.978  point/ell(ub)=0.0278 guard_ok=True  total/ell(ub)=0.0487 super_ok=True
+    B2 B_eff_force=0.04137  CV=0.82%  resid=1.57%  exp=2.924  point/ell(ub)=0.0276 guard_ok=True  total/ell(ub)=0.0364 super_ok=True
+    B3 B_eff_force=0.097883  CV=0.77%  resid=1.55%  exp=2.929  point/ell(ub)=0.0278 guard_ok=True  total/ell(ub)=0.0315 super_ok=True
+    B4 B_eff_force=0.23198  CV=0.76%  resid=1.60%  exp=2.931  point/ell(ub)=0.0277 guard_ok=True  total/ell(ub)=0.0293 super_ok=True
+    R0 B_eff_force=0.034887  CV=0.87%  resid=1.70%  exp=2.921  point/ell(ub)=0.0276 guard_ok=True  total/ell(ub)=0.0380 super_ok=True
+    R1 B_eff_force=0.04906  CV=0.91%  resid=1.64%  exp=2.916  point/ell(ub)=0.0276 guard_ok=True  total/ell(ub)=0.0350 super_ok=True
+    R2 B_eff_force=0.062006  CV=0.82%  resid=1.60%  exp=2.923  point/ell(ub)=0.0277 guard_ok=True  total/ell(ub)=0.0335 super_ok=True
+    -> converged=True finite=True guard=True superposition=True clean_cubic=True  => VIABLE
 
-[interval 0.005]  nv(ell=0.24)=50  free_verts=48  contam_cap=0.000571  f_eps=0.000514 (contamination 0.900%)
-    B_eff~0.006714 (raw_E=1e+06): delta=nan  delta/ell=nan  -> UNSTABLE
-    B_eff~0.01611 (raw_E=2.37e+06): delta=nan  delta/ell=nan  -> UNSTABLE
-    B_eff~0.03826 (raw_E=5.62e+06): delta=nan  delta/ell=nan  -> UNSTABLE
-    B_eff~0.09111 (raw_E=1.33e+07): delta=nan  delta/ell=nan  -> UNSTABLE
-    B_eff~0.2153 (raw_E=3.16e+07): delta=nan  delta/ell=nan  -> UNSTABLE
-    scene converged=False steps=8000
+[interval 0.005]
+    B1 B_eff_force=-0.0076211  CV=-361.07%  resid=1145.72%  exp=nan  point/ell(ub)=0.0553 guard_ok=True  total/ell(ub)=-1.4737 super_ok=True
+    B2 B_eff_force=4.7551e-06  CV=-1247.00%  resid=134.83%  exp=nan  point/ell(ub)=828.3671 guard_ok=False  total/ell(ub)=-85.5884 super_ok=True
+    B3 B_eff_force=1.4437e-06  CV=-110.58%  resid=197.78%  exp=nan  point/ell(ub)=-1936.1483 guard_ok=True  total/ell(ub)=475.1615 super_ok=False
+    B4 B_eff_force=-3.5592e-07  CV=-974.02%  resid=391.00%  exp=nan  point/ell(ub)=-10309.0211 guard_ok=True  total/ell(ub)=-11350.2984 super_ok=True
+    R0 B_eff_force=-2.6741e-07  CV=169.54%  resid=2072.42%  exp=nan  point/ell(ub)=-7626.7251 guard_ok=True  total/ell(ub)=-9143.7124 super_ok=True
+    R1 B_eff_force=2.2494e-06  CV=-555.43%  resid=222.38%  exp=nan  point/ell(ub)=857.8184 guard_ok=False  total/ell(ub)=1647.3536 super_ok=False
+    R2 B_eff_force=3.6947e-07  CV=160.32%  resid=714.57%  exp=nan  point/ell(ub)=6091.6493 guard_ok=False  total/ell(ub)=6095.6715 super_ok=False
+    -> converged=False finite=True guard=False superposition=False clean_cubic=False  => NOT VIABLE
 
-[interval 0.0075]  nv(ell=0.24)=34  free_verts=32  contam_cap=0.000869  f_eps=0.000782 (contamination 0.900%)
-    B_eff~0.006714 (raw_E=1e+06): delta=nan  delta/ell=nan  -> UNSTABLE
-    B_eff~0.01611 (raw_E=2.37e+06): delta=nan  delta/ell=nan  -> UNSTABLE
-    B_eff~0.03826 (raw_E=5.62e+06): delta=nan  delta/ell=nan  -> UNSTABLE
-    B_eff~0.09111 (raw_E=1.33e+07): delta=nan  delta/ell=nan  -> UNSTABLE
-    B_eff~0.2153 (raw_E=3.16e+07): delta=nan  delta/ell=nan  -> UNSTABLE
-    scene converged=False steps=8000
-
-=== classification ===
-interval 0.02  all-materials-stable: True  stable=[0, 1, 2, 3, 4]
-interval 0.01  all-materials-stable: False  stable=[3]
-interval 0.005 all-materials-stable: False  stable=[]
-interval 0.0075 (subst) all-stable:  False  stable=[]
-
-VERDICT: ESCALATION: option (iv) is NOT viable at the REFERENCE interval 0.01 for every required material (the tip/arm mass-ratio instability vs the <1% contamination cap leaves an EMPTY f_eps window). No executable fallback (option iii dropped) -> STOP for owner ruling.
+=== realized mesh sequence ===
+viable intervals: [0.02, 0.01]
+VERDICT: interval 0.005 NOT viable under the frozen integrator -> freeze the REDUCED sequence {0.02,0.01} + a finer-mesh-infeasibility note; naming = 'two-level fixed-discretization validation' (convergence only if the two-level trend holds).

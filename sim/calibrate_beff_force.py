@@ -1,15 +1,21 @@
-"""Force-mode B_eff calibration (independent of self-weight) + the C0 stability probe.
+"""Force-mode B_eff calibration by BASELINE SUBTRACTION (owner ruling; supersedes the
+epsilon-arm option (iv), which the C0 stability probe proved numerically non-viable at the
+reference interval -- escalation commits a6cfb21 + bf688ec).
 
-A concentrated TIP point-load is realized by a directly-built 2-D (n_envs, n_vertices)
-segment-mass tensor: every free-arm vertex carries eps = f_eps * m_tip, the single tip
-vertex carries m_tip, gravity is ON so F = m_tip * g is a clean concentrated END load.
-This is NOT apply_properties (whose 1-D path broadcasts a scalar over vertices); the tensor
-is built here and pushed through rod.set_segment_mass, with get_all_segment_mass_tc read-back.
+Realization: the arm keeps a NORMAL stable uniform mass m0. Two settles isolate the
+concentrated tip-load response by linear superposition:
+  A) arm uniform m0, no tip load                 -> delta_sw   (self-weight baseline, MEASURED data)
+  B) arm uniform m0, tip vertex = m0 + m_load     -> delta_total
+  delta_point = delta_total - delta_sw = F*ell^3/(3B),  F = m_load*g.
+B_eff_force is fit ONLY to the CUBIC point-load law on the residual delta_point. The
+subtracted baseline is a measured settle (the gravity channel reused as DATA, not the sag
+LAW); a common multiplicative g/mass scale error cancels (delta_sw and delta_point both
+scale, so B_eff_force = F/(3k) = B/lambda, matching the gravity calibration).
 
-Euler-Bernoulli:  delta_tip = F * ell**3 / (3 * B)  ->  B_eff_force = F / (3k), delta = k*ell**3.
-
-C0 usage: this module ships the calibration + probe CODE and the one-shot logged NON-scoring
-stability/feasibility probe. It writes NO manifest/figure/data JSON (only the probe log).
+The frozen <1% contamination bound is NOT relaxed; it is SUPERSEDED by this design (there
+is no epsilon-arm distributed-mass contamination to bound). Validity is instead governed by
+the pre-declared linear-superposition guard (total delta/ell <= Pi_g_max/8 = 0.0625), which
+excludes the softest B0 as regime-of-validity (ic_common.superposition_included).
 """
 from __future__ import annotations
 
@@ -23,31 +29,25 @@ import torch
 import genesis as gs
 
 from sim.scene import build_scene, add_straight_rod, vertices
-from sim.material import apply_properties
 from sim import ic_common as ic
 
 ROOT = Path(__file__).resolve().parent
 PROBE_LOG = ROOT / "logs" / "ic_stability_probe.log"
 
 
-def build_mass_tensor(nv, m_tips, f_eps):
-    """(n_envs, nv) mass tensor: free-arm + clamped verts = f_eps*m_tip, tip vertex = m_tip.
-
-    m_tips : (n_envs,) per-env tip mass. Clamped verts 0,1 are dynamically inert
-    (set_fixed_states) so their eps value is irrelevant to deflection; they are set to
-    eps for a uniform, read-back-checkable tensor.
-    """
-    m_tips = np.asarray(m_tips, dtype=float).reshape(-1)
-    n_envs = m_tips.size
-    mass = np.empty((n_envs, nv), dtype=float)
-    mass[:] = (f_eps * m_tips)[:, None]      # eps everywhere
-    mass[:, ic.tip_index(nv)] = m_tips        # tip carries the full concentrated load
-    return mass
+def build_baseline_tensors(nv, m_loads, m0=ic.BASELINE_ARM_MASS):
+    """Return (baseline, loaded) (n_envs, nv) mass tensors. baseline = uniform m0; loaded =
+    uniform m0 with the tip vertex carrying m0 + m_load (the added concentrated point load)."""
+    m_loads = np.asarray(m_loads, dtype=float).reshape(-1)
+    n_envs = m_loads.size
+    baseline = np.full((n_envs, nv), m0)
+    loaded = np.full((n_envs, nv), m0)
+    loaded[:, ic.tip_index(nv)] = m0 + m_loads
+    return baseline, loaded
 
 
-def _settle_drift(scene, rods, chunk=200, max_steps=16000, drift_tol=5e-3, interval=0.01):
-    """Chunked static settle keyed on tip-drift (mirrors calibrate_beff.chunked_settle but
-    parameterised by interval). Returns (converged, steps, per_rod_tip_z)."""
+def _settle(scene, rods, chunk=200, max_steps=16000, drift_tol=5e-3, interval=0.01):
+    """Chunked static settle keyed on per-rod tip drift. Returns (converged, steps)."""
     tips = [ic.tip_index(r.n_vertices) for r in rods]
     prev = [vertices(r)[:, ti, 2].copy() for r, ti in zip(rods, tips)]
     steps = 0
@@ -59,187 +59,160 @@ def _settle_drift(scene, rods, chunk=200, max_steps=16000, drift_tol=5e-3, inter
         drift = max(float(np.max(np.abs(c - p))) for c, p in zip(cur, prev))
         prev = cur
         if drift < drift_tol * interval:
-            return True, steps, cur
-    return False, steps, prev
+            return True, steps
+    return False, steps
 
 
-def force_calibrate(raw_es, b_eff_sizing, interval, f_eps,
-                    lengths=ic.CALIB_LENGTHS, target_ratio=ic.FORCE_TARGET_RATIO,
-                    max_steps=16000):
-    """Batched force calibration: envs = materials (raw_es), rods = lengths.
+def force_calibrate_baseline(raw_es, b_eff_sizing, interval, m0=ic.BASELINE_ARM_MASS,
+                             lengths=ic.CALIB_LENGTHS, target_ratio=ic.FORCE_TARGET_RATIO,
+                             max_steps=16000):
+    """Baseline-subtraction force calibration. envs = materials, rods = lengths, ONE scene:
+    settle the self-weight baseline, then ADD the tip load and settle again; subtract.
 
-    Returns dict with per-(length,material) delta_tip, the settled droop profiles (for
-    Observable A), per-material cubic-fit stats + observed guard, and convergence flags.
-    m_tip is sized ONCE per material at the upper-bracket ell from b_eff_sizing (prior
-    committed gravity B_eff) — F is therefore a known constant per material.
+    m_load is sized ONCE per material at the upper-bracket ell from b_eff_sizing (prior
+    committed gravity B_eff) to delta_point/ell ~= target_ratio, so F is a known constant.
+    Returns per-(length,material) delta_sw/delta_total/delta_point, the residual droop
+    profiles (Observable A), and per-material cubic-fit stats + guards.
     """
     raw_es = np.asarray(raw_es, dtype=float)
     b_eff_sizing = np.asarray(b_eff_sizing, dtype=float)
-    m_tips = np.array([ic.m_tip_for(b, target_ratio=target_ratio) for b in b_eff_sizing])
-    forces = m_tips * ic.G
+    m_loads = np.array([ic.m_tip_for(b, target_ratio=target_ratio) for b in b_eff_sizing])
+    forces = m_loads * ic.G
     n_envs = raw_es.size
 
     scene = build_scene(dt=ic.DT, substeps=ic.SUBSTEPS, damping=ic.DAMPING,
                         angular_damping=ic.ANGULAR_DAMPING)
     nvs = [ic.n_vertices_for(L, interval) for L in lengths]
-    rods = [add_straight_rod(scene, nv, interval=interval, E=1e7, segment_mass=1e-4,
+    rods = [add_straight_rod(scene, nv, interval=interval, E=1e7, segment_mass=m0,
                              segment_radius=ic.SEGMENT_RADIUS, G=ic.SHEAR_G, pos=(0, 0.35 * j, 0.7))
             for j, nv in enumerate(nvs)]
     scene.build(n_envs=n_envs, env_spacing=(5, 5))
+    baselines, loadeds = [], []
     for rod, nv in zip(rods, nvs):
         rod.set_fixed_states(fixed_ids=[0, 1])
         rod.set_bending_stiffness(torch.tensor(raw_es, dtype=gs.tc_float, device="cuda"))
-        mass2d = build_mass_tensor(nv, m_tips, f_eps)
-        rod.set_segment_mass(torch.tensor(mass2d, dtype=gs.tc_float, device="cuda"))
+        b2d, l2d = build_baseline_tensors(nv, m_loads, m0)
+        baselines.append(b2d); loadeds.append(l2d)
+        rod.set_segment_mass(torch.tensor(b2d, dtype=gs.tc_float, device="cuda"))
         got = rod.get_all_segment_mass_tc().detach().cpu().numpy()
-        assert np.allclose(got, mass2d, rtol=1e-5, atol=1e-12), "segment-mass read-back mismatch (eps floored?)"
+        assert np.allclose(got, b2d, rtol=1e-5, atol=1e-12), "baseline segment-mass read-back mismatch"
 
     z0 = [vertices(r).copy() for r in rods]
-    conv, steps, _ = _settle_drift(scene, rods, max_steps=max_steps, interval=interval)
-    zf = [vertices(r).copy() for r in rods]
+    conv_sw, steps_sw = _settle(scene, rods, max_steps=max_steps, interval=interval)
+    z_sw = [vertices(r).copy() for r in rods]
+    for rod, nv, l2d in zip(rods, nvs, loadeds):     # add the concentrated tip load
+        rod.set_segment_mass(torch.tensor(l2d, dtype=gs.tc_float, device="cuda"))
+    conv_tot, steps_tot = _settle(scene, rods, max_steps=max_steps, interval=interval)
+    z_tot = [vertices(r).copy() for r in rods]
 
     ell = np.array([(nv - 2) * interval for nv in nvs])
-    delta = np.empty((len(lengths), n_envs))         # [length, material]
-    shape = {}                                        # (li) -> normalized droop at OBS_A_FRACS, per env
+    d_sw = np.empty((len(lengths), n_envs))
+    d_tot = np.empty((len(lengths), n_envs))
+    shape = {}
     for li, nv in enumerate(nvs):
-        droop = z0[li][:, :, 2] - zf[li][:, :, 2]     # (n_envs, nv) downward displacement
-        delta[li] = droop[:, ic.tip_index(nv)]
+        ti = ic.tip_index(nv)
+        d_sw[li] = z0[li][:, ti, 2] - z_sw[li][:, ti, 2]
+        d_tot[li] = z0[li][:, ti, 2] - z_tot[li][:, ti, 2]
+        point_profile = (z_sw[li][:, :, 2] - z_tot[li][:, :, 2])          # residual tip-load droop, per vertex
         fr = np.array(ic.OBS_A_FRACS)
-        idx = np.clip(np.round(1 + fr * (nv - 2)).astype(int), 1, nv - 1)   # arclength fraction -> vertex
-        shape[li] = droop[:, idx] / droop[:, ic.tip_index(nv)][:, None]
+        idx = np.clip(np.round(1 + fr * (nv - 2)).astype(int), 1, nv - 1)
+        tip_point = point_profile[:, ti]
+        shape[li] = point_profile[:, idx] / tip_point[:, None]
+    d_point = d_tot - d_sw
 
     per_material = []
+    ub = int(np.argmax(ell))
     for mi in range(n_envs):
-        stats = ic.cubic_fit_stats(ell, delta[:, mi], forces[mi])
-        ub = int(np.argmax(ell))                       # upper-bracket length
-        stats.update(raw_E=float(raw_es[mi]), m_tip=float(m_tips[mi]), F=float(forces[mi]),
-                     observed_deflection_ratio=ic.deflection_ratio(delta[ub, mi], ell[ub]),
-                     guard_ok=ic.guard_ok(delta[ub, mi], ell[ub]))
+        stats = ic.cubic_fit_stats(ell, d_point[:, mi], forces[mi])
+        stats.update(raw_E=float(raw_es[mi]), m_load=float(m_loads[mi]), F=float(forces[mi]),
+                     delta_sw=d_sw[:, mi].tolist(), delta_total=d_tot[:, mi].tolist(),
+                     delta_point=d_point[:, mi].tolist(),
+                     point_ratio_ub=ic.deflection_ratio(d_point[ub, mi], ell[ub]),
+                     total_ratio_ub=ic.deflection_ratio(d_tot[ub, mi], ell[ub]),
+                     guard_ok=ic.guard_ok(d_point[ub, mi], ell[ub]),
+                     superposition_ok=bool(ic.deflection_ratio(d_tot[ub, mi], ell[ub]) <= ic.SUPERPOSITION_GUARD))
         per_material.append(stats)
 
-    return dict(interval=interval, f_eps=f_eps, ell=ell.tolist(), delta=delta.tolist(),
+    return dict(interval=interval, m0=m0, ell=ell.tolist(),
+                delta_sw=d_sw.tolist(), delta_total=d_tot.tolist(), delta_point=d_point.tolist(),
                 shape={str(k): v.tolist() for k, v in shape.items()},
-                converged=bool(conv), steps=int(steps), finite=bool(np.isfinite(delta).all()),
-                per_material=per_material, m_tips=m_tips.tolist(), forces=forces.tolist())
+                converged=bool(conv_sw and conv_tot), steps=int(steps_sw + steps_tot),
+                finite=bool(np.isfinite(d_point).all()), per_material=per_material,
+                m_loads=m_loads.tolist(), forces=forces.tolist())
 
 
 # ---------------------------------------------------------------------------
-# C0 one-shot, logged, NON-scoring stability / feasibility probe
+# C0 pre-freeze per-mesh viability probe (NON-scoring) under baseline subtraction
 # ---------------------------------------------------------------------------
-def _probe_interval(interval, log, ell=ic.UPPER_BRACKET_ELL, max_steps=8000, cap_fraction=0.9):
-    """Batched stability probe at one interval across ALL 5 materials at the largest
-    admissible f_eps (cap_fraction * contamination cap for THIS mesh -> most stable that
-    still keeps contamination <1%). Returns per-material STABLE/UNSTABLE at ell.
+def stability_probe(intervals=(0.02, 0.01, 0.005)):
+    """Per-mesh feasibility of baseline subtraction over the in-regime cohort (B1..B4 + R0/R1/R2;
+    B0 excluded by the superposition guard). For each mesh checks both settles converge finite
+    and the residual gives a clean cubic (residual/exponent/guard). NON-scoring; writes a log
+    and reports the realized mesh sequence for the C1 freeze."""
+    cohort = ic.included_cohort()
+    raw_es = [r for r, _, _ in cohort]
+    b_effs = [b for _, b, _ in cohort]
+    labels = [lab for _, _, lab in cohort]
 
-    The contamination cap is mesh-dependent (fewer arm masses at coarse meshes), so f_eps
-    is chosen per interval, not globally. Larger f_eps == larger arm mass == better
-    conditioned mass matrix (the instability is the tip/arm mass ratio, rod_solver.py:625).
-    """
-    nv = ic.n_vertices_for(ell, interval)
-    cap = ic.max_f_eps_for_contamination(nv, interval, cap=0.01)
-    f_eps = cap_fraction * cap
-    cont = ic.contamination_ratio(nv, interval, f_eps)
-    log(f"[interval {interval}]  nv(ell={ell})={nv}  free_verts={len(ic.free_vertex_indices(nv))}  "
-        f"contam_cap={cap:.3g}  f_eps={f_eps:.3g} (contamination {cont*100:.3f}%)")
-    stable = {}
-    try:
-        res = force_calibrate(list(ic.RAW_E_GRID), list(ic.GRAV_B_EFF), interval, f_eps,
-                              lengths=(ell,), max_steps=max_steps)
-        delta = np.asarray(res["delta"])[0]                # (n_materials,)
-        for mi, (raw_e, m) in enumerate(zip(ic.RAW_E_GRID, res["per_material"])):
-            d = float(delta[mi])
-            ratio = d / ell if np.isfinite(d) else float("nan")
-            ok = bool(np.isfinite(d) and d > 0 and ratio <= ic.GUARD_DEFLECTION_RATIO)
-            stable[mi] = ok
-            log(f"    B_eff~{ic.GRAV_B_EFF[mi]:.4g} (raw_E={raw_e:.3g}): delta={d:.4g}  "
-                f"delta/ell={ratio:.4f}  -> {'STABLE' if ok else 'UNSTABLE'}")
-        log(f"    scene converged={res['converged']} steps={res['steps']}")
-    except Exception as exc:  # noqa: BLE001
-        log(f"    EXCEPTION {type(exc).__name__}: {exc}")
-        stable = {mi: False for mi in range(len(ic.RAW_E_GRID))}
-    return dict(interval=interval, nv=nv, cap=cap, f_eps=f_eps, contamination=cont, stable=stable)
-
-
-def stability_probe(intervals=(0.02, 0.01, 0.005, 0.0075)):
-    """Rigorous mesh x material stability/feasibility probe (NON-scoring).
-
-    For each interval (the 3 mesh levels + 0.0075 substitution candidate), tests the
-    largest admissible f_eps against ALL 5 materials at the upper-bracket length. Reports
-    per (interval, material) stability, then classifies:
-      - reference interval 0.01 stable for every material          -> option (iv) viable
-      - only interval 0.005 fails (some materials)                 -> substitution branch
-      - reference interval fails for >=1 material                  -> ESCALATION / STOP
-    Writes the probe log; freezes nothing.
-    """
     lines = []
 
     def log(msg=""):
         lines.append(msg)
         print(msg, flush=True)
 
-    log(f"# IC C0 stability/feasibility probe  ({datetime.now(timezone.utc).isoformat()})")
-    log("# NON-scoring: no headline observable is measured or frozen here.")
-    log("# Option (iv): concentrated tip point-load, arm mass = f_eps*m_tip, gravity ON.")
-    log("# Instability source = tip/arm mass ratio (rod_solver.py:625 gradient/mass); f_eps")
-    log("# is chosen per-mesh at the largest value keeping exact-discrete contamination <1%.")
+    log(f"# IC C0 per-mesh feasibility probe (baseline subtraction)  ({datetime.now(timezone.utc).isoformat()})")
+    log("# NON-scoring. Method: arm uniform m0=%.4g; residual = (arm+tip)-(arm) fit to cubic F*ell^3/(3B)." % ic.BASELINE_ARM_MASS)
+    log(f"# in-regime cohort (superposition guard, total delta/ell<=0.0625): {labels}  (B0 excluded as regime-of-validity)")
     log("")
 
-    results = {}
+    realized = []
     for interval in intervals:
-        results[interval] = _probe_interval(interval, log)
+        log(f"[interval {interval}]")
+        try:
+            res = force_calibrate_baseline(raw_es, b_effs, interval, max_steps=16000)
+            clean = res["converged"] and res["finite"]
+            all_guard = all(m["guard_ok"] for m in res["per_material"])
+            all_super = all(m["superposition_ok"] for m in res["per_material"])
+            all_cubic = all(m["max_residual"] <= ic.ACCEPT_RESIDUAL and m["CV"] <= ic.ACCEPT_CV
+                            and ic.ACCEPT_EXPONENT_LO <= m["exponent"] <= ic.ACCEPT_EXPONENT_HI
+                            for m in res["per_material"])
+            for lab, m in zip(labels, res["per_material"]):
+                log(f"    {lab} B_eff_force={m['B_eff_force']:.5g}  CV={m['CV']*100:.2f}%  "
+                    f"resid={m['max_residual']*100:.2f}%  exp={m['exponent']:.3f}  "
+                    f"point/ell(ub)={m['point_ratio_ub']:.4f} guard_ok={m['guard_ok']}  "
+                    f"total/ell(ub)={m['total_ratio_ub']:.4f} super_ok={m['superposition_ok']}")
+            viable = bool(clean and all_guard and all_super and all_cubic)
+            log(f"    -> converged={res['converged']} finite={res['finite']} guard={all_guard} "
+                f"superposition={all_super} clean_cubic={all_cubic}  => {'VIABLE' if viable else 'NOT VIABLE'}")
+            if viable:
+                realized.append(interval)
+        except Exception as exc:  # noqa: BLE001
+            log(f"    EXCEPTION {type(exc).__name__}: {exc}  => NOT VIABLE (diverged?)")
         log("")
 
-    def all_stable(interval):
-        s = results[interval]["stable"]
-        return all(s.values()) and len(s) == len(ic.RAW_E_GRID)
-
-    def stable_materials(interval):
-        return sorted(mi for mi, ok in results[interval]["stable"].items() if ok)
-
-    ref_ok = all_stable(0.01)
-    coarse_ok = all_stable(0.02)
-    fine_ok = all_stable(0.005)
-    sub_ok = all_stable(0.0075)
-
-    log("=== classification ===")
-    log(f"interval 0.02  all-materials-stable: {coarse_ok}  stable={stable_materials(0.02)}")
-    log(f"interval 0.01  all-materials-stable: {ref_ok}  stable={stable_materials(0.01)}")
-    log(f"interval 0.005 all-materials-stable: {fine_ok}  stable={stable_materials(0.005)}")
-    log(f"interval 0.0075 (subst) all-stable:  {sub_ok}  stable={stable_materials(0.0075)}")
-    log("")
-
-    if not ref_ok:
-        verdict = ("ESCALATION: option (iv) is NOT viable at the REFERENCE interval 0.01 for every "
-                   "required material (the tip/arm mass-ratio instability vs the <1% contamination "
-                   "cap leaves an EMPTY f_eps window). No executable fallback (option iii dropped) "
-                   "-> STOP for owner ruling.")
-    elif fine_ok:
-        verdict = "OPTION (iv) VIABLE at all three mesh levels {0.02,0.01,0.005}; no substitution needed."
-    elif sub_ok:
-        verdict = ("OPTION (iv) VIABLE with SUBSTITUTION: interval 0.005 is infeasible for some "
-                   "materials; the frozen finest level becomes 0.0075 (all-materials-stable). "
-                   "Mesh naming stays 'fixed-discretization validation' unless the 3-level trend holds.")
+    log("=== realized mesh sequence ===")
+    log(f"viable intervals: {realized}")
+    if 0.005 in realized:
+        naming = "three-level sequence {0.02,0.01,0.005} viable; 'convergence' claimable if the trend holds."
+    elif set(realized) >= {0.02, 0.01}:
+        naming = ("interval 0.005 NOT viable under the frozen integrator -> freeze the REDUCED sequence "
+                  "{0.02,0.01} + a finer-mesh-infeasibility note; naming = 'two-level fixed-discretization "
+                  "validation' (convergence only if the two-level trend holds).")
     else:
-        # 0.005 and 0.0075 both fail for some materials, but 0.01 & 0.02 hold -> drop-finest branch
-        verdict = ("OPTION (iv) VIABLE at {0.02,0.01} only; the finest level is INFEASIBLE for some "
-                   "materials even with the 0.0075 substitution -> frozen branch = DROP the finest "
-                   "level (2-level fixed-discretization validation over the common cohort). If >1 "
-                   "material lacks a 3rd level this is Escalation (c) -> owner ruling.")
-    log("VERDICT: " + verdict)
+        naming = "fewer than two viable meshes -> ESCALATION (baseline subtraction unexpectedly non-viable)."
+    log("VERDICT: " + naming)
 
     PROBE_LOG.parent.mkdir(parents=True, exist_ok=True)
     PROBE_LOG.write_text("\n".join(lines) + "\n")
-    print(f"\n[probe log written -> {PROBE_LOG}]", flush=True)
-    return dict(results={k: v["stable"] for k, v in results.items()},
-                ref_ok=ref_ok, coarse_ok=coarse_ok, fine_ok=fine_ok, sub_ok=sub_ok,
-                verdict=verdict)
+    print(f"\n[probe log -> {PROBE_LOG}]", flush=True)
+    return dict(realized=realized, naming=naming)
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--probe", action="store_true", help="run the C0 stability/feasibility probe")
+    ap.add_argument("--probe", action="store_true", help="run the C0 per-mesh feasibility probe")
     args = ap.parse_args()
     if args.probe:
         stability_probe()
     else:
-        print("C0 module: import for force_calibrate/build_mass_tensor, or run with --probe.")
+        print("C0 module: import force_calibrate_baseline/build_baseline_tensors, or run with --probe.")

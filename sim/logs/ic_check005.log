@@ -1,0 +1,12 @@
+
+=== B4_stiffest interval=0.005 nv=50 m_load=0.03429 ===
+/home/simx2204/anaconda3/envs/w2g/lib/python3.12/site-packages/quadrants/_test_tools/warnings_helper.py:11: UserWarning: cannot create weak reference to 'tuple' object. Template mapper caching disabled.
+  warnings.warn(message)
+  step   2000: delta_total/ell=+nan  tip_speed=nan  finite=False
+  -> DIVERGED (NaN)
+
+=== B2_mid interval=0.005 nv=50 m_load=0.006094 ===
+  step   2000: delta_total/ell=+nan  tip_speed=nan  finite=False
+  -> DIVERGED (NaN)
+
+[done]

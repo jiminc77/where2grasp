@@ -107,6 +107,34 @@ def test_convergence_trend_rule():
     assert not ic.convergence_trend_ok([0.03, 0.01], tol=0.02)        # first over tol
 
 
+def test_superposition_guard_and_cohort():
+    """The linear-superposition inclusion guard (Condition 1) excludes the softest B0 as
+    regime-of-validity and admits B1..B4 + R0/R1/R2 (hardening-A's in-regime grid)."""
+    assert not ic.superposition_included(ic.GRAV_B_EFF[0])          # B0 softest OUT
+    assert all(ic.superposition_included(b) for b in ic.GRAV_B_EFF[1:])
+    assert all(ic.superposition_included(b) for b in ic.RATIO_GRAV_B_EFF)
+    labels = [lab for _, _, lab in ic.included_cohort()]
+    assert "B0" not in labels and set(labels) == {"B1", "B2", "B3", "B4", "R0", "R1", "R2"}
+    # B0 total delta/ell exceeds the 0.0625 cap; B1 is inside
+    assert ic.superposition_total_ratio(ic.GRAV_B_EFF[0]) > ic.SUPERPOSITION_GUARD
+    assert ic.superposition_total_ratio(ic.GRAV_B_EFF[1]) <= ic.SUPERPOSITION_GUARD
+    # baseline self-weight ratio for B0 matches the committed sag (delta/ell ~ 0.0505 at ell=0.24)
+    assert ic.sw_deflection_ratio(ic.GRAV_B_EFF[0]) == pytest.approx(0.0505, abs=0.001)
+
+
+def test_baseline_subtraction_cubic_recovery():
+    """Superposition: delta_total = delta_sw(quartic) + delta_point(cubic); subtracting the
+    baseline and fitting the residual to the cubic law recovers B exactly."""
+    B_true, F, m0 = 0.038259, 0.0597, ic.BASELINE_ARM_MASS
+    ell = np.array(ic.CALIB_LENGTHS)
+    w0 = m0 * ic.G / ic.REFERENCE_INTERVAL
+    d_sw = w0 * ell ** 4 / (8.0 * B_true)              # quartic self-weight baseline
+    d_point = F * ell ** 3 / (3.0 * B_true)            # cubic tip-load response
+    d_total = d_sw + d_point
+    k = ic.through_origin_cubic(ell, d_total - d_sw)   # subtract, fit cubic
+    assert abs(ic.b_eff_force_from_fit(F, k) - B_true) / B_true < 1e-9
+
+
 def test_no_refit_perfect_map_meets_frozen_bounds():
     """A perfect force==gravity B_eff map must satisfy every frozen no-refit bound; this
     validates the scorer arithmetic + the frozen tolerances against the real manifests."""
@@ -118,32 +146,35 @@ def test_no_refit_perfect_map_meets_frozen_bounds():
     assert a["passed"], (a["max_rel_err"], a["tol"])
     assert b["passed"], (b["mean_K"], b["predicted"], b["tol"])
     assert c["passed"], (c["worst_offset_cells"], [r for r in c["per_cell"] if abs(r["offset_cells"]) > 1])
-    # in-regime primary excludes the out-of-regime Pi_g>0.5 rows
+    # family-(a) primary excludes out-of-regime, the B0 material, AND the baseline mass m0
     assert all(r["Pi_g"] <= ic.PI_G_MAX for r in a["primary"])
-    assert any(r["Pi_g"] > ic.PI_G_MAX for r in a["descriptive"])
+    assert all(abs(r["mass"] - ic.BASELINE_ARM_MASS) > 1e-12 for r in a["primary"])
+    assert all(r["raw_E"] != ic.RAW_E_GRID[0] for r in a["primary"])       # B0 never primary
+    assert any(r.get("reason", "").startswith("baseline-mass") for r in a["descriptive"])
     assert b["mean_K"] == pytest.approx(ic.OBS_PREFACTOR_MEAN, abs=1e-6)
 
 
 # --------------------------------------------------------------------- integration (Genesis)
 @pytest.mark.integration
-def test_mass_tensor_readback_epsilon_not_floored():
+def test_baseline_mass_tensor_readback():
+    """The baseline-subtraction tensors read back exactly: arm = m0 everywhere, tip = m0 + m_load."""
     from sim.scene import build_scene, add_straight_rod
-    from sim.calibrate_beff_force import build_mass_tensor
+    from sim.calibrate_beff_force import build_baseline_tensors
     import torch, genesis as gs
     nv = 12
-    m_tips = np.array([1.07e-3, 3.43e-2])
-    mass2d = build_mass_tensor(nv, m_tips, f_eps=1e-4)
+    m_loads = np.array([1.07e-3, 3.43e-2])
+    baseline, loaded = build_baseline_tensors(nv, m_loads, m0=ic.BASELINE_ARM_MASS)
     scene = build_scene(dt=ic.DT, substeps=ic.SUBSTEPS, damping=ic.DAMPING, angular_damping=ic.ANGULAR_DAMPING)
-    rod = add_straight_rod(scene, nv, interval=0.01, E=1e7, segment_mass=1e-4,
+    rod = add_straight_rod(scene, nv, interval=0.01, E=1e7, segment_mass=ic.BASELINE_ARM_MASS,
                            segment_radius=ic.SEGMENT_RADIUS, G=ic.SHEAR_G)
     scene.build(n_envs=2)
     rod.set_fixed_states(fixed_ids=[0, 1])
-    rod.set_segment_mass(torch.tensor(mass2d, dtype=gs.tc_float, device="cuda"))
+    rod.set_segment_mass(torch.tensor(loaded, dtype=gs.tc_float, device="cuda"))
     got = rod.get_all_segment_mass_tc().detach().cpu().numpy()
-    assert np.allclose(got, mass2d, rtol=1e-5, atol=1e-12)
-    # epsilon really is tiny and preserved (not floored to some positive minimum)
-    assert got[0, 2] == pytest.approx(1e-4 * 1.07e-3, rel=1e-4)
-    assert got[0, nv - 1] == pytest.approx(1.07e-3, rel=1e-5)
+    assert np.allclose(got, loaded, rtol=1e-5, atol=1e-12)
+    assert got[0, 2] == pytest.approx(ic.BASELINE_ARM_MASS)                      # arm = m0 (stable)
+    assert got[1, nv - 1] == pytest.approx(ic.BASELINE_ARM_MASS + 3.43e-2, rel=1e-5)  # tip = m0 + m_load
+    assert np.allclose(baseline, ic.BASELINE_ARM_MASS)
 
 
 @pytest.mark.integration
