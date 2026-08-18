@@ -23,17 +23,17 @@
     {
       "check": "observable_A_recompute",
       "status": "survives",
-      "detail": "ok"
+      "detail": "ok (QA-local shape)"
     },
     {
       "check": "observable_B_recompute",
       "status": "survives",
-      "detail": "ok (boundary+K_N)"
+      "detail": "ok (QA-local crossing + K_N, bracket-convergence checked)"
     },
     {
       "check": "mesh_completeness",
       "status": "survives",
-      "detail": "unresolved recomputed 0.02=['B4'] 0.01=[] vs stored {'0.02': ['B4'], '0.01': []}; full_cohort_B_resolved stored=False (unresolved cells are REPORTED, not dropped from the pass)"
+      "detail": "unresolved recomputed 0.02=['B4'] 0.01=[] vs stored {'0.02': ['B4'], '0.01': []}; full_cohort_B_resolved stored=False (unresolved cells REPORTED, not dropped; bracket-convergence enforced)"
     },
     {
       "check": "no_refit_recompute",
@@ -41,9 +41,19 @@
       "detail": "independent arithmetic: a max_rel=0.1070 (>5%=True) b meanK=0.5092 (in-bound=True) c worst=1 cell(s)"
     },
     {
+      "check": "no_refit_prospective_recompute",
+      "status": "survives",
+      "detail": "prospective (mass 0.0003) max_rel=0.1020 (>5%=True) vs stored 0.1020"
+    },
+    {
       "check": "mesh_gate_recompute",
       "status": "survives",
-      "detail": "recomputed subset_pass=True full_resolved=False vs stored subset=True full=False"
+      "detail": "QA-local recompute: subset_pass=True full_resolved=False vs stored subset=True full=False"
+    },
+    {
+      "check": "settle_integrity_verify",
+      "status": "survives",
+      "detail": "settle_all_ok=True calib+prosp_converged=True every_resolved_boundary_bracket_converged=True"
     },
     {
       "check": "finding7_recompute",
@@ -61,7 +71,7 @@
       "detail": "B_eff_force fit is cubic on the force residual delta_point; no gravity-sag law fit in the calibration path"
     }
   ],
-  "survivors": 12,
+  "survivors": 14,
   "fails": 0,
   "survived_all": true,
   "verdict_under_review": "REPORTED NULL (>=1 no-refit family missed its frozen bound)"

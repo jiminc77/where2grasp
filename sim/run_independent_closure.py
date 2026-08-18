@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 from sim import ic_common as ic
 from sim import ic_norefit
 from sim.calibrate_beff_force import force_calibrate_baseline
-from sim.ic_gravity_boundary import gravity_droop_sweep, extract_boundary_and_K
+from sim.ic_gravity_boundary import gravity_droop_sweep, extract_boundary_and_K, boundary_bracket
 
 ROOT = Path(__file__).resolve().parent
 MAN = ROOT / "manifests"
@@ -54,9 +54,19 @@ def observable_B(raw_es, labels, interval, bmap):
     sweep = gravity_droop_sweep(raw_es, interval, mass=ic.OBS_B_REF_MASS)
     droop = np.asarray(sweep["droop"])               # (n_ell, n_materials)
     ells = np.asarray(sweep["ells"])
+    conv = np.asarray(sweep["per_ell_env_converged"])   # (n_ell, n_materials) settle proof
     perK = {}
     for i, (raw_e, lab) in enumerate(zip(raw_es, labels)):
         ext = extract_boundary_and_K(ells, droop[:, i], bmap[float(raw_e)], w=sweep["w"])
+        br = boundary_bracket(ells, droop[:, i])
+        bracket_conv = bool(br is not None and conv[br[0], i] and conv[br[1], i])
+        ext["bracket"] = list(br) if br is not None else None
+        ext["bracket_converged"] = bracket_conv
+        # a resolved boundary whose bracketing rods did NOT settle is INCONCLUSIVE (null + report reason)
+        if ext["ell_boundary"] is not None and not bracket_conv:
+            ext["ell_boundary_unbracketed"] = ext["ell_boundary"]; ext["K_N_unbracketed"] = ext["K_N"]
+            ext["ell_boundary"] = None; ext["K_N"] = None
+            ext["inconclusive_reason"] = "boundary bracket rods not converged"
         perK[lab] = ext
     return perK, sweep
 
@@ -233,6 +243,7 @@ def main():
              **{f"delta_point_F2_{iv}": np.asarray(calib_F2[iv]["delta_point"]) for iv in REALIZED},
              **{f"forces_F2_{iv}": np.asarray(calib_F2[iv]["forces"]) for iv in REALIZED},
              **{f"grav_droop_{iv}": np.asarray(sweeps[iv]["droop"]) for iv in REALIZED},
+             **{f"sweep_conv_{iv}": np.asarray(sweeps[iv]["per_ell_env_converged"]) for iv in REALIZED},
              **{f"shape_ub_{iv}": np.asarray(calib[iv]["shape"][str(int(np.argmax(calib[iv]["ell"])))]) for iv in REALIZED},
              obs_A_fracs=np.asarray(ic.OBS_A_FRACS),
              grav_ells=np.asarray(sweeps[0.01]["ells"]),

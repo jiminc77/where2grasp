@@ -39,29 +39,43 @@ def gravity_droop_sweep(raw_es, interval, mass=ic.OBS_B_REF_MASS, ells=ic.GRAV_S
         rod.set_segment_mass(torch.tensor(np.full((n_envs, nv), mass), dtype=gs.tc_float, device="cuda"))
 
     z0 = [vertices(r)[:, ic.tip_index(r.n_vertices), 2].copy() for r in rods]
-    conv, steps = _settle(scene, rods, max_steps=max_steps, interval=interval)
+    conv, steps, per_ell_env = _settle(scene, rods, max_steps=max_steps, interval=interval)
     zf = [vertices(r)[:, ic.tip_index(r.n_vertices), 2].copy() for r in rods]
 
     droop = np.array([z0[i] - zf[i] for i in range(len(ells))])   # [ell, material]
     w = mass * ic.G / interval
     return dict(ells=list(ells), droop=droop.tolist(), w=float(w), interval=interval,
-                converged=bool(conv), steps=int(steps), finite=bool(np.isfinite(droop).all()))
+                converged=bool(conv), steps=int(steps), finite=bool(np.isfinite(droop).all()),
+                per_ell_env_converged=per_ell_env.tolist())      # (n_ell, n_material) settle proof
 
 
 def _settle(scene, rods, chunk=200, max_steps=16000, drift_tol=5e-3, interval=0.01):
+    """Chunked settle; tracks PER-(rod, env) convergence so each boundary's bracketing samples can
+    be proven settled (a global flag cannot distinguish an unsettled bracket rod from an unsettled
+    long post-boundary rod). Returns (all_converged, steps, per_ell_env_converged[(n_rods,n_envs)])."""
     tips = [ic.tip_index(r.n_vertices) for r in rods]
     prev = [vertices(r)[:, ti, 2].copy() for r, ti in zip(rods, tips)]
+    n_envs = prev[0].shape[0]
+    conv = np.zeros((len(rods), n_envs), dtype=bool)
     steps = 0
-    while steps < max_steps:
+    while steps < max_steps and not conv.all():
         for _ in range(chunk):
             scene.step()
         steps += chunk
         cur = [vertices(r)[:, ti, 2].copy() for r, ti in zip(rods, tips)]
-        drift = max(float(np.max(np.abs(c - p))) for c, p in zip(cur, prev))
+        for i, (c, p) in enumerate(zip(cur, prev)):
+            conv[i] = conv[i] | (np.abs(c - p) < drift_tol * interval)
         prev = cur
-        if drift < drift_tol * interval:
-            return True, steps
-    return False, steps
+    return bool(conv.all()), steps, conv
+
+
+def boundary_bracket(ells, droops_one_material, h=ic.DROOP_CLEAR_H):
+    """Grid indices (k, k+1) bracketing the droop=h crossing (droops ascending in ell), or None."""
+    droops = np.asarray(droops_one_material, dtype=float)
+    for k in range(len(droops) - 1):
+        if droops[k] <= h < droops[k + 1]:
+            return (k, k + 1)
+    return None
 
 
 def extract_boundary_and_K(ells, droops_one_material, b_eff_force, w=ic.OBS_B_REF_W,

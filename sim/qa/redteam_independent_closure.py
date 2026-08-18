@@ -80,19 +80,9 @@ def run():
     bmap_ref = bmap_by_iv[0.01]
     _check(res, "beff_force_recompute", not drift, "ok (cubic F/(3k) matches)" if not drift else "; ".join(drift))
 
-    # 4. Observable A recompute from committed shapes (interpolated-shape max-abs error)
-    aerr = []
-    for iv in (0.02, 0.01):
-        shp = np.asarray(data[f"shape_ub_{iv}"]); fr = np.asarray(data["obs_A_fracs"])
-        mine = float(max(np.max(np.abs(shp[i] - ic.endload_shape(fr))) for i in range(len(labels))))
-        stored = verdict["observable_A"][str(iv)]["max_abs"]
-        if abs(mine - stored) > 1e-9:
-            aerr.append(f"{iv}: {mine:.5f} vs {stored:.5f}")
-    _check(res, "observable_A_recompute", not aerr, "ok" if not aerr else "; ".join(aerr))
-
-    # helpers (fresh; no production scorers)
+    # QA-LOCAL formulas (reimplemented here; the production ic.* scorers are what is UNDER TEST)
     def w_of(iv):
-        return ic.OBS_B_REF_MASS * ic.G / iv        # interval-specific linear weight for Observable-B K_N
+        return ic.OBS_B_REF_MASS * ic.G / iv                     # interval-specific linear weight
 
     def _rawE(be):
         for re_, gb in list(zip(ic.RAW_E_GRID, ic.GRAV_B_EFF)) + list(zip(ic.RATIO_RAW_E, ic.RATIO_GRAV_B_EFF)):
@@ -100,13 +90,43 @@ def run():
                 return re_
         raise ValueError(f"no exact B_eff match for {be}")
 
-    # 5. Observable B recompute (boundary + K_N) from raw droop; record resolution completeness
+    def _shape(f):                                               # analytical end-load shape (QA-local)
+        f = np.asarray(f, dtype=float)
+        return (3.0 * f ** 2 - f ** 3) / 2.0
+
+    def _cross(ells, droops, h=ic.DROOP_CLEAR_H):                # linear-interp droop=h crossing (QA-local)
+        ells = np.asarray(ells, float); droops = np.asarray(droops, float)
+        for k in range(len(ells) - 1):
+            if droops[k] <= h < droops[k + 1]:
+                t = (h - droops[k]) / (droops[k + 1] - droops[k])
+                return float(ells[k] + t * (ells[k + 1] - ells[k])), (k, k + 1)
+        return None, None
+
+    def _resolved_boundary(iv, mi):
+        """Driver-equivalent resolved boundary: the crossing whose TWO bracketing rods converged; else None."""
+        droop = np.asarray(data[f"grav_droop_{iv}"])[:, mi]; ells = np.asarray(data["grav_ells"])
+        convd = np.asarray(data[f"sweep_conv_{iv}"])[:, mi]
+        b, br = _cross(ells, droop)
+        if b is None or br is None:
+            return None
+        return b if (bool(convd[br[0]]) and bool(convd[br[1]])) else None   # unbracketed -> INCONCLUSIVE
+
+    # 4. Observable A recompute (QA-local end-load shape) vs stored max-abs
+    aerr = []
+    for iv in (0.02, 0.01):
+        shp = np.asarray(data[f"shape_ub_{iv}"]); fr = np.asarray(data["obs_A_fracs"])
+        mine = float(max(np.max(np.abs(shp[i] - _shape(fr))) for i in range(len(labels))))
+        stored = verdict["observable_A"][str(iv)]["max_abs"]
+        if abs(mine - stored) > 1e-9:
+            aerr.append(f"{iv}: {mine:.5f} vs {stored:.5f}")
+    _check(res, "observable_A_recompute", not aerr, "ok (QA-local shape)" if not aerr else "; ".join(aerr))
+
+    # 5. Observable B recompute (QA-local crossing + bracket-convergence) + resolution completeness
     berr = []
     unres_re = {0.02: [], 0.01: []}
     for iv in (0.02, 0.01):
-        droop = np.asarray(data[f"grav_droop_{iv}"]); ells = np.asarray(data["grav_ells"])
         for mi, lab in enumerate(labels):
-            b = ic.observable_B_boundary(ells, droop[:, mi])
+            b = _resolved_boundary(iv, mi)
             stored = verdict["observable_B"][str(iv)][lab]["ell_boundary"]
             if (b is None) != (stored is None) or (b is not None and abs(b - stored) > 1e-6):
                 berr.append(f"{iv}/{lab} boundary {b} vs {stored}")
@@ -117,13 +137,14 @@ def run():
                 stored_kn = verdict["observable_B"][str(iv)][lab]["K_N"]
                 if abs(kn - stored_kn) > 1e-6:
                     berr.append(f"{iv}/{lab} K_N {kn:.5f} vs {stored_kn}")
-    _check(res, "observable_B_recompute", not berr, "ok (boundary+K_N)" if not berr else "; ".join(berr[:4]))
+    _check(res, "observable_B_recompute", not berr,
+           "ok (QA-local crossing + K_N, bracket-convergence checked)" if not berr else "; ".join(berr[:4]))
     stored_unres = verdict["mesh_gate"]["unresolved"]
     comp_ok = all(sorted(unres_re[iv]) == sorted(stored_unres.get(str(iv), [])) for iv in (0.02, 0.01))
     _check(res, "mesh_completeness", comp_ok,
            f"unresolved recomputed 0.02={unres_re[0.02]} 0.01={unres_re[0.01]} vs stored {stored_unres}; "
            f"full_cohort_B_resolved stored={verdict['mesh_gate'].get('full_cohort_B_resolved')} "
-           f"(unresolved cells are REPORTED, not dropped from the pass)")
+           f"(unresolved cells REPORTED, not dropped; bracket-convergence enforced)")
 
     # 6. no-refit INDEPENDENT recompute (fresh inline arithmetic from committed manifests; NO production scorers)
     cal = json.loads((MAN / "calibration.json").read_text())
@@ -164,21 +185,30 @@ def run():
            f"b meanK={b_mean:.4f} (in-bound={abs(b_mean - ic.PREDICTED_PREFACTOR) <= ic.OBS_B_TOL}) "
            f"c worst={worst} cell(s)")
 
-    # 7. mesh-gate recompute from RAW arrays (over cells resolved at BOTH levels) + completeness
+    # 6b. no-refit PROSPECTIVE family-a recompute (fresh score-only sims committed in prospective_droop)
+    pd = np.asarray(data["prospective_droop"])                  # (n_prospective_lengths, n_material)
+    wp = ic.PROSPECTIVE_MASS * ic.G / ic.REFERENCE_INTERVAL
+    p_rel = [abs(wp * L ** 4 / (8.0 * bmap_ref[float(raw_es[mi])]) - pd[li, mi]) / abs(pd[li, mi])
+             for li, L in enumerate(ic.PROSPECTIVE_LENGTHS) for mi in range(len(labels))]
+    p_max = float(max(p_rel))
+    _check(res, "no_refit_prospective_recompute",
+           abs(p_max - verdict["no_refit"]["a_prospective"]["max_rel_err"]) < 1e-6,
+           f"prospective (mass {ic.PROSPECTIVE_MASS}) max_rel={p_max:.4f} (>5%={p_max > ic.NOREFIT_SAG_TOL}) "
+           f"vs stored {verdict['no_refit']['a_prospective']['max_rel_err']:.4f}")
+
+    # 7. mesh-gate recompute from RAW arrays (QA-local shape + crossing; cells resolved at BOTH levels)
     fr = np.asarray(data["obs_A_fracs"])
-    A_ok = all(float(max(np.max(np.abs(np.asarray(data[f"shape_ub_{iv}"])[i] - ic.endload_shape(fr)))
+    A_ok = all(float(max(np.max(np.abs(np.asarray(data[f"shape_ub_{iv}"])[i] - _shape(fr)))
                          for i in range(len(labels)))) <= ic.OBS_A_ABSOLUTE_CEILING for iv in (0.02, 0.01))
     resolved_both = [labels[mi] for mi in range(len(labels))
-                     if all(ic.observable_B_boundary(np.asarray(data["grav_ells"]),
-                                                     np.asarray(data[f"grav_droop_{iv}"])[:, mi]) is not None
-                            for iv in (0.02, 0.01))]
+                     if all(_resolved_boundary(iv, mi) is not None for iv in (0.02, 0.01))]
     K_ok = True
     for iv in (0.02, 0.01):
-        droop = np.asarray(data[f"grav_droop_{iv}"]); ells = np.asarray(data["grav_ells"]); devs = []
+        devs = []
         for mi, lab in enumerate(labels):
             if lab not in resolved_both:
                 continue
-            bnd = ic.observable_B_boundary(ells, droop[:, mi])
+            bnd = _resolved_boundary(iv, mi)
             devs.append(abs(bnd / (bmap_by_iv[iv][float(raw_es[mi])] / w_of(iv)) ** 0.25 - ic.PREDICTED_PREFACTOR))
         if devs and max(devs) > ic.OBS_B_TOL:
             K_ok = False
@@ -186,7 +216,25 @@ def run():
     full_resolved = len(resolved_both) == len(labels)
     stored_subset = verdict["mesh_gate"]["subset_passed"]; stored_full = verdict["mesh_gate"]["full_cohort_B_resolved"]
     _check(res, "mesh_gate_recompute", mesh_subset == stored_subset and full_resolved == stored_full,
-           f"recomputed subset_pass={mesh_subset} full_resolved={full_resolved} vs stored subset={stored_subset} full={stored_full}")
+           f"QA-local recompute: subset_pass={mesh_subset} full_resolved={full_resolved} vs stored subset={stored_subset} full={stored_full}")
+
+    # 7b. settle-integrity verification: calibration + prospective converged; EVERY resolved boundary's
+    # two bracketing rods converged (bracket convergence is what makes a boundary admissible)
+    si = verdict["settle_integrity"]
+    calib_conv = (all(si["detail"]["calibration"][str(iv)]["converged"] and si["detail"]["calibration_F2"][str(iv)]["converged"]
+                      for iv in ("0.02", "0.01")) and si["detail"]["prospective"]["converged"])
+    bracket_ok = True
+    for iv in (0.02, 0.01):
+        convd = np.asarray(data[f"sweep_conv_{iv}"])
+        for mi, lab in enumerate(labels):
+            if verdict["observable_B"][str(iv)][lab]["ell_boundary"] is None:
+                continue                                        # unresolved cells excused
+            _b, br = _cross(np.asarray(data["grav_ells"]), np.asarray(data[f"grav_droop_{iv}"])[:, mi])
+            if br is None or not (bool(convd[br[0], mi]) and bool(convd[br[1], mi])):
+                bracket_ok = False
+    _check(res, "settle_integrity_verify", bool(si["all_ok"] and calib_conv and bracket_ok),
+           f"settle_all_ok={si['all_ok']} calib+prosp_converged={calib_conv} "
+           f"every_resolved_boundary_bracket_converged={bracket_ok}")
 
     # 8a. finding-7 recompute from COMMITTED F2 arrays (fresh cubic fit; no re-sim)
     f7err = []
