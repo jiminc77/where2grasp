@@ -1,0 +1,63 @@
+{
+  "checks": [
+    {
+      "check": "input_artifact_digests",
+      "status": "survives",
+      "detail": "ok"
+    },
+    {
+      "check": "c1_single_file",
+      "status": "survives",
+      "detail": "C1=a84c1299 ['sim/manifests/rn_gate_manifest.json | 318 ++++++++++++++++++++++++++++++++++++', ' 1 file changed, 318 insertions(+)']"
+    },
+    {
+      "check": "c1_ancestor_of_c2",
+      "status": "survives",
+      "detail": "merge-base --is-ancestor a84c1299 d0e9cc69 = True"
+    },
+    {
+      "check": "prospective_recompute",
+      "status": "survives",
+      "detail": "ok (QA-local corrected error from raw droop)"
+    },
+    {
+      "check": "retrospective_recompute",
+      "status": "survives",
+      "detail": "ok (QA-local from calibration.json)"
+    },
+    {
+      "check": "verdict_recompute",
+      "status": "survives",
+      "detail": "recomputed MISS vs stored MISS; worst in-regime 0.0589"
+    },
+    {
+      "check": "N_from_ell_and_guard",
+      "status": "survives",
+      "detail": "N-from-ell=True guard=True prospN=[15, 16, 17] disjoint=True"
+    },
+    {
+      "check": "finding5_attribution",
+      "status": "survives",
+      "detail": "mean_rN=6.5008% residual=1.3834% (OPEN)"
+    },
+    {
+      "check": "no_thinning",
+      "status": "survives",
+      "detail": "prospective 21/21 scored; all finite=True; retro in-regime=16"
+    },
+    {
+      "check": "mesh_carveout_unchanged",
+      "status": "survives",
+      "detail": "mesh B4@0.02 full_cohort_B_resolved=False; graduates_direct_sag_prong=False (MISS -> no graduation)"
+    },
+    {
+      "check": "claim_boundary_verbatim",
+      "status": "survives",
+      "detail": "verbatim + r_N clause"
+    }
+  ],
+  "survivors": 11,
+  "fails": 0,
+  "survived_all": true,
+  "verdict_under_review": "MISS"
+}
