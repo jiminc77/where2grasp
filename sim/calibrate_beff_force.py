@@ -114,10 +114,14 @@ def force_calibrate_baseline(raw_es, b_eff_sizing, interval, m0=ic.BASELINE_ARM_
         d_sw[li] = z0[li][:, ti, 2] - z_sw[li][:, ti, 2]
         d_tot[li] = z0[li][:, ti, 2] - z_tot[li][:, ti, 2]
         point_profile = (z_sw[li][:, :, 2] - z_tot[li][:, :, 2])          # residual tip-load droop, per vertex
-        fr = np.array(ic.OBS_A_FRACS)
-        idx = np.clip(np.round(1 + fr * (nv - 2)).astype(int), 1, nv - 1)
+        # Observable A: normalized residual shape sampled at the EXACT arclength fractions
+        # (frozen def fracs {0.2..1.0}) by INTERPOLATION over vertex fractions (i-1)/(nv-2).
+        # Nearest-vertex sampling on a coarse mesh mis-hits the fractions and inflates the error.
+        free_idx = np.arange(1, nv)                                       # root(1)..tip(nv-1)
+        fracs_v = (free_idx - 1) / (nv - 2)
         tip_point = point_profile[:, ti]
-        shape[li] = point_profile[:, idx] / tip_point[:, None]
+        norm = point_profile[:, free_idx] / tip_point[:, None]
+        shape[li] = np.array([np.interp(ic.OBS_A_FRACS, fracs_v, norm[e]) for e in range(n_envs)])
     d_point = d_tot - d_sw
 
     per_material = []
