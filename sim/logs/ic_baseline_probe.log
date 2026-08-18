@@ -1,0 +1,19 @@
+=== baseline-subtraction viability at interval 0.01 (arm m0=0.0002) ===
+[W 08/18/26 12:03:49.461 735637] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_0`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+/home/simx2204/anaconda3/envs/w2g/lib/python3.12/site-packages/quadrants/_test_tools/warnings_helper.py:11: UserWarning: cannot create weak reference to 'tuple' object. Template mapper caching disabled.
+  warnings.warn(message)
+settle A (self-weight only) steps=1000 finite=True
+[W 08/18/26 12:03:59.451 735637] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_1`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+settle B (arm + tip load)  steps=1200 finite=True
+  B_eff_grav=0.0067138  raw_E=1e+06:  delta_point=[0.00287 0.00405 0.00505 0.00575]  B_eff_force=0.0077164  CV=7.79%  resid=10.58%  exp=2.424  ratio_to_grav=1.1493
+  B_eff_grav=0.038259  raw_E=5.62e+06:  delta_point=[0.00285 0.00389 0.00513 0.00661]  B_eff_force=0.041391  CV=0.85%  resid=1.57%  exp=2.921  ratio_to_grav=1.0819
+  B_eff_grav=0.21527  raw_E=3.16e+07:  delta_point=[0.00286 0.00388 0.00515 0.00665]  B_eff_force=0.23197  CV=0.76%  resid=1.60%  exp=2.931  ratio_to_grav=1.0775
+[done]

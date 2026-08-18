@@ -1,0 +1,45 @@
+# IC C0 stability/feasibility probe  (2026-08-18T02:55:56.640284+00:00)
+# NON-scoring: no headline observable is measured or frozen here.
+# Option (iv): concentrated tip point-load, arm mass = f_eps*m_tip, gravity ON.
+# Instability source = tip/arm mass ratio (rod_solver.py:625 gradient/mass); f_eps
+# is chosen per-mesh at the largest value keeping exact-discrete contamination <1%.
+
+[interval 0.02]  nv(ell=0.24)=14  free_verts=12  contam_cap=0.00249  f_eps=0.00224 (contamination 0.900%)
+    B_eff~0.006714 (raw_E=1e+06): delta=0.007027  delta/ell=0.0293  -> STABLE
+    B_eff~0.01611 (raw_E=2.37e+06): delta=0.007108  delta/ell=0.0296  -> STABLE
+    B_eff~0.03826 (raw_E=5.62e+06): delta=0.007122  delta/ell=0.0297  -> STABLE
+    B_eff~0.09111 (raw_E=1.33e+07): delta=0.007153  delta/ell=0.0298  -> STABLE
+    B_eff~0.2153 (raw_E=3.16e+07): delta=0.007129  delta/ell=0.0297  -> STABLE
+    scene converged=True steps=1200
+
+[interval 0.01]  nv(ell=0.24)=26  free_verts=24  contam_cap=0.00118  f_eps=0.00106 (contamination 0.900%)
+    B_eff~0.006714 (raw_E=1e+06): delta=-0.03276  delta/ell=-0.1365  -> UNSTABLE
+    B_eff~0.01611 (raw_E=2.37e+06): delta=0.02057  delta/ell=0.0857  -> UNSTABLE
+    B_eff~0.03826 (raw_E=5.62e+06): delta=-0.01881  delta/ell=-0.0784  -> UNSTABLE
+    B_eff~0.09111 (raw_E=1.33e+07): delta=0.007014  delta/ell=0.0292  -> STABLE
+    B_eff~0.2153 (raw_E=3.16e+07): delta=0.1292  delta/ell=0.5382  -> UNSTABLE
+    scene converged=False steps=8000
+
+[interval 0.005]  nv(ell=0.24)=50  free_verts=48  contam_cap=0.000571  f_eps=0.000514 (contamination 0.900%)
+    B_eff~0.006714 (raw_E=1e+06): delta=nan  delta/ell=nan  -> UNSTABLE
+    B_eff~0.01611 (raw_E=2.37e+06): delta=nan  delta/ell=nan  -> UNSTABLE
+    B_eff~0.03826 (raw_E=5.62e+06): delta=nan  delta/ell=nan  -> UNSTABLE
+    B_eff~0.09111 (raw_E=1.33e+07): delta=nan  delta/ell=nan  -> UNSTABLE
+    B_eff~0.2153 (raw_E=3.16e+07): delta=nan  delta/ell=nan  -> UNSTABLE
+    scene converged=False steps=8000
+
+[interval 0.0075]  nv(ell=0.24)=34  free_verts=32  contam_cap=0.000869  f_eps=0.000782 (contamination 0.900%)
+    B_eff~0.006714 (raw_E=1e+06): delta=nan  delta/ell=nan  -> UNSTABLE
+    B_eff~0.01611 (raw_E=2.37e+06): delta=nan  delta/ell=nan  -> UNSTABLE
+    B_eff~0.03826 (raw_E=5.62e+06): delta=nan  delta/ell=nan  -> UNSTABLE
+    B_eff~0.09111 (raw_E=1.33e+07): delta=nan  delta/ell=nan  -> UNSTABLE
+    B_eff~0.2153 (raw_E=3.16e+07): delta=nan  delta/ell=nan  -> UNSTABLE
+    scene converged=False steps=8000
+
+=== classification ===
+interval 0.02  all-materials-stable: True  stable=[0, 1, 2, 3, 4]
+interval 0.01  all-materials-stable: False  stable=[3]
+interval 0.005 all-materials-stable: False  stable=[]
+interval 0.0075 (subst) all-stable:  False  stable=[]
+
+VERDICT: ESCALATION: option (iv) is NOT viable at the REFERENCE interval 0.01 for every required material (the tip/arm mass-ratio instability vs the <1% contamination cap leaves an EMPTY f_eps window). No executable fallback (option iii dropped) -> STOP for owner ruling.
