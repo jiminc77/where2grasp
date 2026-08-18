@@ -1,0 +1,23 @@
+[W 08/18/26 13:40:44.216 826489] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_0`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+/home/simx2204/anaconda3/envs/w2g/lib/python3.12/site-packages/quadrants/_test_tools/warnings_helper.py:11: UserWarning: cannot create weak reference to 'tuple' object. Template mapper caching disabled.
+  warnings.warn(message)
+[W 08/18/26 13:40:58.221 826489] QuadrantsWarning
+While compiling `_kernel_add_rods_c968_1`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
+                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Assign may lose precision: i32 <- f64
+RED-TEAM: SURVIVES 10/10 (fails=0) -> /home/simx2204/where2grasp/sim/qa/redteam_independent_closure_report.json
+  [survives] input_artifact_digests: ok
+  [survives] c1_single_file: C1=a0799eef touches: ['sim/manifests/independent_closure_manifest.json | 309 ++++++++++++++++++++++++', ' 1 file changed, 309 insertions(+)']
+  [survives] c1_ancestor_of_c2: merge-base --is-ancestor a0799eef 1752b1a3 = True
+  [survives] beff_force_recompute: ok (cubic F/(3k) matches)
+  [survives] observable_A_recompute: ok
+  [survives] observable_B_recompute: ok
+  [survives] no_refit_recompute: a max_rel=0.1070(pass=False) b meanK=0.5092(pass=True) c worst=1(pass=True)
+  [survives] mesh_gate_recompute: recomputed pass=True vs stored True
+  [survives] deterministic_replay_B4: replay B_eff_force=0.23229 vs stored 0.23198; finding7 B4 replay=0.163% vs stored 0.029%
+  [survives] dataflow_provenance: B_eff_force fit is cubic on the force residual delta_point; no gravity-sag law fit in the calibration path

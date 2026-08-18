@@ -1,0 +1,58 @@
+{
+  "checks": [
+    {
+      "check": "input_artifact_digests",
+      "status": "survives",
+      "detail": "ok"
+    },
+    {
+      "check": "c1_single_file",
+      "status": "survives",
+      "detail": "C1=a0799eef touches: ['sim/manifests/independent_closure_manifest.json | 309 ++++++++++++++++++++++++', ' 1 file changed, 309 insertions(+)']"
+    },
+    {
+      "check": "c1_ancestor_of_c2",
+      "status": "survives",
+      "detail": "merge-base --is-ancestor a0799eef 1752b1a3 = True"
+    },
+    {
+      "check": "beff_force_recompute",
+      "status": "survives",
+      "detail": "ok (cubic F/(3k) matches)"
+    },
+    {
+      "check": "observable_A_recompute",
+      "status": "survives",
+      "detail": "ok"
+    },
+    {
+      "check": "observable_B_recompute",
+      "status": "survives",
+      "detail": "ok"
+    },
+    {
+      "check": "no_refit_recompute",
+      "status": "survives",
+      "detail": "a max_rel=0.1070(pass=False) b meanK=0.5092(pass=True) c worst=1(pass=True)"
+    },
+    {
+      "check": "mesh_gate_recompute",
+      "status": "survives",
+      "detail": "recomputed pass=True vs stored True"
+    },
+    {
+      "check": "deterministic_replay_B4",
+      "status": "survives",
+      "detail": "replay B_eff_force=0.23229 vs stored 0.23198; finding7 B4 replay=0.163% vs stored 0.029%"
+    },
+    {
+      "check": "dataflow_provenance",
+      "status": "survives",
+      "detail": "B_eff_force fit is cubic on the force residual delta_point; no gravity-sag law fit in the calibration path"
+    }
+  ],
+  "survivors": 10,
+  "fails": 0,
+  "survived_all": true,
+  "verdict_under_review": "REPORTED NULL (>=1 no-refit family missed its frozen bound)"
+}

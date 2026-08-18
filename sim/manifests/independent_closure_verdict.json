@@ -1700,5 +1700,302 @@
     "all": true
   },
   "verdict": "REPORTED NULL (>=1 no-refit family missed its frozen bound)",
-  "claim_language": "A PASS is a same-simulator, different-load-law, no-refit, baseline-subtracted closure: B_eff_force is fit only to the cubic concentrated-tip-load law on the residual after subtracting a MEASURED self-weight settle (the baseline reuses the gravity channel as data, not as the sag law); a common multiplicative g/mass scale error cancels; it is NOT a solver-, clamp-, continuum-EI-, or hardware-independent validation."
+  "claim_language": "A PASS is a same-simulator, different-load-law, no-refit, baseline-subtracted closure: B_eff_force is fit only to the cubic concentrated-tip-load law on the residual after subtracting a MEASURED self-weight settle (the baseline reuses the gravity channel as data, not as the sag law); a common multiplicative g/mass scale error cancels; it is NOT a solver-, clamp-, continuum-EI-, or hardware-independent validation.",
+  "finding5_attribution": {
+    "note": "DIAGNOSTIC ONLY -- explains the force-vs-gravity B_eff gap; does NOT change the REPORTED NULL verdict.",
+    "per_material_gap_pct": {
+      "B1": 7.613990877175469,
+      "B2": 8.131163011608011,
+      "B3": 7.437589041879034,
+      "B4": 7.760651193984391,
+      "R0": 8.126726917788197,
+      "R1": 8.040469415379082,
+      "R2": 7.77399851720888
+    },
+    "gap_range_pct": [
+      7.437589041879034,
+      8.131163011608011
+    ],
+    "calibration_window_mean_rN_pct": 6.5007976439478865,
+    "residual_above_rN_pct": 1.3398579239125512,
+    "six_stiffer_shape_match_maxdev_pct": 2.086844521781076,
+    "B1_note": "B1 (softest in-cohort) deviates more -- larger self-weight deflection -> geometric nonlinearity beyond lumped-mass r_N.",
+    "fourth_root_boundary_shift_pct": 1.9050320296444934,
+    "interpretation": "Gravity B_eff was fit from distributed self-weight on a lumped-mass rod, biased LOW by the quadrature factor r_N; the tip point-load force calibration has no distributed-mass quadrature bias, so B_eff_force ~= B_continuum, HIGHER than gravity B_eff by ~r_N. The calibration-window mean r_N (~6.5%) accounts for most of the +7.8% mean gap; the ~1.3% residual is unexplained. Because 4th-root boundaries shift only ~1.9% under a ~7.8% B_eff rescale (within the declared grid bound), the prefactor(b)/distal(c) no-refit predictions PASS while the direct-sag(a) misses.",
+    "per_material": {
+      "B1": {
+        "B_eff_force": 0.017331455047741515,
+        "gravity_B_eff": 0.01610520612280113,
+        "gap_pct": 7.613990877175469,
+        "window_ells": [
+          0.15,
+          0.18,
+          0.21,
+          0.24,
+          0.27,
+          0.3
+        ],
+        "sag_inflation": [
+          1.150691078082831,
+          1.11227686906976,
+          1.0852037807435444,
+          1.0650112631063164,
+          1.0492415989840056,
+          1.0363968475212055
+        ],
+        "r_N": [
+          1.0903703703703704,
+          1.0751028806584362,
+          1.0642479213907785,
+          1.0561342592592593,
+          1.0498399634202102,
+          1.0448148148148149
+        ],
+        "inflation_over_rN": [
+          1.055321301230857,
+          1.034577145201729,
+          1.0196907684117253,
+          1.0084051850124465,
+          0.9994300422378137,
+          0.9919431011369212
+        ],
+        "shape_match_std_pct": 2.116300130092041,
+        "residual_pct": 1.8227923871915186
+      },
+      "B2": {
+        "B_eff_force": 0.04137012406741577,
+        "gravity_B_eff": 0.03825920568613013,
+        "gap_pct": 8.131163011608011,
+        "window_ells": [
+          0.15,
+          0.18,
+          0.21,
+          0.24,
+          0.27,
+          0.3
+        ],
+        "sag_inflation": [
+          1.1585111047555787,
+          1.1198826334388516,
+          1.0927198654005656,
+          1.072566443792729,
+          1.0569971022909677,
+          1.0445754862416932
+        ],
+        "r_N": [
+          1.0903703703703704,
+          1.0751028806584362,
+          1.0642479213907785,
+          1.0561342592592593,
+          1.0498399634202102,
+          1.0448148148148149
+        ],
+        "inflation_over_rN": [
+          1.062493200692956,
+          1.0416515978014964,
+          1.0267531121626055,
+          1.0155588026705948,
+          1.0068173618076421,
+          0.9997709368495468
+        ],
+        "shape_match_std_pct": 2.084124853141504,
+        "residual_pct": 2.550750199747376
+      },
+      "B3": {
+        "B_eff_force": 0.0978825871283499,
+        "gravity_B_eff": 0.09110646283229176,
+        "gap_pct": 7.437589041879034,
+        "window_ells": [
+          0.15,
+          0.18,
+          0.21,
+          0.24,
+          0.27,
+          0.3
+        ],
+        "sag_inflation": [
+          1.1561089529912427,
+          1.1175680391492577,
+          1.0904770516078632,
+          1.0703945280650438,
+          1.054909880122592,
+          1.042601174158704
+        ],
+        "r_N": [
+          1.0903703703703704,
+          1.0751028806584362,
+          1.0642479213907785,
+          1.0561342592592593,
+          1.0498399634202102,
+          1.0448148148148149
+        ],
+        "inflation_over_rN": [
+          1.060290140311262,
+          1.0394986928737593,
+          1.0246456955093772,
+          1.0135023257514497,
+          1.004829228148131,
+          0.9978813081277919
+        ],
+        "shape_match_std_pct": 2.07872486179233,
+        "residual_pct": 2.344123178696189
+      },
+      "B4": {
+        "B_eff_force": 0.23198095389297357,
+        "gravity_B_eff": 0.21527426878237318,
+        "gap_pct": 7.760651193984391,
+        "window_ells": [
+          0.15,
+          0.18,
+          0.21,
+          0.24,
+          0.27,
+          0.3
+        ],
+        "sag_inflation": [
+          1.1556442398711586,
+          1.117119807909236,
+          1.0900426086936574,
+          1.069973219790901,
+          1.0545039220856582,
+          1.0422155026347557
+        ],
+        "r_N": [
+          1.0903703703703704,
+          1.0751028806584362,
+          1.0642479213907785,
+          1.0561342592592593,
+          1.0498399634202102,
+          1.0448148148148149
+        ],
+        "inflation_over_rN": [
+          1.0598639428166197,
+          1.0390817734811266,
+          1.024237479617691,
+          1.0131034103006449,
+          1.0044425425092922,
+          0.9975121790548884
+        ],
+        "shape_match_std_pct": 2.077782660136294,
+        "residual_pct": 2.304022129671046
+      },
+      "R0": {
+        "B_eff_force": 0.03488691907793688,
+        "gravity_B_eff": 0.032264843367045035,
+        "gap_pct": 8.126726917788197,
+        "window_ells": [
+          0.15,
+          0.18,
+          0.21,
+          0.24,
+          0.27,
+          0.3
+        ],
+        "sag_inflation": [
+          1.158155492374006,
+          1.119535071297981,
+          1.0923727486800676,
+          1.0722106314846693,
+          1.0566200747202206,
+          1.0441583168765312
+        ],
+        "r_N": [
+          1.0903703703703704,
+          1.0751028806584362,
+          1.0642479213907785,
+          1.0561342592592593,
+          1.0498399634202102,
+          1.0448148148148149
+        ],
+        "inflation_over_rN": [
+          1.0621670616201822,
+          1.0413283151211843,
+          1.0264269506418533,
+          1.0152219020304156,
+          1.0064582331938687,
+          0.9993716609594591
+        ],
+        "shape_match_std_pct": 2.086844521781076,
+        "residual_pct": 2.5162353927827175
+      },
+      "R1": {
+        "B_eff_force": 0.04905991452788192,
+        "gravity_B_eff": 0.045408831332695465,
+        "gap_pct": 8.040469415379082,
+        "window_ells": [
+          0.15,
+          0.18,
+          0.21,
+          0.24,
+          0.27,
+          0.3
+        ],
+        "sag_inflation": [
+          1.1589081360207991,
+          1.120269100404457,
+          1.0931025013378883,
+          1.0729522086903036,
+          1.0573964620654215,
+          1.045001506254367
+        ],
+        "r_N": [
+          1.0903703703703704,
+          1.0751028806584362,
+          1.0642479213907785,
+          1.0561342592592593,
+          1.0498399634202102,
+          1.0448148148148149
+        ],
+        "inflation_over_rN": [
+          1.0628573258342926,
+          1.0420110675532366,
+          1.02711264862928,
+          1.015924063899641,
+          1.0071977624290405,
+          1.00017868375994
+        ],
+        "shape_match_std_pct": 2.082213258167364,
+        "residual_pct": 2.58802586842386
+      },
+      "R2": {
+        "B_eff_force": 0.06200583939709538,
+        "gravity_B_eff": 0.05753320861264561,
+        "gap_pct": 7.77399851720888,
+        "window_ells": [
+          0.15,
+          0.18,
+          0.21,
+          0.24,
+          0.27,
+          0.3
+        ],
+        "sag_inflation": [
+          1.1575929734067096,
+          1.1190002414144038,
+          1.091869536071425,
+          1.071751760748952,
+          1.056230378801837,
+          1.0438785326356663
+        ],
+        "r_N": [
+          1.0903703703703704,
+          1.0751028806584362,
+          1.0642479213907785,
+          1.0561342592592593,
+          1.0498399634202102,
+          1.0448148148148149
+        ],
+        "inflation_over_rN": [
+          1.0616511644694686,
+          1.0408308465596177,
+          1.025954116635295,
+          1.0147874205885967,
+          1.0060870376479172,
+          0.9991038773896841
+        ],
+        "shape_match_std_pct": 2.0804473561751147,
+        "residual_pct": 2.473574388176325
+      }
+    }
+  }
 }
