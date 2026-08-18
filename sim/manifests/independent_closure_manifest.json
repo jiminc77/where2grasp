@@ -1,0 +1,309 @@
+{
+  "schema_version": 1,
+  "phase": "independent_mechanics_closure",
+  "adjudication": "gptpro_inspection_adjudication_2026-08-17.md \u00a7C-1 (folds findings 4/5/6/7/8; preempts reviewer attack 1)",
+  "approved_plan": "ralplan run independent-closure, blueprint stage-03-revision.md sha256 636f9079ef3e67ad5f84f0ca3b863dbad8598b81f6a4cf09ec3f79870ecebd1d",
+  "simulation_only": true,
+  "method": {
+    "name": "baseline_subtraction",
+    "description": "Concentrated tip point-load isolated by subtracting a self-weight-only settle. Arm at a normal stable uniform mass m0; two settles (self-weight baseline delta_sw; then add the tip load -> delta_total); residual delta_point = delta_total - delta_sw is fit ONLY to the cubic point-load law delta=F*ell^3/(3B) -> B_eff_force=F/(3k).",
+    "arm_mass_m0": 0.0002,
+    "tip_load_sizing": "m_load = 3*B*target_ratio/(g*ell_ub^2) = 1.5625*B/g at ell_ub=0.24; F=m_load*g",
+    "target_deflection_ratio": 0.03,
+    "second_load_level_ratio_F2_over_F1": 0.5,
+    "superseded_option_iv": "epsilon-arm concentrated tip load (approved plan \u00a72); numerically non-viable at the reference interval (escalation a6cfb21, bf688ec).",
+    "contamination_superseded_note": "The frozen <1% contamination bound is NOT relaxed; it is SUPERSEDED by the subtraction design -- the self-weight is measured and subtracted, so there is no epsilon-arm distributed-mass contamination to bound."
+  },
+  "authorization": {
+    "owner_ruling": "delegated-authority pre-freeze ruling (this session): adopt Option (B) baseline-subtraction; Options (A) relax contamination / (C) change integrator / (D) reduce-scope-or-stop are REJECTED.",
+    "escalation_commits": [
+      "a6cfb21",
+      "bf688ec"
+    ],
+    "conditions": {
+      "1_superposition_guard": "pre-declared linear-superposition inclusion guard from committed numbers.",
+      "2_claim_downgrade": "baseline is measured data (gravity channel reused as data, not the sag law); B fit only to the cubic law; g/mass scale cancels.",
+      "3_per_mesh_viability": "pre-freeze per-mesh probe; if 0.005 divergent under the frozen integrator, freeze reduced {0.02,0.01} + note.",
+      "4_adr_trail": "record deviation citing a6cfb21+bf688ec+ruling; contamination bound superseded, not relaxed.",
+      "5_process": "escalation->critic-reject->rigorous-diagnosis endorsed; diagnostics kept committed."
+    }
+  },
+  "integrator": {
+    "dt": 0.00025,
+    "substeps": 20,
+    "damping": 40.0,
+    "angular_damping": 20.0
+  },
+  "reference_interval": 0.01,
+  "segment_radius": 0.01,
+  "shear_G": 10000.0,
+  "g": 9.81,
+  "mesh_sequence": {
+    "target_intervals": [
+      0.02,
+      0.01,
+      0.005
+    ],
+    "realized_intervals": [
+      0.02,
+      0.01
+    ],
+    "finest_infeasibility_note": "interval 0.005 DIVERGES under the frozen integrator (heavy tip on the nv~50 fine mesh; NaN within 2000 steps for the stiffest and a mid material; sim/logs/ic_check005.log, sim/qa/ic_check_finest_mesh.py). Realized sequence = two-level {0.02,0.01} (Condition 3).",
+    "naming_rule": "'convergence' may be claimed ONLY if the realized sequence shows the decreasing successive-difference trend; a two-level sequence cannot satisfy the decreasing-trend clause (needs >=3 levels), so the achievable label is 'two-level fixed-discretization validation' (directive finding-6)."
+  },
+  "raw_E_grid": [
+    1000000.0,
+    2370946.5892385854,
+    5621387.729022082,
+    13328010.062912514,
+    31600000.0
+  ],
+  "gravity_B_eff": [
+    0.006713764347921196,
+    0.01610520612280113,
+    0.03825920568613013,
+    0.09110646283229176,
+    0.21527426878237318
+  ],
+  "ratio_cells": [
+    {
+      "id": "R0",
+      "raw_E": 4741893.178477171,
+      "gravity_B_eff": 0.032264843367045035
+    },
+    {
+      "id": "R1",
+      "raw_E": 6664005.031456257,
+      "gravity_B_eff": 0.045408831332695465
+    },
+    {
+      "id": "R2",
+      "raw_E": 8432081.593533123,
+      "gravity_B_eff": 0.05753320861264561
+    }
+  ],
+  "superposition_guard": {
+    "rule": "in-regime iff total delta/ell <= Pi_g_max/8 = 0.0625 at the upper-bracket ell=0.24 (finding-3 conservative); total delta/ell = delta_sw/ell + target_ratio; delta_sw/ell = Pi_g(m0)/8 from committed B_eff.",
+    "cap": 0.0625,
+    "pi_g_max": 0.5,
+    "upper_bracket_ell": 0.24,
+    "m0": 0.0002,
+    "cohort_table": [
+      {
+        "label": "B0",
+        "raw_E": 1000000.0,
+        "gravity_B_eff": 0.006713764347921196,
+        "m_load": 0.0010693432001658376,
+        "F": 0.010490256793626867,
+        "sw_ratio": 0.0505,
+        "total_ratio": 0.0805,
+        "included": false
+      },
+      {
+        "label": "B1",
+        "raw_E": 2370946.5892385854,
+        "gravity_B_eff": 0.01610520612280113,
+        "m_load": 0.002565176816195389,
+        "F": 0.025164384566876766,
+        "sw_ratio": 0.02105,
+        "total_ratio": 0.05105,
+        "included": true
+      },
+      {
+        "label": "B2",
+        "raw_E": 5621387.729022082,
+        "gravity_B_eff": 0.03825920568613013,
+        "m_load": 0.006093782760915222,
+        "F": 0.05978000888457833,
+        "sw_ratio": 0.00886,
+        "total_ratio": 0.03886,
+        "included": true
+      },
+      {
+        "label": "B3",
+        "raw_E": 13328010.062912514,
+        "gravity_B_eff": 0.09110646283229176,
+        "m_load": 0.014511095634603045,
+        "F": 0.14235384817545588,
+        "sw_ratio": 0.00372,
+        "total_ratio": 0.03372,
+        "included": true
+      },
+      {
+        "label": "B4",
+        "raw_E": 31600000.0,
+        "gravity_B_eff": 0.21527426878237318,
+        "m_load": 0.03428807797884384,
+        "F": 0.3363660449724581,
+        "sw_ratio": 0.00157,
+        "total_ratio": 0.03157,
+        "included": true
+      },
+      {
+        "label": "R0",
+        "raw_E": 4741893.178477171,
+        "gravity_B_eff": 0.032264843367045035,
+        "m_load": 0.00513902321722812,
+        "F": 0.05041381776100786,
+        "sw_ratio": 0.01051,
+        "total_ratio": 0.04051,
+        "included": true
+      },
+      {
+        "label": "R1",
+        "raw_E": 6664005.031456257,
+        "gravity_B_eff": 0.045408831332695465,
+        "m_load": 0.007232548313693849,
+        "F": 0.07095129895733666,
+        "sw_ratio": 0.00747,
+        "total_ratio": 0.03747,
+        "included": true
+      },
+      {
+        "label": "R2",
+        "raw_E": 8432081.593533123,
+        "gravity_B_eff": 0.05753320861264561,
+        "m_load": 0.009163673644980507,
+        "F": 0.08989563845725879,
+        "sw_ratio": 0.00589,
+        "total_ratio": 0.03589,
+        "included": true
+      }
+    ],
+    "included_cohort": [
+      "B1",
+      "B2",
+      "B3",
+      "B4",
+      "R0",
+      "R1",
+      "R2"
+    ],
+    "excluded": [
+      "B0"
+    ],
+    "excluded_note": "B0 (softest) total delta/ell=0.0805 > 0.0625 -> out-of-regime, exactly like hardening-A's B0-row exclusion; regime-of-validity, not a post-hoc drop."
+  },
+  "calibration_acceptance": {
+    "CV_max": 0.05,
+    "residual_max": 0.05,
+    "cubic_exponent_band": [
+      2.6,
+      3.4
+    ],
+    "finding7_invariance_max_pct": 4.5,
+    "code_citation": "sim/calibrate_beff.py:main analog gates (CV<=0.05, max_residual<=0.05, exponent band +/-0.4 around theory, multimass<=8.0); cubic theoretical exponent 3 -> [2.6,3.4]. calibration.json worst multimass 4.5039 -> finding-7 <=4.5.",
+    "F2_over_F1": 0.5
+  },
+  "observables": {
+    "A_shape": {
+      "definition": "normalized force-residual shape u(s)/u_tip vs the analytical end-load shape (3*frac^2 - frac^3)/2 at fracs [0.2, 0.4, 0.6, 0.8, 1.0]; metric = max-abs error",
+      "successive_tol": 0.02,
+      "absolute_ceiling": 0.05
+    },
+    "B_boundary": {
+      "definition": "MEASURED distributed-gravity droop-clear boundary; grid ell in [0.12,0.60] step 0.03; h=0.009; linear-interp crossing; K_N = ell_boundary/(B_eff_force/w)^0.25 at w=0.1962 (mass 0.0002)",
+      "grid": [
+        0.12,
+        0.15,
+        0.18,
+        0.21,
+        0.24,
+        0.27,
+        0.3,
+        0.33,
+        0.36,
+        0.39,
+        0.42,
+        0.45,
+        0.48,
+        0.51,
+        0.54,
+        0.57,
+        0.6
+      ],
+      "h": 0.009,
+      "tol": 0.026326769214488028,
+      "separate_extractor": "sim/ic_gravity_boundary.py (does NOT reuse the frozen analyze_gate surface)"
+    }
+  },
+  "mesh_gate_three_way": {
+    "CONVERGENCE": "decreasing successive-difference trend across ALL realized levels + A<=2% successive + A<=5% absolute ceiling + |K_N-0.5180|<=0.026 successive (requires >=3 levels for the trend; NOT achievable at two levels).",
+    "FIXED_DISCRETIZATION_VALIDATION": "at the reference interval 0.01 AND every realized level, Observable A max-abs shape error <= 5% AND |K_N - 0.5180| <= 0.026 (grid_resolution_bound_pm). This is the achievable two-level label.",
+    "MESH_FAIL": "neither holds (a realized level violates an absolute bound) -> blocks CLOSURE-PASS -> REPORTED NULL/INCONCLUSIVE."
+  },
+  "no_refit": {
+    "a_sag": {
+      "tol": 0.05,
+      "primary": "cohort materials (B1..B4+R), Pi_g<=0.5, mass != m0",
+      "retrospective_target": "calibration.json per-length delta (primary uses mass 0.0004; mass==m0=0.0002 rows are DESCRIPTIVE -- subtracted baseline, near-circular)",
+      "prospective": {
+        "mass": 0.0003,
+        "lengths": [
+          0.19,
+          0.21,
+          0.23
+        ],
+        "access": "score-only, generated in C2, accessed only after C1 (git-ancestry asserted by red-team)"
+      }
+    },
+    "b_prefactor": {
+      "predicted": 0.5180040128222703,
+      "tol": 0.026326769214488028,
+      "target": "hard_gate_verdict.json boundaries (measured ell_max) for cohort cells; K_force = ell_max/(B_eff_force/w)^0.25; mean within 0.5180 +/- 0.026",
+      "observed_gravity_mean": 0.5188501907210823
+    },
+    "c_distal": {
+      "tol_cells": 1,
+      "delta_z": 0.012,
+      "d": 0.24,
+      "target": "distal_sweep_landscape.json measured_argmax_ell (eligibility measured_feasible); s*=(8*B_eff_force*|z*|/w)^0.25 snapped to the 0.02 grid; |snap(s*)-measured_argmax_ell| <= 1 cell"
+    }
+  },
+  "finding5_rN": {
+    "descriptive_only": true,
+    "formula": "r_N=(N+1)(3N+1)/(3N^2), N=round(ell/interval)=free-arm segment count",
+    "free_vertex_index": "2..N+1 (interior-free 2..N + tip N+1); n_vertices=N+2",
+    "diagnostic": "measured distributed-gravity sag / continuum (=r_N sag ratio); B_eff_grav/B_eff_force ~ 1/r_N (reciprocal, not equal); exponent before/after dividing by r_N. NO verdict branch depends on it."
+  },
+  "finding7_invariance": {
+    "tol_pct": 4.5,
+    "rule": "|B_eff(F2)-B_eff(F1)|/B_eff(F1)*100 over lengths where BOTH F-levels (F2=0.5*F1) are in-guard AND (gravity cross-check) both masses Pi_g<=0.5"
+  },
+  "aggregate_truth_table": {
+    "required_cohort": "in-regime cohort ['B1', 'B2', 'B3', 'B4', 'R0', 'R1', 'R2'] (B0 excluded by the guard) at the realized mesh levels {0.02,0.01}; in-regime no-refit targets of families a,b,c",
+    "prerequisites_conjunctive": "calibration quality PASS for every cohort material (CV<=5%, residual<=5%, exponent in [2.6,3.4]) AND guard validity (all scored cells in-guard) AND finding-7 invariance <=4.5%",
+    "closure_pass": "iff prerequisites hold AND the mesh prong yields CONVERGENCE or FIXED-DISCRETIZATION VALIDATION (gated) AND ALL THREE no-refit families (a,b,c) pass their frozen bounds",
+    "reported_null": ">=1 no-refit family misses its bound, OR the mesh prong is MESH-FAIL while prerequisites hold -> honest null, reported, never retuned",
+    "inconclusive": "unrecoverable prerequisite failure on a required cell",
+    "catch_all": "every undeclared branch -> STOP for owner ruling; never rescope"
+  },
+  "claim_language_mandatory_status": "A PASS is a same-simulator, different-load-law, no-refit, baseline-subtracted closure: B_eff_force is fit only to the cubic concentrated-tip-load law on the residual after subtracting a MEASURED self-weight settle (the baseline reuses the gravity channel as data, not as the sag law); a common multiplicative g/mass scale error cancels; it is NOT a solver-, clamp-, continuum-EI-, or hardware-independent validation.",
+  "adr_deviation": {
+    "decision": "deviate from approved option (iv) epsilon-arm to baseline-subtraction (pre-freeze method change).",
+    "authorization": "escalation commits a6cfb21 + bf688ec + owner ruling (delegated authority, pre-freeze).",
+    "superseded_not_relaxed": "The frozen <1% contamination bound is NOT relaxed; it is SUPERSEDED by the subtraction design."
+  },
+  "seed_policy": "deterministic static settles; NO new seed bank. Prior banks (selection 2000/2100/2200, evaluation 3000/3100/3200, history 1000/2000/2100/2200) untouched.",
+  "figures": [
+    "per-mode calibration curves (force delta_point vs ell^3 + B_eff_force vs raw_E over the cohort, overlaid on committed gravity B_eff)",
+    "mesh sequence (Observable A shape-error with 5% ceiling + Observable B K_N vs interval over {0.02,0.01} with tolerance bands + two-level-gate label)",
+    "no-refit overlay with error bars vs bounds (sag +/-5% in-regime + prospective; prefactor 0.5180+/-0.026; distal measured optima grid cells <=1)"
+  ],
+  "input_artifact_sha256": {
+    "calibration.json": "0fd6dcaf2743103de20b42be54a975358afc702e3d44bce1986b155ef266ff6b",
+    "hard_gate_verdict.json": "97cdf7c018ac0dccf555ccd9d92741cfc7b91bdb20b1808cc9202ce7b6bd13e4",
+    "hard_sweep_landscape.json": "f2eda399abfbac7092952245fe3dc570b9c49a9eba267b74c3a88599e6ab7bd6",
+    "distal_manifest.json": "35fc1c62198caf94befa574d25dd9636e96ea8b55afe8ced5c0a7a8650802ffb",
+    "distal_sweep_landscape.json": "e55377f1b057bf725c89236270a273092c00a7f79b8e3461acaeea559164507b",
+    "distal_gate_verdict.json": "b23768fa3bce2d15286a545cd6e78c08b534348a60a30d3d5681ebcf0611dbc4",
+    "distal_critic_results.json": "e705bc05d80b1bb1469483ffb3d7c21a6c14ab59ac68efb67d5e14067e09585d",
+    "addendum_results.json": "d067319ba984d6e01fe586eddd1ad9f05bca3119673a2ca08cd44befa2b882b0",
+    "spanning_results.json": "335b7eccf066b4024eee24165616e9db9cc15e3428fd167ac4d1b83f28e5f965"
+  },
+  "provenance": {
+    "c1_commit": null,
+    "c2_commit": null,
+    "note": "c1 = this single-file freeze; the C2 data commit MUST be a git descendant (git merge-base --is-ancestor c1 c2)."
+  }
+}
