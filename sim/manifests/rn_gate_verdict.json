@@ -345,8 +345,8 @@
       "finite": true,
       "converged": true,
       "delta_pred": 0.001254161580952285,
-      "delta_obs": 0.0013175647918538536,
-      "rel_err": 0.04812151272831023,
+      "delta_obs": 0.0013175647919997369,
+      "rel_err": 0.04812151283370404,
       "within_bound": true
     },
     {
@@ -359,8 +359,8 @@
       "finite": true,
       "converged": true,
       "delta_pred": 0.0005269530321508519,
-      "delta_obs": 0.0005555361748644794,
-      "rel_err": 0.05145145178097576,
+      "delta_obs": 0.0005555361745983589,
+      "rel_err": 0.05145145132658919,
       "within_bound": false
     },
     {
@@ -373,8 +373,8 @@
       "finite": true,
       "converged": true,
       "delta_pred": 0.0002224431481561567,
-      "delta_obs": 0.00023408180074613316,
-      "rel_err": 0.04972045051293342,
+      "delta_obs": 0.00023408180047512772,
+      "rel_err": 0.049720449412758494,
       "within_bound": true
     },
     {
@@ -387,8 +387,8 @@
       "finite": true,
       "converged": true,
       "delta_pred": 9.382926095536223e-05,
-      "delta_obs": 9.88991161531283e-05,
-      "rel_err": 0.05126289692939486,
+      "delta_obs": 9.889911602745105e-05,
+      "rel_err": 0.05126289572377573,
       "within_bound": false
     },
     {
@@ -401,8 +401,8 @@
       "finite": true,
       "converged": true,
       "delta_pred": 0.0006247328248162162,
-      "delta_obs": 0.0006585872314532892,
-      "rel_err": 0.051404590037932074,
+      "delta_obs": 0.0006585872315598706,
+      "rel_err": 0.0514045901914465,
       "within_bound": false
     },
     {
@@ -415,8 +415,8 @@
       "finite": true,
       "converged": true,
       "delta_pred": 0.0004446050959596952,
-      "delta_obs": 0.00046863153741472097,
-      "rel_err": 0.05126936524069929,
+      "delta_obs": 0.00046863153736576013,
+      "rel_err": 0.05126936514157953,
       "within_bound": false
     },
     {
@@ -429,8 +429,8 @@
       "finite": true,
       "converged": true,
       "delta_pred": 0.00035147673899227333,
-      "delta_obs": 0.00037058174390558474,
-      "rel_err": 0.05155409090572712,
+      "delta_obs": 0.0003705817439004777,
+      "rel_err": 0.05155409089265649,
       "within_bound": false
     },
     {

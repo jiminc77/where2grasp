@@ -122,6 +122,9 @@ def test_prong_verdict_frozen_inventory_and_out_of_guard_are_inconclusive():
     broken[0] = rn_gate.score_cell(0.15, rn_gate.PROSPECTIVE_MASS, b0, float("nan"))
     broken[0].update(label="B1", cohort="prospective")
     assert rn_gate.prong_verdict(broken, expected_prospective_keys=keys)["verdict"] == "INCONCLUSIVE"
+    # a duplicate row (22 rows, same key set) must NOT pass integrity -> INCONCLUSIVE
+    dup = full + [dict(full[0])]
+    assert rn_gate.prong_verdict(dup, expected_prospective_keys=keys)["verdict"] == "INCONCLUSIVE"
 
 
 def test_claim_boundary_verbatim_plus_rN_clause():

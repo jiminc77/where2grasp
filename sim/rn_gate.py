@@ -99,9 +99,11 @@ def prong_verdict(cells, expected_prospective_keys=None, tol=ic.NOREFIT_SAG_TOL)
     prosp = [c for c in cells if c.get("cohort") == "prospective"]
     integrity_fail = []
     if expected_prospective_keys is not None:
+        exp = {tuple(k) for k in expected_prospective_keys}
         got = {(c["label"], c["N"]) for c in prosp}
-        if got != {tuple(k) for k in expected_prospective_keys}:
-            integrity_fail.append(f"prospective_inventory_mismatch got={sorted(got)}")
+        # exact key set AND exact row count (reject duplicate rows, not just a matching set)
+        if got != exp or len(prosp) != len(expected_prospective_keys):
+            integrity_fail.append(f"prospective_inventory_mismatch rows={len(prosp)} keys={len(got)} exp={len(exp)}")
     prosp_breakdown = [(c["label"], c["N"]) for c in prosp if not c["in_regime"] or not c["finite"]]
     in_regime = [c for c in cells if c["in_regime"]]
     nonfinite = [c for c in in_regime if not c["finite"]]
