@@ -127,18 +127,50 @@ def main():
         f7[lab] = float(abs(b2 - b1) / b1 * 100.0)
     f7_worst = float(max(f7.values()))
 
+    # --- settle integrity ---
+    # Calibration (B_eff_force + finding-7 headline) and the prospective sag MUST converge AND be finite.
+    # The Observable-B distributed-gravity sweep is gated on FINITENESS only: its droop-clear boundary is
+    # bracketed by settled rods, while the longest post-boundary rods (ell up to 0.60, well beyond every
+    # cell's boundary) need not fully settle; the per-interval sweep convergence flag is reported
+    # descriptively in settle_detail. A non-finite (NaN) settle anywhere -> INCONCLUSIVE.
+    settle_ok = (all(calib[iv]["converged"] and calib[iv]["finite"] for iv in REALIZED)
+                 and all(calib_F2[iv]["converged"] and calib_F2[iv]["finite"] for iv in REALIZED)
+                 and all(sweeps[iv]["finite"] for iv in REALIZED)
+                 and bool(prosp_sweep["converged"]) and bool(prosp_sweep["finite"]))
+    settle_detail = dict(
+        calibration={str(iv): dict(converged=calib[iv]["converged"], finite=calib[iv]["finite"]) for iv in REALIZED},
+        calibration_F2={str(iv): dict(converged=calib_F2[iv]["converged"], finite=calib_F2[iv]["finite"]) for iv in REALIZED},
+        gravity_sweep={str(iv): dict(converged=sweeps[iv]["converged"], finite=sweeps[iv]["finite"],
+                                     note="gated on finiteness only; boundary bracketed by settled rods, "
+                                          "longest post-boundary rods need not fully settle") for iv in REALIZED},
+        prospective=dict(converged=bool(prosp_sweep["converged"]), finite=bool(prosp_sweep["finite"])))
+
     # --- mesh gate (two-level fixed-discretization validation) ---
     A_abs = {iv: obsA[iv][1] for iv in REALIZED}
-    K_dev = {iv: max(abs(obsB[iv][lab]["K_N"] - ic.PREDICTED_PREFACTOR)
-                     for lab in labels if obsB[iv][lab]["K_N"] is not None) for iv in REALIZED}
+    # Observable-B resolution completeness: EVERY cohort cell must resolve a finite K_N at BOTH levels;
+    # unresolved cells are reported as INCONCLUSIVE, never silently dropped from a PASS.
+    obsB_resolved = {iv: {lab: obsB[iv][lab]["K_N"] is not None for lab in labels} for iv in REALIZED}
+    unresolved = {str(iv): [lab for lab in labels if not obsB_resolved[iv][lab]] for iv in REALIZED}
+    resolved_both = [lab for lab in labels if all(obsB_resolved[iv][lab] for iv in REALIZED)]
+    full_cohort_B_resolved = bool(all(obsB_resolved[iv][lab] for iv in REALIZED for lab in labels))
+    K_dev = {iv: (max(abs(obsB[iv][lab]["K_N"] - ic.PREDICTED_PREFACTOR) for lab in resolved_both)
+                  if resolved_both else float("inf")) for iv in REALIZED}
     A_ceiling_ok = all(A_abs[iv] <= ic.OBS_A_ABSOLUTE_CEILING for iv in REALIZED)
     K_bound_ok = all(K_dev[iv] <= ic.OBS_B_TOL for iv in REALIZED)
     A_succ = abs(A_abs[0.02] - A_abs[0.01])
-    meanK = {iv: float(np.mean([obsB[iv][l]["K_N"] for l in labels if obsB[iv][l]["K_N"] is not None]))
+    meanK = {iv: (float(np.mean([obsB[iv][l]["K_N"] for l in resolved_both])) if resolved_both else float("nan"))
              for iv in REALIZED}
     K_succ = abs(meanK[0.02] - meanK[0.01])
-    mesh_pass = bool(A_ceiling_ok and K_bound_ok)
-    mesh_label = ("two-level fixed-discretization validation" if mesh_pass else "MESH-FAIL")
+    mesh_subset_pass = bool(A_ceiling_ok and K_bound_ok and settle_ok)   # over cells resolved at both levels
+    mesh_pass = bool(mesh_subset_pass and full_cohort_B_resolved)         # clean full-cohort pass
+    if mesh_pass:
+        mesh_label = "two-level fixed-discretization validation"
+    elif mesh_subset_pass and not full_cohort_B_resolved:
+        mesh_label = ("two-level fixed-discretization validation over %d/%d cohort cells; Observable-B "
+                      "INCONCLUSIVE for %s (droop boundary off the sweep grid at that mesh)"
+                      % (len(resolved_both), len(labels), {k: v for k, v in unresolved.items() if v}))
+    else:
+        mesh_label = "MESH-FAIL"
 
     # --- calibration-quality prerequisites ---
     cal_ok = all(m["max_residual"] <= ic.ACCEPT_RESIDUAL and m["CV"] <= ic.ACCEPT_CV
@@ -147,17 +179,20 @@ def main():
     guard_ok = all(m["guard_ok"] and m["superposition_ok"]
                    for iv in REALIZED for m in calib[iv]["per_material"])
     f7_ok = bool(f7_worst <= ic.FINDING7_ACCEPT)
-    prereq_ok = bool(cal_ok and guard_ok and f7_ok)
+    prereq_ok = bool(cal_ok and guard_ok and f7_ok and settle_ok)
 
     norefit_pass = bool(a["passed"] and a_prosp["passed"] and b["passed"] and c["passed"])
-    if prereq_ok and mesh_pass and norefit_pass:
-        verdict = "CLOSURE-PASS"
-    elif not prereq_ok:
-        verdict = "INCONCLUSIVE (calibration/guard/finding-7 prerequisite failed)"
-    elif not mesh_pass:
-        verdict = "REPORTED NULL (mesh prong MESH-FAIL)"
-    else:
+    # precedence: prerequisites -> no-refit (the real NULL driver) -> mesh completeness/pass
+    if not prereq_ok:
+        verdict = "INCONCLUSIVE (calibration/guard/finding-7/settle prerequisite failed)"
+    elif not norefit_pass:
         verdict = "REPORTED NULL (>=1 no-refit family missed its frozen bound)"
+    elif not mesh_subset_pass:
+        verdict = "REPORTED NULL (mesh prong MESH-FAIL)"
+    elif not full_cohort_B_resolved:
+        verdict = "INCONCLUSIVE (mesh Observable-B incomplete for the full cohort)"
+    else:
+        verdict = "CLOSURE-PASS"
 
     results = dict(
         cohort=labels, realized_intervals=list(REALIZED),
@@ -167,11 +202,17 @@ def main():
                      for i in range(len(labels))] for iv in REALIZED},
         observable_A={str(iv): dict(per_material=obsA[iv][0], max_abs=obsA[iv][1]) for iv in REALIZED},
         observable_B={str(iv): {lab: obsB[iv][lab] for lab in labels} for iv in REALIZED},
-        mesh_gate=dict(label=mesh_label, passed=mesh_pass, A_abs=A_abs, K_dev=K_dev,
-                       A_successive=A_succ, K_successive=float(K_succ),
+        mesh_gate=dict(label=mesh_label, passed=mesh_pass, subset_passed=mesh_subset_pass,
+                       full_cohort_B_resolved=full_cohort_B_resolved, resolved_both=resolved_both,
+                       unresolved=unresolved, obsB_resolved={str(iv): obsB_resolved[iv] for iv in REALIZED},
+                       A_abs=A_abs, K_dev=K_dev, A_successive=A_succ, K_successive=float(K_succ),
                        A_ceiling=ic.OBS_A_ABSOLUTE_CEILING, K_bound=ic.OBS_B_TOL,
                        note="two levels cannot satisfy the decreasing-trend 'convergence' clause; the "
-                            "achievable pass is fixed-discretization validation via the reference-level absolute bounds."),
+                            "achievable pass is fixed-discretization validation via the reference-level absolute "
+                            "bounds over cohort cells resolved at BOTH levels. B4's droop boundary is off the sweep "
+                            "grid at the coarse mesh 0.02 (stiffest material) -> B4 Observable-B is INCONCLUSIVE at "
+                            "0.02, reported (not dropped); the aggregate verdict is REPORTED NULL from family-a regardless."),
+        settle_integrity=dict(all_ok=settle_ok, detail=settle_detail),
         no_refit=dict(a_retrospective=a, a_prospective=a_prosp, b_prefactor=b, c_distal=c, passed=norefit_pass),
         finding7=dict(per_material=f7, worst_pct=f7_worst, tol=ic.FINDING7_ACCEPT, passed=f7_ok),
         finding5_rN=rN,
@@ -189,6 +230,8 @@ def main():
              **{f"delta_total_{iv}": np.asarray(calib[iv]["delta_total"]) for iv in REALIZED},
              **{f"ell_{iv}": np.asarray(calib[iv]["ell"]) for iv in REALIZED},
              **{f"forces_{iv}": np.asarray(calib[iv]["forces"]) for iv in REALIZED},
+             **{f"delta_point_F2_{iv}": np.asarray(calib_F2[iv]["delta_point"]) for iv in REALIZED},
+             **{f"forces_F2_{iv}": np.asarray(calib_F2[iv]["forces"]) for iv in REALIZED},
              **{f"grav_droop_{iv}": np.asarray(sweeps[iv]["droop"]) for iv in REALIZED},
              **{f"shape_ub_{iv}": np.asarray(calib[iv]["shape"][str(int(np.argmax(calib[iv]["ell"])))]) for iv in REALIZED},
              obs_A_fracs=np.asarray(ic.OBS_A_FRACS),

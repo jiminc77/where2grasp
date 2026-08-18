@@ -27,14 +27,13 @@ def _load(name):
 
 
 def _rawE_for_beff(b_eff, tol=1e-6):
-    """Map a committed gravity B_eff to its calibrated force raw_E (5 grid + 3 ratio cells)."""
+    """Map a committed gravity B_eff to its calibrated force raw_E (5 grid + 3 ratio cells) by
+    EXACT match. No silent nearest-neighbour fallback: an unknown committed B_eff is a hard
+    error, never a guessed cohort mapping."""
     for raw_e, gb in list(zip(ic.RAW_E_GRID, ic.GRAV_B_EFF)) + list(zip(ic.RATIO_RAW_E, ic.RATIO_GRAV_B_EFF)):
         if abs(gb - b_eff) <= tol * max(1.0, abs(gb)):
             return raw_e
-    # nearest fallback (log distance) — still deterministic
-    keys = list(ic.RAW_E_GRID) + list(ic.RATIO_RAW_E)
-    vals = list(ic.GRAV_B_EFF) + list(ic.RATIO_GRAV_B_EFF)
-    return keys[int(np.argmin([abs(np.log(v) - np.log(b_eff)) for v in vals]))]
+    raise ValueError(f"no exact committed B_eff match for {b_eff!r}; refusing to guess a cohort mapping")
 
 
 def score_sag_retrospective(beff_force_by_rawE, m0=ic.BASELINE_ARM_MASS):

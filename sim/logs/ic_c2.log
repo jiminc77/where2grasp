@@ -4,5 +4,5 @@ cohort: ['B1', 'B2', 'B3', 'B4', 'R0', 'R1', 'R2']
   warnings.warn(message)
 [calibration interval 0.01]
 VERDICT: REPORTED NULL (>=1 no-refit family missed its frozen bound)
-mesh: two-level fixed-discretization validation | A_abs {0.02: 0.02287702977108405, 0.01: 0.012096654160694637} | K_dev {0.02: 0.0153870333371805, 0.01: 0.007441025031875048}
+mesh: two-level fixed-discretization validation over 6/7 cohort cells; Observable-B INCONCLUSIVE for {'0.02': ['B4']} (droop boundary off the sweep grid at that mesh) | A_abs {0.02: 0.022877029770850127, 0.01: 0.012096654160694637} | K_dev {0.02: 0.015387033298858044, 0.01: 0.007441037161415198}
 no-refit: a=False a_prosp=False b=True(meanK=0.5092) c=True(worst=1) | finding7 worst=0.42%

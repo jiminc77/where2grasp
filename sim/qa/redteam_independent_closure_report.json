@@ -28,22 +28,32 @@
     {
       "check": "observable_B_recompute",
       "status": "survives",
-      "detail": "ok"
+      "detail": "ok (boundary+K_N)"
+    },
+    {
+      "check": "mesh_completeness",
+      "status": "survives",
+      "detail": "unresolved recomputed 0.02=['B4'] 0.01=[] vs stored {'0.02': ['B4'], '0.01': []}; full_cohort_B_resolved stored=False (unresolved cells are REPORTED, not dropped from the pass)"
     },
     {
       "check": "no_refit_recompute",
       "status": "survives",
-      "detail": "a max_rel=0.1070(pass=False) b meanK=0.5092(pass=True) c worst=1(pass=True)"
+      "detail": "independent arithmetic: a max_rel=0.1070 (>5%=True) b meanK=0.5092 (in-bound=True) c worst=1 cell(s)"
     },
     {
       "check": "mesh_gate_recompute",
       "status": "survives",
-      "detail": "recomputed pass=True vs stored True"
+      "detail": "recomputed subset_pass=True full_resolved=False vs stored subset=True full=False"
+    },
+    {
+      "check": "finding7_recompute",
+      "status": "survives",
+      "detail": "ok (F2 committed arrays; worst 0.424%)"
     },
     {
       "check": "deterministic_replay_B4",
       "status": "survives",
-      "detail": "replay B_eff_force=0.23229 vs stored 0.23198; finding7 B4 replay=0.163% vs stored 0.029%"
+      "detail": "replay B_eff_force=0.23229 vs committed 0.23198 (arrays not fabricated)"
     },
     {
       "check": "dataflow_provenance",
@@ -51,7 +61,7 @@
       "detail": "B_eff_force fit is cubic on the force residual delta_point; no gravity-sag law fit in the calibration path"
     }
   ],
-  "survivors": 10,
+  "survivors": 12,
   "fails": 0,
   "survived_all": true,
   "verdict_under_review": "REPORTED NULL (>=1 no-refit family missed its frozen bound)"

@@ -17,7 +17,6 @@ from pathlib import Path
 import numpy as np
 
 from sim import ic_common as ic
-from sim import ic_norefit
 
 ROOT = Path(__file__).resolve().parents[1]
 MAN = ROOT / "manifests"
@@ -66,9 +65,9 @@ def run():
         _check(res, "c1_single_file", False, "manifest add-commit not found")
         _check(res, "c1_ancestor_of_c2", False, "add-commits not found")
 
-    # 3. B_eff_force recompute from committed force-residual arrays (independent cubic fit)
+    # 3. B_eff_force recompute from committed force-residual arrays (independent cubic fit), per interval
     drift = []
-    bmap_ref = {}
+    bmap_by_iv = {0.02: {}, 0.01: {}}
     for iv in (0.02, 0.01):
         dp = np.asarray(data[f"delta_point_{iv}"]); ell = np.asarray(data[f"ell_{iv}"]); F = np.asarray(data[f"forces_{iv}"])
         for mi, lab in enumerate(labels):
@@ -77,8 +76,8 @@ def run():
             stored = [c for c in verdict["calibration"][str(iv)] if c["label"] == lab][0]["B_eff_force"]
             if abs(mine - stored) / stored > 1e-6:
                 drift.append(f"{iv}/{lab}: {mine:.6g} vs {stored:.6g}")
-            if iv == 0.01:
-                bmap_ref[float(raw_es[mi])] = mine
+            bmap_by_iv[iv][float(raw_es[mi])] = mine
+    bmap_ref = bmap_by_iv[0.01]
     _check(res, "beff_force_recompute", not drift, "ok (cubic F/(3k) matches)" if not drift else "; ".join(drift))
 
     # 4. Observable A recompute from committed shapes (interpolated-shape max-abs error)
@@ -91,51 +90,123 @@ def run():
             aerr.append(f"{iv}: {mine:.5f} vs {stored:.5f}")
     _check(res, "observable_A_recompute", not aerr, "ok" if not aerr else "; ".join(aerr))
 
-    # 5. Observable B recompute from committed gravity droop arrays
+    # helpers (fresh; no production scorers)
+    def w_of(iv):
+        return ic.OBS_B_REF_MASS * ic.G / iv        # interval-specific linear weight for Observable-B K_N
+
+    def _rawE(be):
+        for re_, gb in list(zip(ic.RAW_E_GRID, ic.GRAV_B_EFF)) + list(zip(ic.RATIO_RAW_E, ic.RATIO_GRAV_B_EFF)):
+            if abs(gb - be) <= 1e-6 * max(1.0, abs(gb)):
+                return re_
+        raise ValueError(f"no exact B_eff match for {be}")
+
+    # 5. Observable B recompute (boundary + K_N) from raw droop; record resolution completeness
     berr = []
+    unres_re = {0.02: [], 0.01: []}
     for iv in (0.02, 0.01):
         droop = np.asarray(data[f"grav_droop_{iv}"]); ells = np.asarray(data["grav_ells"])
         for mi, lab in enumerate(labels):
             b = ic.observable_B_boundary(ells, droop[:, mi])
             stored = verdict["observable_B"][str(iv)][lab]["ell_boundary"]
             if (b is None) != (stored is None) or (b is not None and abs(b - stored) > 1e-6):
-                berr.append(f"{iv}/{lab}: {b} vs {stored}")
-    _check(res, "observable_B_recompute", not berr, "ok" if not berr else "; ".join(berr[:4]))
+                berr.append(f"{iv}/{lab} boundary {b} vs {stored}")
+            if b is None:
+                unres_re[iv].append(lab)
+            else:
+                kn = b / (bmap_by_iv[iv][float(raw_es[mi])] / w_of(iv)) ** 0.25
+                stored_kn = verdict["observable_B"][str(iv)][lab]["K_N"]
+                if abs(kn - stored_kn) > 1e-6:
+                    berr.append(f"{iv}/{lab} K_N {kn:.5f} vs {stored_kn}")
+    _check(res, "observable_B_recompute", not berr, "ok (boundary+K_N)" if not berr else "; ".join(berr[:4]))
+    stored_unres = verdict["mesh_gate"]["unresolved"]
+    comp_ok = all(sorted(unres_re[iv]) == sorted(stored_unres.get(str(iv), [])) for iv in (0.02, 0.01))
+    _check(res, "mesh_completeness", comp_ok,
+           f"unresolved recomputed 0.02={unres_re[0.02]} 0.01={unres_re[0.01]} vs stored {stored_unres}; "
+           f"full_cohort_B_resolved stored={verdict['mesh_gate'].get('full_cohort_B_resolved')} "
+           f"(unresolved cells are REPORTED, not dropped from the pass)")
 
-    # 6. no-refit recompute from the recomputed B_eff_force map
-    a = ic_norefit.score_sag_retrospective(bmap_ref)
-    b = ic_norefit.score_prefactor(bmap_ref)
-    c = ic_norefit.score_distal(bmap_ref)
-    nr_ok = (abs(a["max_rel_err"] - verdict["no_refit"]["a_retrospective"]["max_rel_err"]) < 1e-6
-             and abs(b["mean_K"] - verdict["no_refit"]["b_prefactor"]["mean_K"]) < 1e-6
-             and c["worst_offset_cells"] == verdict["no_refit"]["c_distal"]["worst_offset_cells"])
+    # 6. no-refit INDEPENDENT recompute (fresh inline arithmetic from committed manifests; NO production scorers)
+    cal = json.loads((MAN / "calibration.json").read_text())
+    a_rel = []
+    for mat in cal["materials"]:
+        bff = bmap_ref.get(mat["raw_E"])
+        if bff is None:
+            continue                                  # B0: out of the superposition cohort, not calibrated
+        for mkey, pl in mat["per_length"].items():
+            m = float(mkey)
+            if abs(m - ic.BASELINE_ARM_MASS) <= 1e-12:
+                continue                              # baseline mass == m0 -> descriptive, not primary
+            w = m * ic.G / cal["interval"]
+            for L, dobs, pig in zip(pl["ell"], pl["delta"], pl["Pi_g"]):
+                if pig > ic.PI_G_MAX:
+                    continue                          # out of the small-deflection regime
+                a_rel.append(abs(w * L ** 4 / (8.0 * bff) - dobs) / abs(dobs))
+    a_max = float(max(a_rel))
+    hv = json.loads((MAN / "hard_gate_verdict.json").read_text())
+    Ks = [bnd["boundary"] / (bmap_ref[_rawE(bnd["B_eff"])] / bnd["w"]) ** 0.25 for bnd in hv["boundaries"]]
+    b_mean = float(np.mean(Ks))
+    land = json.loads((MAN / "distal_sweep_landscape.json").read_text())
+    worst = 0
+    for s in land["settings"]:
+        if not s.get("measured_feasible") or s.get("measured_argmax_ell") is None:
+            continue
+        bff = bmap_ref.get(_rawE(s["B_eff"]))
+        if bff is None:
+            continue
+        sstar = (8.0 * bff * ic.DISTAL_DELTA / s["w"]) ** 0.25
+        snap = round(0.12 + round((sstar - 0.12) / 0.02) * 0.02, 2)
+        worst = max(worst, abs(int(round((snap - s["measured_argmax_ell"]) / 0.02))))
+    nr_ok = (abs(a_max - verdict["no_refit"]["a_retrospective"]["max_rel_err"]) < 1e-6
+             and abs(b_mean - verdict["no_refit"]["b_prefactor"]["mean_K"]) < 1e-6
+             and worst == verdict["no_refit"]["c_distal"]["worst_offset_cells"])
     _check(res, "no_refit_recompute", nr_ok,
-           f"a max_rel={a['max_rel_err']:.4f}(pass={a['passed']}) b meanK={b['mean_K']:.4f}(pass={b['passed']}) "
-           f"c worst={c['worst_offset_cells']}(pass={c['passed']})")
+           f"independent arithmetic: a max_rel={a_max:.4f} (>5%={a_max > ic.NOREFIT_SAG_TOL}) "
+           f"b meanK={b_mean:.4f} (in-bound={abs(b_mean - ic.PREDICTED_PREFACTOR) <= ic.OBS_B_TOL}) "
+           f"c worst={worst} cell(s)")
 
-    # 7. mesh-gate outcome recompute
-    A_ok = all(verdict["observable_A"][str(iv)]["max_abs"] <= ic.OBS_A_ABSOLUTE_CEILING for iv in (0.02, 0.01))
-    K_ok = all(max(abs(verdict["observable_B"][str(iv)][l]["K_N"] - ic.PREDICTED_PREFACTOR)
-                   for l in labels if verdict["observable_B"][str(iv)][l]["K_N"] is not None) <= ic.OBS_B_TOL
-               for iv in (0.02, 0.01))
-    mesh_ok = bool(A_ok and K_ok)
-    stored_mesh = verdict["mesh_gate"]["passed"]
-    _check(res, "mesh_gate_recompute", mesh_ok == stored_mesh, f"recomputed pass={mesh_ok} vs stored {stored_mesh}")
+    # 7. mesh-gate recompute from RAW arrays (over cells resolved at BOTH levels) + completeness
+    fr = np.asarray(data["obs_A_fracs"])
+    A_ok = all(float(max(np.max(np.abs(np.asarray(data[f"shape_ub_{iv}"])[i] - ic.endload_shape(fr)))
+                         for i in range(len(labels)))) <= ic.OBS_A_ABSOLUTE_CEILING for iv in (0.02, 0.01))
+    resolved_both = [labels[mi] for mi in range(len(labels))
+                     if all(ic.observable_B_boundary(np.asarray(data["grav_ells"]),
+                                                     np.asarray(data[f"grav_droop_{iv}"])[:, mi]) is not None
+                            for iv in (0.02, 0.01))]
+    K_ok = True
+    for iv in (0.02, 0.01):
+        droop = np.asarray(data[f"grav_droop_{iv}"]); ells = np.asarray(data["grav_ells"]); devs = []
+        for mi, lab in enumerate(labels):
+            if lab not in resolved_both:
+                continue
+            bnd = ic.observable_B_boundary(ells, droop[:, mi])
+            devs.append(abs(bnd / (bmap_by_iv[iv][float(raw_es[mi])] / w_of(iv)) ** 0.25 - ic.PREDICTED_PREFACTOR))
+        if devs and max(devs) > ic.OBS_B_TOL:
+            K_ok = False
+    mesh_subset = bool(A_ok and K_ok)
+    full_resolved = len(resolved_both) == len(labels)
+    stored_subset = verdict["mesh_gate"]["subset_passed"]; stored_full = verdict["mesh_gate"]["full_cohort_B_resolved"]
+    _check(res, "mesh_gate_recompute", mesh_subset == stored_subset and full_resolved == stored_full,
+           f"recomputed subset_pass={mesh_subset} full_resolved={full_resolved} vs stored subset={stored_subset} full={stored_full}")
 
-    # 8. deterministic replay of a representative material (B4 @ 0.01, F1+F2) -> anti-fabrication + finding-7
+    # 8a. finding-7 recompute from COMMITTED F2 arrays (fresh cubic fit; no re-sim)
+    f7err = []
+    dpF2 = np.asarray(data["delta_point_F2_0.01"]); FF2 = np.asarray(data["forces_F2_0.01"]); ellF2 = np.asarray(data["ell_0.01"])
+    for mi, lab in enumerate(labels):
+        kF2 = float(np.sum(ellF2**3 * dpF2[:, mi]) / np.sum(ellF2**3 * ellF2**3)); b2 = FF2[mi] / (3.0 * kF2)
+        f7 = abs(b2 - bmap_ref[float(raw_es[mi])]) / bmap_ref[float(raw_es[mi])] * 100.0
+        if abs(f7 - verdict["finding7"]["per_material"][lab]) > 1e-4:
+            f7err.append(f"{lab}: {f7:.3f} vs {verdict['finding7']['per_material'][lab]:.3f}")
+    _check(res, "finding7_recompute", not f7err,
+           "ok (F2 committed arrays; worst %.3f%%)" % max(verdict["finding7"]["per_material"].values())
+           if not f7err else "; ".join(f7err[:3]))
+
+    # 8b. deterministic replay (B4 @ 0.01, F1) -> anti-fabrication
     try:
         from sim.calibrate_beff_force import force_calibrate_baseline
-        raw_e = ic.RAW_E_GRID[4]; b_eff = ic.GRAV_B_EFF[4]
-        r1 = force_calibrate_baseline([raw_e], [b_eff], 0.01, target_ratio=ic.FORCE_TARGET_RATIO)
-        r2 = force_calibrate_baseline([raw_e], [b_eff], 0.01, target_ratio=ic.FORCE_TARGET_RATIO * ic.F2_RATIO)
-        b1 = r1["per_material"][0]["B_eff_force"]; b2 = r2["per_material"][0]["B_eff_force"]
-        stored_b4 = [c for c in verdict["calibration"]["0.01"] if c["label"] == "B4"][0]["B_eff_force"]
-        replay_ok = abs(b1 - stored_b4) / stored_b4 < 5e-3          # deterministic to ~0.5%
-        f7 = abs(b2 - b1) / b1 * 100.0
-        f7_stored = verdict["finding7"]["per_material"]["B4"]
-        f7_ok = abs(f7 - f7_stored) < 0.5
-        _check(res, "deterministic_replay_B4", bool(replay_ok and f7_ok),
-               f"replay B_eff_force={b1:.5g} vs stored {stored_b4:.5g}; finding7 B4 replay={f7:.3f}% vs stored {f7_stored:.3f}%")
+        r1 = force_calibrate_baseline([ic.RAW_E_GRID[4]], [ic.GRAV_B_EFF[4]], 0.01, target_ratio=ic.FORCE_TARGET_RATIO)
+        b1r = r1["per_material"][0]["B_eff_force"]; stored_b4 = bmap_ref[float(ic.RAW_E_GRID[4])]
+        _check(res, "deterministic_replay_B4", abs(b1r - stored_b4) / stored_b4 < 5e-3,
+               f"replay B_eff_force={b1r:.5g} vs committed {stored_b4:.5g} (arrays not fabricated)")
     except Exception as exc:  # noqa: BLE001
         _check(res, "deterministic_replay_B4", False, f"EXCEPTION {type(exc).__name__}: {exc}")
 
