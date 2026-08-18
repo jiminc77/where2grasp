@@ -70,14 +70,15 @@ def main():
     retro = score_retrospective(bff)
     prosp, sweep = run_prospective(bff)
     all_cells = retro + prosp
-    verdict = rn_gate.prong_verdict(all_cells)
+    verdict = rn_gate.prong_verdict(all_cells, expected_prospective_keys=rn_gate.prospective_keys())
 
     results = dict(
         item="2_rN_corrected_no_refit_gate", manifest_digest_of="rn_gate_manifest.json",
         bound=ic.NOREFIT_SAG_TOL, verdict=verdict["verdict"],
         graduates_direct_sag_prong=verdict["graduates_direct_sag_prong"],
         worst_rel_err=verdict["worst_rel_err"], n_in_regime=verdict["n_in_regime"],
-        aggregate_note=verdict["aggregate_note"],
+        n_prospective=verdict["n_prospective"], integrity_ok=verdict["integrity_ok"],
+        integrity_detail=verdict["integrity_detail"], aggregate_note=verdict["aggregate_note"],
         claim_language=rn_gate.claim_language(),
         attribution=rn_gate.reproduce_attribution(),
         open_residual_pct=rn_gate.reproduce_attribution()["residual_above_rN_pct"],

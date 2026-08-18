@@ -28,7 +28,7 @@
     {
       "check": "verdict_recompute",
       "status": "survives",
-      "detail": "recomputed MISS vs stored MISS; worst in-regime 0.0589"
+      "detail": "recomputed MISS vs stored MISS; worst in-regime 0.0589; prospective reconverged (window<thr)=True"
     },
     {
       "check": "N_from_ell_and_guard",
@@ -43,7 +43,7 @@
     {
       "check": "no_thinning",
       "status": "survives",
-      "detail": "prospective 21/21 scored; all finite=True; retro in-regime=16"
+      "detail": "prospective keys 21/21 exact=True; retrospective in-regime 16/16 exact=True; all 21 reconverged from raw window=True"
     },
     {
       "check": "mesh_carveout_unchanged",

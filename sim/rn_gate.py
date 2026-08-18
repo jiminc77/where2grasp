@@ -78,24 +78,43 @@ def score_cell(ell, mass, b_eff_force, delta_obs, interval=ic.REFERENCE_INTERVAL
                 finite=finite, rel_err=rel, within_bound=bool(finite and rel <= ic.NOREFIT_SAG_TOL))
 
 
-def prong_verdict(cells, tol=ic.NOREFIT_SAG_TOL):
-    """Outcome-binding prong verdict over the frozen in-regime cells (retrospective + prospective).
+def prospective_keys():
+    """The exact FROZEN prospective cell inventory: (label, N) for every cohort material x length."""
+    return [(lab, ic.segment_count(ell, ic.REFERENCE_INTERVAL))
+            for lab in COHORT_LABELS for ell in PROSPECTIVE_LENGTHS]
 
-    PASS  : EVERY frozen in-regime cell is finite/converged AND rel_err <= tol.
-    INCONCLUSIVE : any in-regime cell is non-finite / non-converged / out-of-guard post-freeze
-                   (a genuine numerical breakdown) -> INCONCLUSIVE + STOP, never thinned to PASS.
-    MISS  : all cells finite but at least one in-regime cell exceeds tol (a genuine >5% outcome).
+
+def prong_verdict(cells, expected_prospective_keys=None, tol=ic.NOREFIT_SAG_TOL):
+    """Outcome-binding prong verdict over the frozen eligible cells (retrospective + prospective).
+
+    The FROZEN-ELIGIBLE prospective cohort must be present EXACTLY, and every prospective cell must be
+    in-regime AND finite: a post-freeze out-of-guard / non-converged / non-finite cell is a genuine
+    breakdown -> INCONCLUSIVE + STOP, NEVER filtered/thinned to a reduced-subset or empty PASS.
+
+    PASS  : inventory intact AND every in-regime cell (prospective + retrospective) is within tol.
+    INCONCLUSIVE : inventory mismatch, any frozen prospective cell out-of-guard/non-finite, any
+                   in-regime cell non-finite, or an empty in-regime set.
+    MISS  : all eligible cells finite/in-regime but at least one exceeds tol (a genuine >5% outcome).
     """
+    prosp = [c for c in cells if c.get("cohort") == "prospective"]
+    integrity_fail = []
+    if expected_prospective_keys is not None:
+        got = {(c["label"], c["N"]) for c in prosp}
+        if got != {tuple(k) for k in expected_prospective_keys}:
+            integrity_fail.append(f"prospective_inventory_mismatch got={sorted(got)}")
+    prosp_breakdown = [(c["label"], c["N"]) for c in prosp if not c["in_regime"] or not c["finite"]]
     in_regime = [c for c in cells if c["in_regime"]]
     nonfinite = [c for c in in_regime if not c["finite"]]
-    if nonfinite:
+    if integrity_fail or prosp_breakdown or nonfinite or not in_regime:
         verdict = "INCONCLUSIVE"
     elif all(c["within_bound"] for c in in_regime):
         verdict = "PASS"
     else:
         verdict = "MISS"
     worst = max((c["rel_err"] for c in in_regime if c["finite"]), default=float("nan"))
-    return dict(verdict=verdict, tol=tol, n_in_regime=len(in_regime),
+    return dict(verdict=verdict, tol=tol, n_in_regime=len(in_regime), n_prospective=len(prosp),
+                integrity_ok=bool(not integrity_fail and not prosp_breakdown),
+                integrity_detail=(integrity_fail + [f"breakdown:{b}" for b in prosp_breakdown]) or "ok",
                 worst_rel_err=float(worst), cells=cells,
                 graduates_direct_sag_prong=bool(verdict == "PASS"),
                 aggregate_note=("PASS graduates ONLY the family-a direct-sag no-refit prong; the full "

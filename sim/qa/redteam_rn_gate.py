@@ -102,18 +102,27 @@ def run():
             rerr.append(f"{row['label']}@{row['ell']}: {mine:.5f} vs {row['rel_err']:.5f}")
     _check(res, "retrospective_recompute", not rerr, "ok (QA-local from calibration.json)" if not rerr else "; ".join(rerr[:4]))
 
-    # 5. verdict recompute (outcome-binding; INCONCLUSIVE on non-finite, MISS on any in-regime >tol)
+    # 5. verdict recompute (outcome-binding) using QA-locally RECOMPUTED convergence from the raw
+    # consecutive-window (window < drift_threshold).all(axis=0) -- NOT the stored finite flags.
+    win = np.asarray(data["prospective_window"]); thr = float(data["drift_threshold"])
+    pell = np.asarray(data["prospective_ells"]); pcoh = [str(x) for x in np.asarray(data["cohort"])]
+    prosp_conv = {}
+    for c in verdict["prospective"]:
+        li = int(np.argmin(np.abs(pell - c["ell"]))); mi = pcoh.index(c["label"])
+        prosp_conv[(c["label"], c["ell"])] = bool((win[:, li, mi] < thr).all())
+    prosp_breakdown = [k for k, v in prosp_conv.items() if not v]        # any non-converged prospective cell
     cells = verdict["retrospective"] + verdict["prospective"]
     in_regime = [c for c in cells if c["in_regime"]]
     nonfinite = [c for c in in_regime if not c["finite"]]
-    if nonfinite:
+    if prosp_breakdown or nonfinite or not in_regime:
         mine_v = "INCONCLUSIVE"
     elif all(c["rel_err"] <= TOL for c in in_regime):
         mine_v = "PASS"
     else:
         mine_v = "MISS"
-    _check(res, "verdict_recompute", mine_v == verdict["verdict"],
-           f"recomputed {mine_v} vs stored {verdict['verdict']}; worst in-regime {max(c['rel_err'] for c in in_regime):.4f}")
+    _check(res, "verdict_recompute", mine_v == verdict["verdict"] and not prosp_breakdown,
+           f"recomputed {mine_v} vs stored {verdict['verdict']}; worst in-regime "
+           f"{max(c['rel_err'] for c in in_regime):.4f}; prospective reconverged (window<thr)={not prosp_breakdown}")
 
     # 6. N == round(ell/interval), nominal==realized, guard reproduced (QA-local)
     n_ok = all(c["N"] == int(round(c["ell"] / INTERVAL)) for c in cells)
@@ -135,13 +144,20 @@ def run():
                and abs(residual - a["residual_above_rN_pct"]) < 1e-6)
     _check(res, "finding5_attribution", attr_ok, f"mean_rN={mean_rN:.4f}% residual={residual:.4f}% (OPEN)")
 
-    # 8. no cohort thinning: the frozen eligible set from C1 is fully scored
-    exp_prosp = len(COHORT) * len(man["prospective_cohort"]["lengths"])
-    got_prosp = len(verdict["prospective"])
-    exp_retro_in = sum(1 for c in verdict["retrospective"] if c["in_regime"])
-    scored_all = all(c["finite"] for c in verdict["prospective"])   # every prospective cell scored (converged)
-    _check(res, "no_thinning", got_prosp == exp_prosp and scored_all and exp_retro_in >= 12,
-           f"prospective {got_prosp}/{exp_prosp} scored; all finite={scored_all}; retro in-regime={exp_retro_in}")
+    # 8. no cohort thinning: EXACT frozen inventory scored (21/21 prospective + 16/16 retrospective
+    # in-regime), with every prospective cell reconverged from the raw window (not stored flags).
+    exp_prosp_keys = {(lab, int(round(ell / INTERVAL))) for lab in COHORT for ell in man["prospective_cohort"]["lengths"]}
+    got_prosp_keys = {(c["label"], c["N"]) for c in verdict["prospective"]}
+    retro_in = [c for c in verdict["retrospective"] if c["in_regime"]]
+    exp_retro_keys = {(lab, ell) for lab in ("B1", "B2", "B3", "B4") for ell in (0.18, 0.20, 0.22, 0.24)}
+    got_retro_keys = {(c["label"], round(c["ell"], 2)) for c in retro_in}
+    all_reconverged = all(prosp_conv.values()) and len(prosp_conv) == 21
+    ok = (got_prosp_keys == exp_prosp_keys and got_retro_keys == exp_retro_keys
+          and len(verdict["prospective"]) == 21 and len(retro_in) == 16 and all_reconverged)
+    _check(res, "no_thinning", ok,
+           f"prospective keys {len(got_prosp_keys)}/21 exact={got_prosp_keys == exp_prosp_keys}; "
+           f"retrospective in-regime {len(retro_in)}/16 exact={got_retro_keys == exp_retro_keys}; "
+           f"all 21 reconverged from raw window={all_reconverged}")
 
     # 9. mesh carve-out unchanged: the aggregate closure is still bounded by mesh B4@0.02 INCONCLUSIVE
     icv = json.loads((MAN / "independent_closure_verdict.json").read_text())

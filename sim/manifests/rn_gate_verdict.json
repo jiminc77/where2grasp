@@ -6,6 +6,9 @@
   "graduates_direct_sag_prong": false,
   "worst_rel_err": 0.05891105546775402,
   "n_in_regime": 37,
+  "n_prospective": 21,
+  "integrity_ok": true,
+  "integrity_detail": "ok",
   "aggregate_note": "PASS graduates ONLY the family-a direct-sag no-refit prong; the full conjunctive closure remains bounded by the separately-reported, UNCHANGED mesh B4@0.02 Observable-B INCONCLUSIVE.",
   "claim_language": "A PASS is a same-simulator, different-load-law, no-refit, baseline-subtracted closure: B_eff_force is fit only to the cubic concentrated-tip-load law on the residual after subtracting a MEASURED self-weight settle (the baseline reuses the gravity channel as data, not as the sag law); a common multiplicative g/mass scale error cancels; it is NOT a solver-, clamp-, continuum-EI-, or hardware-independent validation. ; now r_N-corrected via the analytical lumped-mass factor",
   "attribution": {
@@ -342,8 +345,8 @@
       "finite": true,
       "converged": true,
       "delta_pred": 0.001254161580952285,
-      "delta_obs": 0.0013175647919997369,
-      "rel_err": 0.04812151283370404,
+      "delta_obs": 0.0013175647918538536,
+      "rel_err": 0.04812151272831023,
       "within_bound": true
     },
     {
@@ -356,8 +359,8 @@
       "finite": true,
       "converged": true,
       "delta_pred": 0.0005269530321508519,
-      "delta_obs": 0.0005555361747958676,
-      "rel_err": 0.051451451663824775,
+      "delta_obs": 0.0005555361748644794,
+      "rel_err": 0.05145145178097576,
       "within_bound": false
     },
     {
@@ -370,8 +373,8 @@
       "finite": true,
       "converged": true,
       "delta_pred": 0.0002224431481561567,
-      "delta_obs": 0.0002340818008518264,
-      "rel_err": 0.049720450942006146,
+      "delta_obs": 0.00023408180074613316,
+      "rel_err": 0.04972045051293342,
       "within_bound": true
     },
     {
@@ -398,8 +401,8 @@
       "finite": true,
       "converged": true,
       "delta_pred": 0.0006247328248162162,
-      "delta_obs": 0.0006585872314543995,
-      "rel_err": 0.051404590039531184,
+      "delta_obs": 0.0006585872314532892,
+      "rel_err": 0.051404590037932074,
       "within_bound": false
     },
     {
@@ -426,8 +429,8 @@
       "finite": true,
       "converged": true,
       "delta_pred": 0.00035147673899227333,
-      "delta_obs": 0.0003705817439004777,
-      "rel_err": 0.05155409089265649,
+      "delta_obs": 0.00037058174390558474,
+      "rel_err": 0.05155409090572712,
       "within_bound": false
     },
     {

@@ -99,6 +99,31 @@ def test_outcome_binding_no_reduced_subset_pass():
     assert rn_gate.prong_verdict([good, over, diverged])["verdict"] == "INCONCLUSIVE"
 
 
+def test_prong_verdict_frozen_inventory_and_out_of_guard_are_inconclusive():
+    """Hardened outcome-binding: the exact frozen prospective inventory must be present and every
+    prospective cell in-regime + finite; a missing cell or a non-finite/out-of-guard cell forces
+    INCONCLUSIVE (never a reduced-subset or empty PASS)."""
+    keys = rn_gate.prospective_keys()
+    assert len(keys) == 21 and set(n for _, n in keys) == {15, 16, 17}
+    full = []
+    for lab in rn_gate.COHORT_LABELS:
+        b = rn_gate.committed_beff_force()[lab]
+        for ell in rn_gate.PROSPECTIVE_LENGTHS:
+            c = rn_gate.score_cell(ell, rn_gate.PROSPECTIVE_MASS, b,
+                                   rn_gate.corrected_predict(ell, rn_gate.PROSPECTIVE_MASS, b))
+            c.update(label=lab, cohort="prospective")
+            full.append(c)
+    assert rn_gate.prong_verdict(full, expected_prospective_keys=keys)["verdict"] == "PASS"
+    # drop one cell -> inventory mismatch -> INCONCLUSIVE (no reduced-subset PASS)
+    assert rn_gate.prong_verdict(full[:-1], expected_prospective_keys=keys)["verdict"] == "INCONCLUSIVE"
+    # replace one frozen prospective cell with a non-finite (post-freeze divergence) -> INCONCLUSIVE
+    broken = [dict(c) for c in full]
+    b0 = rn_gate.committed_beff_force()["B1"]
+    broken[0] = rn_gate.score_cell(0.15, rn_gate.PROSPECTIVE_MASS, b0, float("nan"))
+    broken[0].update(label="B1", cohort="prospective")
+    assert rn_gate.prong_verdict(broken, expected_prospective_keys=keys)["verdict"] == "INCONCLUSIVE"
+
+
 def test_claim_boundary_verbatim_plus_rN_clause():
     """The mandatory claim boundary carries over VERBATIM + the r_N clause."""
     m = json.loads((MAN / "independent_closure_manifest.json").read_text())

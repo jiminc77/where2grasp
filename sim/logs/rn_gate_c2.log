@@ -1,8 +1,3 @@
-[W 08/19/26 08:24:53.371 1705045] QuadrantsWarning
-While compiling `_kernel_add_rods_c968_0`, File "/home/simx2204/DLO-Lab/genesis/engine/solvers/rod_solver.py", line 1500, in _kernel_add_rods:
-                edge_idx = qm.mod(i_iv - 1, n_internal_verts) + e_start
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Assign may lose precision: i32 <- f64
 /home/simx2204/anaconda3/envs/w2g/lib/python3.12/site-packages/quadrants/_test_tools/warnings_helper.py:11: UserWarning: cannot create weak reference to 'tuple' object. Template mapper caching disabled.
   warnings.warn(message)
 VERDICT: MISS | graduates_direct_sag_prong: False
