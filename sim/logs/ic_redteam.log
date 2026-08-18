@@ -1,6 +1,6 @@
 /home/simx2204/anaconda3/envs/w2g/lib/python3.12/site-packages/quadrants/_test_tools/warnings_helper.py:11: UserWarning: cannot create weak reference to 'tuple' object. Template mapper caching disabled.
   warnings.warn(message)
-RED-TEAM: SURVIVES 14/14 (fails=0) -> /home/simx2204/where2grasp/sim/qa/redteam_independent_closure_report.json
+RED-TEAM: SURVIVES 15/15 (fails=0) -> /home/simx2204/where2grasp/sim/qa/redteam_independent_closure_report.json
   [survives] input_artifact_digests: ok
   [survives] c1_single_file: C1=a0799eef touches: ['sim/manifests/independent_closure_manifest.json | 309 ++++++++++++++++++++++++', ' 1 file changed, 309 insertions(+)']
   [survives] c1_ancestor_of_c2: merge-base --is-ancestor a0799eef 1752b1a3 = True
@@ -11,7 +11,8 @@ RED-TEAM: SURVIVES 14/14 (fails=0) -> /home/simx2204/where2grasp/sim/qa/redteam_
   [survives] no_refit_recompute: independent arithmetic: a max_rel=0.1066 (>5%=True) b meanK=0.5091 (in-bound=True) c worst=1 cell(s)
   [survives] no_refit_prospective_recompute: prospective (mass 0.0003) max_rel=0.0986 (>5%=True) vs stored 0.0986
   [survives] mesh_gate_recompute: QA-local recompute: subset_pass=True full_resolved=False vs stored subset=True full=False
-  [survives] settle_integrity_verify: RAW final-drift evidence: calib(F1+F2)<thr=True prospective<thr=True every_resolved_bracket_drift<thr=True
+  [survives] settle_integrity_verify: RAW consecutive-window evidence: calib(F1+F2)_last-consec<thr=True prospective<thr=True every_resolved_bracket_consecutive<thr=True
+  [survives] finding5_attribution_recompute: mean_gap=7.88% mean_rN=6.50% residual=1.38% 4th-root_shift=1.92% (diagnostic; verdict stays REPORTED NULL)
   [survives] finding7_recompute: ok (F2 committed arrays; worst 0.225%)
   [survives] deterministic_replay_B4: replay B_eff_force=0.23223 vs committed 0.23224 (arrays not fabricated)
   [survives] dataflow_provenance: B_eff_force fit is cubic on the force residual delta_point; no gravity-sag law fit in the calibration path

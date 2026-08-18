@@ -105,15 +105,19 @@ def run():
     def _thr(iv):
         return float(data["drift_thr_002"]) if iv == 0.02 else float(data["drift_thr_001"])
 
+    def _cell_converged(iv, k, mi):
+        """Independent CONSECUTIVE-window proof: the cell's last-`consec` per-chunk drifts are ALL < thr."""
+        win = np.asarray(data[f"sweep_window_{iv}"])[:, k, mi]     # (consec,) raw drift window
+        return bool((win < _thr(iv)).all())
+
     def _resolved_boundary(iv, mi):
-        """Driver-equivalent resolved boundary: the crossing whose TWO bracketing rods' RAW final drift
-        is below threshold (independent of any stored convergence boolean); else None."""
+        """Driver-equivalent resolved boundary: the crossing whose TWO bracketing rods each satisfy the
+        CONSECUTIVE-window drift criterion, recomputed from the raw window (no stored boolean); else None."""
         droop = np.asarray(data[f"grav_droop_{iv}"])[:, mi]; ells = np.asarray(data["grav_ells"])
-        drift = np.asarray(data[f"sweep_drift_{iv}"])[:, mi]
         b, br = _cross(ells, droop)
         if b is None or br is None:
             return None
-        return b if (drift[br[0]] < _thr(iv) and drift[br[1]] < _thr(iv)) else None   # raw-drift bracket check
+        return b if (_cell_converged(iv, br[0], mi) and _cell_converged(iv, br[1], mi)) else None
 
     # 4. Observable A recompute (QA-local end-load shape) vs stored max-abs
     aerr = []
@@ -222,24 +226,40 @@ def run():
     _check(res, "mesh_gate_recompute", mesh_subset == stored_subset and full_resolved == stored_full,
            f"QA-local recompute: subset_pass={mesh_subset} full_resolved={full_resolved} vs stored subset={stored_subset} full={stored_full}")
 
-    # 7b. settle-integrity verification from RAW final-drift evidence (INDEPENDENT of verdict booleans):
-    # calibration F1/F2 + prospective final drift < threshold, and every resolved boundary's two
-    # bracketing rods' final drift < threshold.
-    calib_drift_ok = all(np.asarray(data[f"calib_drift_{iv}"]).max() < _thr(iv)
-                         and np.asarray(data[f"calib_F2_drift_{iv}"]).max() < _thr(iv) for iv in (0.02, 0.01))
-    prosp_drift_ok = bool(np.asarray(data["prospective_drift"]).max() < _thr(0.01))
-    bracket_drift_ok = True
+    # 7b. settle-integrity verification from the RAW CONSECUTIVE-window evidence (INDEPENDENT of verdict
+    # booleans): every last-`consec` per-chunk drift < threshold for calibration F1/F2, prospective, and
+    # every resolved boundary's two bracketing rods (recomputed here as (window<thr).all(axis=0)).
+    calib_conv_ok = all((np.asarray(data[f"calib_window_{iv}"]) < _thr(iv)).all()
+                        and (np.asarray(data[f"calib_F2_window_{iv}"]) < _thr(iv)).all() for iv in (0.02, 0.01))
+    prosp_conv_ok = bool((np.asarray(data["prospective_window"]) < _thr(0.01)).all())
+    bracket_conv_ok = True
     for iv in (0.02, 0.01):
-        drift = np.asarray(data[f"sweep_drift_{iv}"])                 # (n_ell, n_material) raw final drift
         for mi, lab in enumerate(labels):
             if _resolved_boundary(iv, mi) is None:
                 continue                                             # unresolved cells excused
             _b, br = _cross(np.asarray(data["grav_ells"]), np.asarray(data[f"grav_droop_{iv}"])[:, mi])
-            if br is None or not (drift[br[0], mi] < _thr(iv) and drift[br[1], mi] < _thr(iv)):
-                bracket_drift_ok = False
-    _check(res, "settle_integrity_verify", bool(calib_drift_ok and prosp_drift_ok and bracket_drift_ok),
-           f"RAW final-drift evidence: calib(F1+F2)<thr={calib_drift_ok} prospective<thr={prosp_drift_ok} "
-           f"every_resolved_bracket_drift<thr={bracket_drift_ok}")
+            if br is None or not (_cell_converged(iv, br[0], mi) and _cell_converged(iv, br[1], mi)):
+                bracket_conv_ok = False
+    _check(res, "settle_integrity_verify", bool(calib_conv_ok and prosp_conv_ok and bracket_conv_ok),
+           f"RAW consecutive-window evidence: calib(F1+F2)_last-consec<thr={calib_conv_ok} "
+           f"prospective<thr={prosp_conv_ok} every_resolved_bracket_consecutive<thr={bracket_conv_ok}")
+
+    # 7c. finding-5 r_N attribution recompute (INDEPENDENT): mean gap, calibration-window mean r_N,
+    # residual, and the 4th-root boundary shift, vs the frozen finding5_attribution.
+    f5 = verdict["finding5_attribution"]
+    gmapB = dict(zip([float(x) for x in ic.RAW_E_GRID], ic.GRAV_B_EFF))
+    gmapB.update(dict(zip([float(x) for x in ic.RATIO_RAW_E], ic.RATIO_GRAV_B_EFF)))
+    gaps = [bmap_ref[float(re_)] / gmapB[float(re_)] - 1.0 for re_ in raw_es]
+    mean_gap = float(np.mean(gaps)) * 100.0
+    rN_pct = (float(np.mean([ic.r_N(ic.segment_count(L, 0.01)) for L in ic.CALIB_LENGTHS])) - 1.0) * 100.0
+    residual = mean_gap - rN_pct
+    shift = ((1.0 + mean_gap / 100.0) ** 0.25 - 1.0) * 100.0
+    f5_ok = (abs(rN_pct - f5["calibration_window_mean_rN_pct"]) < 1e-3
+             and abs(residual - f5["residual_above_rN_pct"]) < 1e-3
+             and abs(shift - f5["fourth_root_boundary_shift_pct"]) < 1e-3)
+    _check(res, "finding5_attribution_recompute", f5_ok,
+           f"mean_gap={mean_gap:.2f}% mean_rN={rN_pct:.2f}% residual={residual:.2f}% 4th-root_shift={shift:.2f}% "
+           f"(diagnostic; verdict stays REPORTED NULL)")
 
     # 8a. finding-7 recompute from COMMITTED F2 arrays (fresh cubic fit; no re-sim)
     f7err = []

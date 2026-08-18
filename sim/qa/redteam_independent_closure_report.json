@@ -53,7 +53,12 @@
     {
       "check": "settle_integrity_verify",
       "status": "survives",
-      "detail": "RAW final-drift evidence: calib(F1+F2)<thr=True prospective<thr=True every_resolved_bracket_drift<thr=True"
+      "detail": "RAW consecutive-window evidence: calib(F1+F2)_last-consec<thr=True prospective<thr=True every_resolved_bracket_consecutive<thr=True"
+    },
+    {
+      "check": "finding5_attribution_recompute",
+      "status": "survives",
+      "detail": "mean_gap=7.88% mean_rN=6.50% residual=1.38% 4th-root_shift=1.92% (diagnostic; verdict stays REPORTED NULL)"
     },
     {
       "check": "finding7_recompute",
@@ -71,7 +76,7 @@
       "detail": "B_eff_force fit is cubic on the force residual delta_point; no gravity-sag law fit in the calibration path"
     }
   ],
-  "survivors": 14,
+  "survivors": 15,
   "fails": 0,
   "survived_all": true,
   "verdict_under_review": "REPORTED NULL (>=1 no-refit family missed its frozen bound)"

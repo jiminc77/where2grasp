@@ -39,15 +39,15 @@ def gravity_droop_sweep(raw_es, interval, mass=ic.OBS_B_REF_MASS, ells=ic.GRAV_S
         rod.set_segment_mass(torch.tensor(np.full((n_envs, nv), mass), dtype=gs.tc_float, device="cuda"))
 
     z0 = [vertices(r)[:, ic.tip_index(r.n_vertices), 2].copy() for r in rods]
-    conv, steps, per_ell_env, per_ell_env_drift = _settle(scene, rods, max_steps=max_steps, interval=interval)
+    conv, steps, per_ell_env, per_ell_env_window = _settle(scene, rods, max_steps=max_steps, interval=interval)
     zf = [vertices(r)[:, ic.tip_index(r.n_vertices), 2].copy() for r in rods]
 
     droop = np.array([z0[i] - zf[i] for i in range(len(ells))])   # [ell, material]
     w = mass * ic.G / interval
     return dict(ells=list(ells), droop=droop.tolist(), w=float(w), interval=interval,
                 converged=bool(conv), steps=int(steps), finite=bool(np.isfinite(droop).all()),
-                per_ell_env_converged=per_ell_env.tolist(),       # (n_ell, n_material) settle proof
-                per_ell_env_drift=per_ell_env_drift.tolist(),     # raw final-chunk drift (independent evidence)
+                per_ell_env_converged=per_ell_env.tolist(),       # (n_ell, n_material) consecutive-window proof
+                per_ell_env_window=per_ell_env_window.tolist(),   # (consec, n_ell, n_material) raw drift window
                 drift_threshold=float(5e-3 * interval))
 
 
@@ -61,22 +61,21 @@ def _settle(scene, rods, chunk=200, max_steps=16000, drift_tol=5e-3, interval=0.
     n_envs = prev[0].shape[0]
     thr = drift_tol * interval
     quiet_run = np.zeros((len(rods), n_envs), dtype=int)
-    last_drift = np.full((len(rods), n_envs), np.inf)
+    window = np.full((consec, len(rods), n_envs), np.inf)   # rolling last-`consec` per-cell drifts
     steps = 0
     while steps < max_steps:
         for _ in range(chunk):
             scene.step()
         steps += chunk
         cur = [vertices(r)[:, ti, 2].copy() for r, ti in zip(rods, tips)]
-        for i, (c, p) in enumerate(zip(cur, prev)):
-            d = np.abs(c - p)
-            last_drift[i] = d
-            quiet_run[i] = np.where(d < thr, quiet_run[i] + 1, 0)
+        d = np.stack([np.abs(c - p) for c, p in zip(cur, prev)])   # (n_rods, n_envs)
+        window = np.concatenate([window[1:], d[None]], axis=0)      # roll in the newest chunk
+        quiet_run = np.where(d < thr, quiet_run + 1, 0)
         prev = cur
         if (quiet_run >= consec).all():
             break
-    converged = last_drift < thr          # final-chunk quiet, consistent with the raw evidence
-    return bool((quiet_run >= consec).all()), steps, converged, last_drift
+    converged = (window < thr).all(axis=0)     # last `consec` chunks ALL quiet (consecutive), not just final
+    return bool((quiet_run >= consec).all()), steps, converged, window
 
 
 def boundary_bracket(ells, droops_one_material, h=ic.DROOP_CLEAR_H):
