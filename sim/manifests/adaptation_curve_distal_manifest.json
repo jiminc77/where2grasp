@@ -1,0 +1,848 @@
+{
+  "schema_version": 1,
+  "phase": "simulation_wrap_up",
+  "item": "1c_distal_SECONDARY_selection_regret_vs_k",
+  "naming_A22": "interaction-COUNT adaptation curve on the DISTAL task (regret + map vs the NUMBER k of prior interactions); NOT frame-truncation.",
+  "purpose": "the 25-cell spanning-cohort regret-vs-k companion to the lift PRIMARY; selection regret DISCRIMINATES here (lift regret is degenerate).",
+  "simulation_only": true,
+  "task": "distal_tip_placement",
+  "scoring": "sim.tasks.distal_tip.score_tip (reach/droop/pi_g/success/J); rooted at vertex 1",
+  "k_axis": [
+    0,
+    1,
+    2,
+    4,
+    8,
+    16,
+    32
+  ],
+  "k0_is_blind": "k=0 = the property-blind prior (flat); teacher = privileged k-INDEPENDENT flat ceiling.",
+  "acquisition_rule": {
+    "type": "fixed_deterministic_schedule",
+    "algorithm": "step j (=k) uses cell(j)=(7*j) mod n_cells, template(j)=j mod 4, ell(j)=0.12+ell_step*cell(j); stride 7 is coprime to 17 and 25 so the first n_cells steps are a full permutation of the grid.",
+    "S_distal": [
+      {
+        "k": 0,
+        "cell": 0,
+        "ell": 0.12,
+        "template": 0
+      },
+      {
+        "k": 1,
+        "cell": 7,
+        "ell": 0.26,
+        "template": 1
+      },
+      {
+        "k": 2,
+        "cell": 14,
+        "ell": 0.4,
+        "template": 2
+      },
+      {
+        "k": 3,
+        "cell": 21,
+        "ell": 0.54,
+        "template": 3
+      },
+      {
+        "k": 4,
+        "cell": 3,
+        "ell": 0.18,
+        "template": 0
+      },
+      {
+        "k": 5,
+        "cell": 10,
+        "ell": 0.32,
+        "template": 1
+      },
+      {
+        "k": 6,
+        "cell": 17,
+        "ell": 0.46,
+        "template": 2
+      },
+      {
+        "k": 7,
+        "cell": 24,
+        "ell": 0.6,
+        "template": 3
+      },
+      {
+        "k": 8,
+        "cell": 6,
+        "ell": 0.24,
+        "template": 0
+      },
+      {
+        "k": 9,
+        "cell": 13,
+        "ell": 0.38,
+        "template": 1
+      },
+      {
+        "k": 10,
+        "cell": 20,
+        "ell": 0.52,
+        "template": 2
+      },
+      {
+        "k": 11,
+        "cell": 2,
+        "ell": 0.16,
+        "template": 3
+      },
+      {
+        "k": 12,
+        "cell": 9,
+        "ell": 0.3,
+        "template": 0
+      },
+      {
+        "k": 13,
+        "cell": 16,
+        "ell": 0.44,
+        "template": 1
+      },
+      {
+        "k": 14,
+        "cell": 23,
+        "ell": 0.58,
+        "template": 2
+      },
+      {
+        "k": 15,
+        "cell": 5,
+        "ell": 0.22,
+        "template": 3
+      },
+      {
+        "k": 16,
+        "cell": 12,
+        "ell": 0.36,
+        "template": 0
+      },
+      {
+        "k": 17,
+        "cell": 19,
+        "ell": 0.5,
+        "template": 1
+      },
+      {
+        "k": 18,
+        "cell": 1,
+        "ell": 0.14,
+        "template": 2
+      },
+      {
+        "k": 19,
+        "cell": 8,
+        "ell": 0.28,
+        "template": 3
+      },
+      {
+        "k": 20,
+        "cell": 15,
+        "ell": 0.42,
+        "template": 0
+      },
+      {
+        "k": 21,
+        "cell": 22,
+        "ell": 0.56,
+        "template": 1
+      },
+      {
+        "k": 22,
+        "cell": 4,
+        "ell": 0.2,
+        "template": 2
+      },
+      {
+        "k": 23,
+        "cell": 11,
+        "ell": 0.34,
+        "template": 3
+      },
+      {
+        "k": 24,
+        "cell": 18,
+        "ell": 0.48,
+        "template": 0
+      },
+      {
+        "k": 25,
+        "cell": 0,
+        "ell": 0.12,
+        "template": 1
+      },
+      {
+        "k": 26,
+        "cell": 7,
+        "ell": 0.26,
+        "template": 2
+      },
+      {
+        "k": 27,
+        "cell": 14,
+        "ell": 0.4,
+        "template": 3
+      },
+      {
+        "k": 28,
+        "cell": 21,
+        "ell": 0.54,
+        "template": 0
+      },
+      {
+        "k": 29,
+        "cell": 3,
+        "ell": 0.18,
+        "template": 1
+      },
+      {
+        "k": 30,
+        "cell": 10,
+        "ell": 0.32,
+        "template": 2
+      },
+      {
+        "k": 31,
+        "cell": 17,
+        "ell": 0.46,
+        "template": 3
+      }
+    ],
+    "n_schedule_steps": 32,
+    "source": "frozen in adaptation_curve_manifest_v2.json (reused)"
+  },
+  "estimator": {
+    "type": "mean_pool_k_prefix",
+    "spec": "the student MEAN-POOLS the first k interactions' committed 42-D addendum features into a fixed order-invariant 42-D summary fed to the frozen head MLP[32,32]; k=0 bypasses the pooled summary -> property-blind prior head (identical to blind).",
+    "feature_dim": 42,
+    "features": "proprio(8) + pooled_temporal_shape(112->32) + action(2)  [addendum_manifest.json:features; sim/history.py:temporal_shape/drive_summary; A-17 action metadata]",
+    "head": "MLP[32,32]  [addendum_manifest.json:critic_head]",
+    "training": "per k: fit on TRAIN-setting k-prefixes across training seeds, model-select on VAL, evaluate on held-out TEST; leak-free (TEST never in any fit/scaler/CV). Deterministic training seeds frozen."
+  },
+  "grasp": {
+    "ell": [
+      0.12,
+      0.14,
+      0.16,
+      0.18,
+      0.2,
+      0.22,
+      0.24,
+      0.26,
+      0.28,
+      0.3,
+      0.32,
+      0.34,
+      0.36,
+      0.38,
+      0.4,
+      0.42,
+      0.44,
+      0.46,
+      0.48,
+      0.5,
+      0.52,
+      0.54,
+      0.56,
+      0.58,
+      0.6
+    ],
+    "half_step": 0.01,
+    "min_shift_cells": 2,
+    "n_vertices": [
+      14,
+      16,
+      18,
+      20,
+      22,
+      24,
+      26,
+      28,
+      30,
+      32,
+      34,
+      36,
+      38,
+      40,
+      42,
+      44,
+      46,
+      48,
+      50,
+      52,
+      54,
+      56,
+      58,
+      60,
+      62
+    ],
+    "orientation": "larger index means longer free arm",
+    "step": 0.02
+  },
+  "templates": [
+    {
+      "arc": 0.0,
+      "drive_steps": 360,
+      "index": 0,
+      "kind": "linear"
+    },
+    {
+      "arc": 0.0,
+      "drive_steps": 360,
+      "index": 1,
+      "kind": "ease"
+    },
+    {
+      "arc": 0.025,
+      "drive_steps": 360,
+      "index": 2,
+      "kind": "arc"
+    },
+    {
+      "arc": -0.025,
+      "drive_steps": 360,
+      "index": 3,
+      "kind": "arc"
+    }
+  ],
+  "integrator": {
+    "angular_damping": 20.0,
+    "damping": 40.0,
+    "dt": 0.00025,
+    "substeps": 20
+  },
+  "interval": 0.01,
+  "gravity": 9.81,
+  "drive_steps": 360,
+  "pi_g_max": 0.5,
+  "regime_guard": {
+    "note": "conservative (finding 3); ell_U for high-w/B feasible cells flagged INCONCLUSIVE-regime",
+    "rule": "per-estimand: in-regime iff Pi_g(upper bracket endpoint of estimand grid bracket)<=0.5",
+    "unified_convention": "grid-argmax upper-bracket endpoint for predicted AND measured (owner ruling; future gates)"
+  },
+  "stochastic_distribution": {
+    "arc_multiplier": [
+      0.9,
+      1.1
+    ],
+    "clamp_start_translation_xy_m": [
+      -0.0035,
+      0.0035
+    ],
+    "distribution": "independent bounded uniform; terminal clamp pose exact",
+    "dropped_perturbation_note": "initial_rod_pose_translation_xy_m removed: no batched per-env rod-pose setter in Genesis c5026a9 verifies via read-back (set_position is a no-op w.r.t. get_vertices_pos), so the estimand applies only the clamp-start + duration/arc draws.",
+    "motion_duration_multiplier": [
+      0.92,
+      1.08
+    ]
+  },
+  "grid": [
+    {
+      "B_eff": 0.01610520612280113,
+      "argmax_ell": 0.3,
+      "argmax_idx": 9,
+      "bi": 1,
+      "censored": false,
+      "clipped": false,
+      "ell_L": 0.2505400330990811,
+      "ell_U": 0.329729226765958,
+      "ell_dlo": 0.2505400330990811,
+      "ell_reach": 0.22503873007045078,
+      "ell_regime": 0.3449417504657574,
+      "ell_sag": 0.329729226765958,
+      "ell_star": 0.2979439899544445,
+      "ell_top": 0.329729226765958,
+      "feasible": true,
+      "id": "B1_w0",
+      "mass": 0.0002,
+      "pi_g_star": 0.32220821106234876,
+      "raw_E": 2370946.5892385854,
+      "regime_L": true,
+      "regime_U": true,
+      "regime_star": true,
+      "w": 0.1962,
+      "wi": 0
+    },
+    {
+      "B_eff": 0.01610520612280113,
+      "argmax_ell": 0.24,
+      "argmax_idx": 6,
+      "bi": 1,
+      "censored": false,
+      "clipped": false,
+      "ell_L": 0.22518056367635142,
+      "ell_U": 0.2670758700260917,
+      "ell_dlo": 0.2067967918971694,
+      "ell_reach": 0.22518056367635142,
+      "ell_regime": 0.2670758700260917,
+      "ell_sag": 0.2721598837778092,
+      "ell_star": 0.24592421628385092,
+      "ell_top": 0.2670758700260917,
+      "feasible": true,
+      "id": "B1_w1",
+      "mass": 0.00043088693800637695,
+      "pi_g_star": 0.3903641595392736,
+      "raw_E": 2370946.5892385854,
+      "regime_L": true,
+      "regime_U": false,
+      "regime_star": true,
+      "w": 0.4227000861842558,
+      "wi": 1
+    },
+    {
+      "B_eff": 0.01610520612280113,
+      "argmax_ell": null,
+      "argmax_idx": null,
+      "bi": 1,
+      "censored": true,
+      "clipped": false,
+      "ell_L": 0.2258558550489671,
+      "ell_U": 0.20678714668166784,
+      "ell_dlo": 0.1706909375319231,
+      "ell_reach": 0.2258558550489671,
+      "ell_regime": 0.20678714668166784,
+      "ell_sag": 0.22464190713226123,
+      "ell_star": 0.20298687737944796,
+      "ell_top": 0.20678714668166784,
+      "feasible": false,
+      "id": "B1_w2",
+      "mass": 0.0009283177667225556,
+      "pi_g_star": 0.47293697621913294,
+      "raw_E": 2370946.5892385854,
+      "regime_L": false,
+      "regime_U": false,
+      "regime_star": false,
+      "w": 0.9106797291548271,
+      "wi": 2
+    },
+    {
+      "B_eff": 0.03825920568613013,
+      "argmax_ell": 0.36,
+      "argmax_idx": 12,
+      "bi": 2,
+      "censored": false,
+      "clipped": false,
+      "ell_L": 0.31104236535025936,
+      "ell_U": 0.4093547739647511,
+      "ell_dlo": 0.31104236535025936,
+      "ell_reach": 0.22500685611898497,
+      "ell_regime": 0.4602590289300602,
+      "ell_sag": 0.4093547739647511,
+      "ell_star": 0.36989379394180427,
+      "ell_top": 0.4093547739647511,
+      "feasible": true,
+      "id": "B2_w0",
+      "mass": 0.0002,
+      "pi_g_star": 0.25953395696902065,
+      "raw_E": 5621387.729022082,
+      "regime_L": true,
+      "regime_U": true,
+      "regime_star": true,
+      "w": 0.1962,
+      "wi": 0
+    },
+    {
+      "B_eff": 0.03825920568613013,
+      "argmax_ell": 0.3,
+      "argmax_idx": 9,
+      "bi": 2,
+      "censored": false,
+      "clipped": false,
+      "ell_L": 0.2567356701557681,
+      "ell_U": 0.3378831436899492,
+      "ell_dlo": 0.2567356701557681,
+      "ell_reach": 0.22503184803625675,
+      "ell_regime": 0.3563618507266278,
+      "ell_sag": 0.3378831436899492,
+      "ell_star": 0.30531188562423117,
+      "ell_top": 0.3378831436899492,
+      "feasible": true,
+      "id": "B2_w1",
+      "mass": 0.00043088693800637695,
+      "pi_g_star": 0.31443256722129026,
+      "raw_E": 5621387.729022082,
+      "regime_L": true,
+      "regime_U": true,
+      "regime_star": true,
+      "w": 0.4227000861842558,
+      "wi": 1
+    },
+    {
+      "B_eff": 0.03825920568613013,
+      "argmax_ell": 0.26,
+      "argmax_idx": 7,
+      "bi": 2,
+      "censored": false,
+      "clipped": false,
+      "ell_L": 0.2251483620964992,
+      "ell_U": 0.27591803891066097,
+      "ell_dlo": 0.21191069665416054,
+      "ell_reach": 0.2251483620964992,
+      "ell_regime": 0.27591803891066097,
+      "ell_sag": 0.27889016093319935,
+      "ell_star": 0.252005708206311,
+      "ell_top": 0.27591803891066097,
+      "feasible": true,
+      "id": "B2_w2",
+      "mass": 0.0009283177667225556,
+      "pi_g_star": 0.3809437519621861,
+      "raw_E": 5621387.729022082,
+      "regime_L": true,
+      "regime_U": false,
+      "regime_star": true,
+      "w": 0.9106797291548271,
+      "wi": 2
+    },
+    {
+      "B_eff": 0.09110646283229176,
+      "argmax_ell": 0.46,
+      "argmax_idx": 17,
+      "bi": 3,
+      "censored": false,
+      "clipped": false,
+      "ell_L": 0.38638731037795243,
+      "ell_U": 0.5085142981230321,
+      "ell_dlo": 0.38638731037795243,
+      "ell_reach": 0.22500120885878838,
+      "ell_regime": 0.6146200576123327,
+      "ell_sag": 0.5085142981230321,
+      "ell_star": 0.45949453864822576,
+      "ell_top": 0.5085142981230321,
+      "feasible": true,
+      "id": "B3_w0",
+      "mass": 0.0002,
+      "pi_g_star": 0.20892522527562515,
+      "raw_E": 13328010.062912514,
+      "regime_L": true,
+      "regime_U": true,
+      "regime_star": true,
+      "w": 0.1962,
+      "wi": 0
+    },
+    {
+      "B_eff": 0.09110646283229176,
+      "argmax_ell": 0.38,
+      "argmax_idx": 13,
+      "bi": 3,
+      "censored": false,
+      "clipped": false,
+      "ell_L": 0.31892570312041474,
+      "ell_U": 0.41972982993937946,
+      "ell_dlo": 0.31892570312041474,
+      "ell_reach": 0.225005611794094,
+      "ell_regime": 0.4758779892566112,
+      "ell_sag": 0.41972982993937946,
+      "ell_star": 0.37926871530804274,
+      "ell_top": 0.41972982993937946,
+      "feasible": true,
+      "id": "B3_w1",
+      "mass": 0.00043088693800637695,
+      "pi_g_star": 0.25311868900662854,
+      "raw_E": 13328010.062912514,
+      "regime_L": true,
+      "regime_U": true,
+      "regime_star": true,
+      "w": 0.4227000861842558,
+      "wi": 1
+    },
+    {
+      "B_eff": 0.09110646283229176,
+      "argmax_ell": 0.32,
+      "argmax_idx": 10,
+      "bi": 3,
+      "censored": false,
+      "clipped": false,
+      "ell_L": 0.2632426101451359,
+      "ell_U": 0.3464467583137975,
+      "ell_dlo": 0.2632426101451359,
+      "ell_reach": 0.22502606421896326,
+      "ell_regime": 0.3684550444687137,
+      "ell_sag": 0.3464467583137975,
+      "ell_star": 0.31304998495648306,
+      "ell_top": 0.3464467583137975,
+      "feasible": true,
+      "id": "B3_w2",
+      "mass": 0.0009283177667225556,
+      "pi_g_star": 0.30666029264733835,
+      "raw_E": 13328010.062912514,
+      "regime_L": true,
+      "regime_U": true,
+      "regime_star": true,
+      "w": 0.9106797291548271,
+      "wi": 2
+    },
+    {
+      "B_eff": 0.21527426878237318,
+      "argmax_ell": 0.56,
+      "argmax_idx": 22,
+      "bi": 4,
+      "censored": false,
+      "clipped": false,
+      "ell_L": 0.47905302763482865,
+      "ell_U": 0.6304692404964102,
+      "ell_dlo": 0.47905302763482865,
+      "ell_reach": 0.2250002165091674,
+      "ell_regime": 0.8186300980165326,
+      "ell_sag": 0.6304692404964102,
+      "ell_star": 0.5696932689269334,
+      "ell_top": 0.6304692404964102,
+      "feasible": true,
+      "id": "B4_w0",
+      "mass": 0.0002,
+      "pi_g_star": 0.168511732955568,
+      "raw_E": 31600000.0,
+      "regime_L": true,
+      "regime_U": true,
+      "regime_star": true,
+      "w": 0.1962,
+      "wi": 0
+    },
+    {
+      "B_eff": 0.21527426878237318,
+      "argmax_ell": 0.46,
+      "argmax_idx": 17,
+      "bi": 4,
+      "censored": false,
+      "clipped": false,
+      "ell_L": 0.3954123739751032,
+      "ell_U": 0.5203919497884858,
+      "ell_dlo": 0.3954123739751032,
+      "ell_reach": 0.22500100497118553,
+      "ell_regime": 0.6338355544438925,
+      "ell_sag": 0.5203919497884858,
+      "ell_star": 0.47022720849130956,
+      "ell_top": 0.5203919497884858,
+      "feasible": true,
+      "id": "B4_w1",
+      "mass": 0.00043088693800637695,
+      "pi_g_star": 0.20415662527910536,
+      "raw_E": 31600000.0,
+      "regime_L": true,
+      "regime_U": true,
+      "regime_star": true,
+      "w": 0.4227000861842558,
+      "wi": 1
+    },
+    {
+      "B_eff": 0.21527426878237318,
+      "argmax_ell": 0.38,
+      "argmax_idx": 13,
+      "bi": 4,
+      "censored": false,
+      "clipped": false,
+      "ell_L": 0.32637502838581317,
+      "ell_U": 0.42953369333520075,
+      "ell_dlo": 0.32637502838581317,
+      "ell_reach": 0.22500466519423862,
+      "ell_regime": 0.4907558505979623,
+      "ell_sag": 0.42953369333520075,
+      "ell_star": 0.38812750591562406,
+      "ell_top": 0.42953369333520075,
+      "feasible": true,
+      "id": "B4_w2",
+      "mass": 0.0009283177667225556,
+      "pi_g_star": 0.24734139821790854,
+      "raw_E": 31600000.0,
+      "regime_L": true,
+      "regime_U": true,
+      "regime_star": true,
+      "w": 0.9106797291548271,
+      "wi": 2
+    }
+  ],
+  "ratio_pairs": [
+    {
+      "B_eff": 0.032264843367045035,
+      "c": 2.0,
+      "id": "R0",
+      "mass": 0.0008617738760127539,
+      "pair_id": 0,
+      "raw_E": 4741893.178477171,
+      "reference": "B1_w1",
+      "w": 0.8454001723685116
+    },
+    {
+      "B_eff": 0.045408831332695465,
+      "c": 0.5,
+      "id": "R1",
+      "mass": 0.0004641588833612778,
+      "pair_id": 1,
+      "raw_E": 6664005.031456257,
+      "reference": "B3_w2",
+      "w": 0.45533986457741354
+    },
+    {
+      "B_eff": 0.05753320861264561,
+      "c": 1.5,
+      "id": "R2",
+      "mass": 0.0006463304070095655,
+      "pair_id": 2,
+      "raw_E": 8432081.593533123,
+      "reference": "B2_w1",
+      "w": 0.6340501292763837
+    }
+  ],
+  "splits": {
+    "test": [
+      "B1_w1",
+      "B2_w0",
+      "B4_w0"
+    ],
+    "train": [
+      "B1_w0",
+      "B1_w2",
+      "B2_w2",
+      "B3_w0",
+      "B3_w1",
+      "B4_w1",
+      "B4_w2"
+    ],
+    "val": [
+      "B2_w1",
+      "B3_w2"
+    ]
+  },
+  "test_cohort": {
+    "pairwise_cell_gaps": {
+      "B1_w1-B2_w0": 6,
+      "B1_w1-B4_w0": 16,
+      "B2_w0-B4_w0": 10
+    },
+    "rationale": "unique-(B,w)-group TEST optima SPAN l_delta with WELL-SEPARATED bands; pairwise predicted optima >=2 grid cells apart (asserted at freeze from prior committed calibration data)",
+    "test_predicted_argmax": {
+      "B1_w1": 6,
+      "B2_w0": 12,
+      "B4_w0": 22
+    },
+    "test_predicted_ell": {
+      "B1_w1": 0.24,
+      "B2_w0": 0.36,
+      "B4_w0": 0.56
+    }
+  },
+  "selection_rule": "CRN; maximize 3-draw mean success; ties lowest template index",
+  "evaluation_rule": "selected template only; disjoint 5-draw mean success and mean J; no reselection",
+  "tip_model_constants": {
+    "D": 0.24,
+    "DELTA": 0.012,
+    "ELL_MAX": 0.6,
+    "ELL_MIN": 0.12,
+    "ELL_STEP": 0.02,
+    "J_INF": -1.0,
+    "MIN_SHIFT_CELLS": 2,
+    "PI_G_MAX": 0.5,
+    "RHO": 0.006,
+    "RHO_X": 0.015,
+    "TAU": 0.5
+  },
+  "universe": [
+    "B1_w0",
+    "B1_w1",
+    "B1_w2",
+    "B2_w0",
+    "B2_w1",
+    "B2_w2",
+    "B3_w0",
+    "B3_w1",
+    "B3_w2",
+    "B4_w0",
+    "B4_w1",
+    "B4_w2",
+    "R0",
+    "R1",
+    "R2"
+  ],
+  "seed_banks": {
+    "selection": [
+      2300,
+      2301,
+      2302
+    ],
+    "evaluation": [
+      3300,
+      3301,
+      3302,
+      3303,
+      3304
+    ],
+    "history": [
+      2500,
+      2501
+    ],
+    "training": [
+      3500,
+      3510,
+      3520
+    ],
+    "disjoint_from_all_prior": true,
+    "note": "Item-1 frozen banks, disjoint from ALL prior (incl. the spanning banks 2200-2202/3200-3204 + hist 2200-2201). Oracle + teacher labels + student histories are ALL built from THESE draws on the 25-cell cohort this phase -> internally consistent (FROZEN==USED)."
+  },
+  "history_policy": {
+    "grasps": "ALL 25 cells (the S_distal schedule visits every cell)",
+    "templates": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "seeds": [
+      2500,
+      2501
+    ],
+    "action_metadata": true,
+    "note": "distal histories extracted over ALL 25 cells so the first-k schedule prefix (up to k=32) is covered"
+  },
+  "baselines": {
+    "teacher": "privileged (B_eff,w)->z->(success,J) heads, k-INDEPENDENT",
+    "blind": "property-blind prior = k=0",
+    "sysID_per_k": "ridge over the k-prefix pooled features, refit leak-free per k"
+  },
+  "metrics": {
+    "selection_regret": "J(oracle feasible-argmax) - J(student feasible-argmax) on the oracle curve, over unique-(B,w) TEST groups (A-15); the PRIMARY (discriminates on this cohort)",
+    "map_rmse": "held-out TEST success-curve RMSE (co-primary)",
+    "tau_boundary_error": "cell offset of the tau=0.5 crossing + band IoU",
+    "aggregation_A15": "unique-(B,w)-group level; ratio pairs R0/R1/R2 as invariance controls"
+  },
+  "discipline": {
+    "A15": "unique-(B,w) aggregation + ratio-pair invariance controls",
+    "A16": "multiple training seeds + seed variability; eval-draw bootstrap LABELED conditional on the trained models",
+    "A17": "explicit grasp/length action metadata in the features",
+    "A22": "interaction-count naming, not frame-truncation"
+  },
+  "acceptance": "PROTOCOL + HONESTY, NOT performance: the frozen protocol executed EXACTLY on the distal cohort -- the Item-1 selection {2300-2302} + evaluation {3300-3304} banks RUN this phase to build BOTH the distal teacher labels AND the distal oracle (verified: exact seeds in the sweep), + NEW distal histories {2500,2501} over all 25 cells; k-axis / S_distal / estimator reused from the frozen v2 manifest; then the honest regret-vs-k + map-vs-k curves with seed bands + ORDERING (blind=k0, teacher flat, sysID) + ratio invariance + A-22 naming. Reference endpoints DESCRIPTIVE only.",
+  "reference_endpoints_DESCRIPTIVE": {
+    "note": "DESCRIPTIVE ONLY; from the committed spanning phase (DIFFERENT seeds/pipeline) -- NON-COMPARABLE, never a gate.",
+    "distal_selection_regret": {
+      "task": 0.447263,
+      "teacher": 0.447918,
+      "blind": 0.559847,
+      "source": "spanning_results.json:primary_selection_regret"
+    },
+    "distal_map_rmse": {
+      "task": 0.331719,
+      "teacher": 0.230342,
+      "blind": 0.513003,
+      "source": "spanning_results.json:co_primary_map"
+    }
+  },
+  "outcome_binding_rule": {
+    "rule": "every frozen eligible cell is outcome-binding; a post-C1 divergence/non-convergence/out-of-guard -> that cell INCONCLUSIVE + STOP; NEVER thinned to a salvaged result; NO retuning.",
+    "reference_endpoints_never_gate": "approach-to-reference and monotone-within-seed-noise are DESCRIPTIVE reporting only."
+  },
+  "input_artifact_sha256": {
+    "spanning_manifest.json": "1ccf7de95194fedcf764a67767f13dc37ebd4bce0065a03462828910770f4a9f",
+    "adaptation_curve_manifest_v2.json": "d64469d1811f1a8a53aaa075a129b73872415a0d1a786c1086ab4c32505d81a5",
+    "distal_manifest.json": "35fc1c62198caf94befa574d25dd9636e96ea8b55afe8ced5c0a7a8650802ffb"
+  },
+  "provenance": {
+    "c1_commit": null,
+    "c2_commit": null,
+    "note": "c1 = this single-file freeze; the C2-distal data commit MUST be a git descendant."
+  }
+}
