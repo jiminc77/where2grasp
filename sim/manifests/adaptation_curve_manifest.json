@@ -1,0 +1,599 @@
+{
+  "schema_version": 1,
+  "phase": "simulation_wrap_up",
+  "item": "1_k_interaction_adaptation_curve",
+  "adjudication": "gptpro_inspection_adjudication_2026-08-17.md \u00a7C-2 (finding 32; graduation experiment for the m_t thesis)",
+  "approved_plan": "ralplan run simwrap, final stage-05-final.md (pending-approval.md)",
+  "simulation_only": true,
+  "naming_A22": "interaction-COUNT adaptation curve (k grasps); DISTINCT from the within-interaction frame-truncation axis (that figure is the history-variant comparison). Never conflate the two.",
+  "k_axis": [
+    0,
+    1,
+    2,
+    4,
+    8,
+    16,
+    32
+  ],
+  "k0_is_blind": "k=0 = the property-blind prior (flat); teacher = privileged k-INDEPENDENT flat ceiling.",
+  "acquisition_rule": {
+    "type": "fixed_deterministic_schedule",
+    "honesty_class": "information-sufficiency vs k (NOT the deployment protocol)",
+    "algorithm": "step j (=k) uses cell(j)=(7*j) mod n_cells, template(j)=j mod 4, ell(j)=0.12+ell_step*cell(j); stride 7 is coprime to 17 and 25 so the first n_cells steps are a full permutation of the grid.",
+    "S_lift": [
+      {
+        "k": 0,
+        "cell": 0,
+        "ell": 0.12,
+        "template": 0
+      },
+      {
+        "k": 1,
+        "cell": 7,
+        "ell": 0.33,
+        "template": 1
+      },
+      {
+        "k": 2,
+        "cell": 14,
+        "ell": 0.54,
+        "template": 2
+      },
+      {
+        "k": 3,
+        "cell": 4,
+        "ell": 0.24,
+        "template": 3
+      },
+      {
+        "k": 4,
+        "cell": 11,
+        "ell": 0.45,
+        "template": 0
+      },
+      {
+        "k": 5,
+        "cell": 1,
+        "ell": 0.15,
+        "template": 1
+      },
+      {
+        "k": 6,
+        "cell": 8,
+        "ell": 0.36,
+        "template": 2
+      },
+      {
+        "k": 7,
+        "cell": 15,
+        "ell": 0.57,
+        "template": 3
+      },
+      {
+        "k": 8,
+        "cell": 5,
+        "ell": 0.27,
+        "template": 0
+      },
+      {
+        "k": 9,
+        "cell": 12,
+        "ell": 0.48,
+        "template": 1
+      },
+      {
+        "k": 10,
+        "cell": 2,
+        "ell": 0.18,
+        "template": 2
+      },
+      {
+        "k": 11,
+        "cell": 9,
+        "ell": 0.39,
+        "template": 3
+      },
+      {
+        "k": 12,
+        "cell": 16,
+        "ell": 0.6,
+        "template": 0
+      },
+      {
+        "k": 13,
+        "cell": 6,
+        "ell": 0.3,
+        "template": 1
+      },
+      {
+        "k": 14,
+        "cell": 13,
+        "ell": 0.51,
+        "template": 2
+      },
+      {
+        "k": 15,
+        "cell": 3,
+        "ell": 0.21,
+        "template": 3
+      },
+      {
+        "k": 16,
+        "cell": 10,
+        "ell": 0.42,
+        "template": 0
+      },
+      {
+        "k": 17,
+        "cell": 0,
+        "ell": 0.12,
+        "template": 1
+      },
+      {
+        "k": 18,
+        "cell": 7,
+        "ell": 0.33,
+        "template": 2
+      },
+      {
+        "k": 19,
+        "cell": 14,
+        "ell": 0.54,
+        "template": 3
+      },
+      {
+        "k": 20,
+        "cell": 4,
+        "ell": 0.24,
+        "template": 0
+      },
+      {
+        "k": 21,
+        "cell": 11,
+        "ell": 0.45,
+        "template": 1
+      },
+      {
+        "k": 22,
+        "cell": 1,
+        "ell": 0.15,
+        "template": 2
+      },
+      {
+        "k": 23,
+        "cell": 8,
+        "ell": 0.36,
+        "template": 3
+      },
+      {
+        "k": 24,
+        "cell": 15,
+        "ell": 0.57,
+        "template": 0
+      },
+      {
+        "k": 25,
+        "cell": 5,
+        "ell": 0.27,
+        "template": 1
+      },
+      {
+        "k": 26,
+        "cell": 12,
+        "ell": 0.48,
+        "template": 2
+      },
+      {
+        "k": 27,
+        "cell": 2,
+        "ell": 0.18,
+        "template": 3
+      },
+      {
+        "k": 28,
+        "cell": 9,
+        "ell": 0.39,
+        "template": 0
+      },
+      {
+        "k": 29,
+        "cell": 16,
+        "ell": 0.6,
+        "template": 1
+      },
+      {
+        "k": 30,
+        "cell": 6,
+        "ell": 0.3,
+        "template": 2
+      },
+      {
+        "k": 31,
+        "cell": 13,
+        "ell": 0.51,
+        "template": 3
+      }
+    ],
+    "S_distal": [
+      {
+        "k": 0,
+        "cell": 0,
+        "ell": 0.12,
+        "template": 0
+      },
+      {
+        "k": 1,
+        "cell": 7,
+        "ell": 0.26,
+        "template": 1
+      },
+      {
+        "k": 2,
+        "cell": 14,
+        "ell": 0.4,
+        "template": 2
+      },
+      {
+        "k": 3,
+        "cell": 21,
+        "ell": 0.54,
+        "template": 3
+      },
+      {
+        "k": 4,
+        "cell": 3,
+        "ell": 0.18,
+        "template": 0
+      },
+      {
+        "k": 5,
+        "cell": 10,
+        "ell": 0.32,
+        "template": 1
+      },
+      {
+        "k": 6,
+        "cell": 17,
+        "ell": 0.46,
+        "template": 2
+      },
+      {
+        "k": 7,
+        "cell": 24,
+        "ell": 0.6,
+        "template": 3
+      },
+      {
+        "k": 8,
+        "cell": 6,
+        "ell": 0.24,
+        "template": 0
+      },
+      {
+        "k": 9,
+        "cell": 13,
+        "ell": 0.38,
+        "template": 1
+      },
+      {
+        "k": 10,
+        "cell": 20,
+        "ell": 0.52,
+        "template": 2
+      },
+      {
+        "k": 11,
+        "cell": 2,
+        "ell": 0.16,
+        "template": 3
+      },
+      {
+        "k": 12,
+        "cell": 9,
+        "ell": 0.3,
+        "template": 0
+      },
+      {
+        "k": 13,
+        "cell": 16,
+        "ell": 0.44,
+        "template": 1
+      },
+      {
+        "k": 14,
+        "cell": 23,
+        "ell": 0.58,
+        "template": 2
+      },
+      {
+        "k": 15,
+        "cell": 5,
+        "ell": 0.22,
+        "template": 3
+      },
+      {
+        "k": 16,
+        "cell": 12,
+        "ell": 0.36,
+        "template": 0
+      },
+      {
+        "k": 17,
+        "cell": 19,
+        "ell": 0.5,
+        "template": 1
+      },
+      {
+        "k": 18,
+        "cell": 1,
+        "ell": 0.14,
+        "template": 2
+      },
+      {
+        "k": 19,
+        "cell": 8,
+        "ell": 0.28,
+        "template": 3
+      },
+      {
+        "k": 20,
+        "cell": 15,
+        "ell": 0.42,
+        "template": 0
+      },
+      {
+        "k": 21,
+        "cell": 22,
+        "ell": 0.56,
+        "template": 1
+      },
+      {
+        "k": 22,
+        "cell": 4,
+        "ell": 0.2,
+        "template": 2
+      },
+      {
+        "k": 23,
+        "cell": 11,
+        "ell": 0.34,
+        "template": 3
+      },
+      {
+        "k": 24,
+        "cell": 18,
+        "ell": 0.48,
+        "template": 0
+      },
+      {
+        "k": 25,
+        "cell": 0,
+        "ell": 0.12,
+        "template": 1
+      },
+      {
+        "k": 26,
+        "cell": 7,
+        "ell": 0.26,
+        "template": 2
+      },
+      {
+        "k": 27,
+        "cell": 14,
+        "ell": 0.4,
+        "template": 3
+      },
+      {
+        "k": 28,
+        "cell": 21,
+        "ell": 0.54,
+        "template": 0
+      },
+      {
+        "k": 29,
+        "cell": 3,
+        "ell": 0.18,
+        "template": 1
+      },
+      {
+        "k": 30,
+        "cell": 10,
+        "ell": 0.32,
+        "template": 2
+      },
+      {
+        "k": 31,
+        "cell": 17,
+        "ell": 0.46,
+        "template": 3
+      }
+    ],
+    "n_schedule_steps": 32,
+    "source": "plan (frozen enumeration; regeneratable + byte-matched in C0)"
+  },
+  "estimator": {
+    "type": "mean_pool_k_prefix",
+    "spec": "the student MEAN-POOLS the first k interactions' committed 42-D addendum features into a fixed order-invariant 42-D summary fed to the frozen head MLP[32,32]; k=0 bypasses the pooled summary -> property-blind prior head (identical to blind).",
+    "feature_dim": 42,
+    "features": "proprio(8) + pooled_temporal_shape(112->32) + action(2)  [addendum_manifest.json:features; sim/history.py:temporal_shape/drive_summary; A-17 action metadata]",
+    "head": "MLP[32,32]  [addendum_manifest.json:critic_head]",
+    "training": "per k: fit on TRAIN-setting k-prefixes across training seeds, model-select on VAL, evaluate on held-out TEST; leak-free (TEST never in any fit/scaler/CV). Deterministic training seeds frozen."
+  },
+  "split_leak_free": {
+    "TRAIN": [
+      "B1_w0",
+      "B1_w2",
+      "B2_w0",
+      "B3_w0",
+      "B3_w1",
+      "B4_w0",
+      "B4_w2"
+    ],
+    "VAL": [
+      "B2_w2",
+      "B4_w1"
+    ],
+    "TEST": [
+      "B1_w1",
+      "R0",
+      "B3_w2",
+      "R1",
+      "B2_w1",
+      "R2"
+    ],
+    "source": "addendum_manifest.json:splits",
+    "note": "ratio pairs R0/R1/R2 in TEST as A-15 invariance controls."
+  },
+  "primary_task": {
+    "name": "lift_and_clear",
+    "grid": {
+      "n_cells": 17,
+      "step": 0.03,
+      "ells": [
+        0.12,
+        0.15,
+        0.18,
+        0.21,
+        0.24,
+        0.27,
+        0.3,
+        0.33,
+        0.36,
+        0.39,
+        0.42,
+        0.45,
+        0.48,
+        0.51,
+        0.54,
+        0.57,
+        0.6
+      ],
+      "source": "addendum_landscape.json:settings[*].ell_grid; hard_gate_verdict.json:resolution_step=0.03; hard_sweep_manifest.json"
+    },
+    "selection_regret_degenerate": "lift argmax is material-INDEPENDENT (STATUS.md 2026-08-17 fast-loop Step 2/4) -> lift selection regret is DEGENERATE; reported honestly; discrimination is on the distal SECONDARY."
+  },
+  "secondary_task": {
+    "name": "distal_spanning",
+    "grid": {
+      "n_cells": 25,
+      "step": 0.02,
+      "ells": [
+        0.12,
+        0.14,
+        0.16,
+        0.18,
+        0.2,
+        0.22,
+        0.24,
+        0.26,
+        0.28,
+        0.3,
+        0.32,
+        0.34,
+        0.36,
+        0.38,
+        0.4,
+        0.42,
+        0.44,
+        0.46,
+        0.48,
+        0.5,
+        0.52,
+        0.54,
+        0.56,
+        0.58,
+        0.6
+      ],
+      "source": "spanning_manifest.json:grasp (ell in [0.12,0.60] step 0.02)"
+    },
+    "test_cohort": {
+      "B1_w1": 0.24,
+      "B2_w0": 0.36,
+      "B4_w0": 0.56,
+      "source": "spanning_results.json:test_cohort"
+    },
+    "note": "a DISTINCT estimand; selection regret DISCRIMINATES here. Lift-grid endpoints are NON-COMPARABLE to distal-grid endpoints."
+  },
+  "baselines": {
+    "teacher": "privileged (B_eff,w)->z->map, k-INDEPENDENT flat ceiling",
+    "blind": "property-blind prior = k=0 (flat line)",
+    "sysID_per_k": "ridge over the k-prefix pooled shape features, refit leak-free at each k"
+  },
+  "metrics": {
+    "map_rmse": "sqrt(mean over grasp cells of (pred-measured)^2), averaged over unique-(B,w) TEST groups",
+    "tau_boundary_error": "|cell(pred tau=0.5 crossing) - cell(measured crossing)| in grid cells (linear interp) + band IoU secondary",
+    "selection_regret": "J(oracle argmax) - J(student argmax) scored on the oracle curve, over unique-(B,w) TEST groups",
+    "aggregation_A15": "unique-(B,w)-group level mean + std (not per-rollout); ratio pairs are invariance controls",
+    "source": "addendum_manifest.json:primary.metric; adopt_now A15/A16/A17"
+  },
+  "reference_endpoints_DESCRIPTIVE": {
+    "note": "DESCRIPTIVE ONLY -- never a gate; NON-COMPARABLE across the lift(17-cell/0.03) and distal(25-cell/0.02) grids. A flat or non-monotone curve is a valid honest outcome.",
+    "lift_map_rmse": {
+      "task": 0.043304,
+      "teacher": 0.122776,
+      "blind": 0.327524,
+      "source": "addendum_results.json:summary"
+    },
+    "distal_selection_regret": {
+      "task": 0.447263,
+      "teacher": 0.447918,
+      "blind": 0.559847,
+      "source": "spanning_results.json:primary_selection_regret"
+    },
+    "distal_map_rmse": {
+      "task": 0.331719,
+      "teacher": 0.230342,
+      "blind": 0.513003,
+      "source": "spanning_results.json:co_primary_map"
+    }
+  },
+  "seed_banks": {
+    "selection": [
+      2300,
+      2301,
+      2302
+    ],
+    "evaluation": [
+      3300,
+      3301,
+      3302,
+      3303,
+      3304
+    ],
+    "history": [
+      2500,
+      2501
+    ],
+    "training": [
+      3500,
+      3510,
+      3520
+    ],
+    "disjoint_from_all_prior": true,
+    "prior_union_note": "disjoint from sel{2000-2002,2100-2102,2200-2202} / eval{3000-3004,3100-3104,3200-3204} / hist{1000-series,2200-2201} / train{3403,3413,3423}; 35xx training avoids the 3403/3413/3423 collision."
+  },
+  "discipline": {
+    "A15": "unique-(B,w) aggregation + ratio-pair invariance controls",
+    "A16": "multiple training seeds + seed variability; eval-draw bootstrap LABELED conditional on the trained models",
+    "A17": "explicit grasp/length action metadata in the features",
+    "A22": "interaction-count naming, not frame-truncation"
+  },
+  "acceptance": "PROTOCOL + HONESTY, NOT performance: the FROZEN protocol executed exactly (enumerated S, mean-pool estimator, leak-free split, exact seeds, 17-cell lift grid) + the honest per-k curve with seed bands + the ORDERING reported (blind=k0, teacher=flat ceiling, sysID-per-k shown) + ratio invariance + A-22 naming. Reference endpoints + monotonicity are DESCRIPTIVE only.",
+  "outcome_binding_rule": {
+    "rule": "every frozen eligible cell is outcome-binding; a post-C1 divergence/non-convergence/out-of-guard -> that cell INCONCLUSIVE + STOP; NEVER thinned to a salvaged result; NO retuning.",
+    "reference_endpoints_never_gate": "approach-to-reference and monotone-within-seed-noise are DESCRIPTIVE reporting only."
+  },
+  "input_artifact_sha256": {
+    "addendum_manifest.json": "f1a00cbea4e5c1456861b8e8482d09c5ae0425ba07810412f1940cd2539a7447",
+    "addendum_landscape.json": "75810100b138fa319ce090bb549bd708f1e32bb3d0ea1f557a84418d7aa5759e",
+    "addendum_results.json": "d067319ba984d6e01fe586eddd1ad9f05bca3119673a2ca08cd44befa2b882b0",
+    "hard_gate_verdict.json": "97cdf7c018ac0dccf555ccd9d92741cfc7b91bdb20b1808cc9202ce7b6bd13e4",
+    "spanning_manifest.json": "1ccf7de95194fedcf764a67767f13dc37ebd4bce0065a03462828910770f4a9f",
+    "spanning_results.json": "335b7eccf066b4024eee24165616e9db9cc15e3428fd167ac4d1b83f28e5f965"
+  },
+  "provenance": {
+    "c1_commit": null,
+    "c2_commit": null,
+    "note": "c1 = this single-file freeze; the C2 sweep commit MUST be a git descendant (git merge-base --is-ancestor c1 c2)."
+  }
+}
