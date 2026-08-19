@@ -277,9 +277,11 @@ def sweep():
                    c1_manifest_sha256=c1_sha, k_axis=list(ac.K_AXIS), task="lift_and_clear_primary_17cell", train_seeds=train_seeds,
                    history_seeds=hist_seeds, test_groups=TEST, curve=curve, ratio_invariance=ratio_invariance,
                    protocol_fidelity=protocol_fidelity,
+                   pre_registered_outcome="NOT_ESTABLISHED",
+                   pre_registered_outcome_note="The FROZEN seed protocol was NOT executed on every axis (the teacher/student-target labels used the UNPINNED committed addendum selection bank, not the frozen NEW selection {2300-2302}; the frozen new sel/eval sweeps were never run). Therefore the pre-registered Item-1 adaptation-curve outcome is NOT ESTABLISHED. The per-k numbers below are AS-RUN DESCRIPTIVE EVIDENCE ONLY -- they are real and independently reproducible from the persisted raw surfaces, but they are NOT a pre-registered scientific claim. A clean pre-registered result requires the frozen new-selection-bank sweep (owner decision).",
                    reference_endpoints_DESCRIPTIVE={"lift_map_rmse_task": 0.043304, "teacher": 0.122776, "blind": 0.327524},
                    lift_selection_regret_degenerate=True,
-                   acceptance_note="PROTOCOL + HONESTY (NOT performance): the per-k curve, ordering (blind=k0, teacher flat ceiling, sysID shown), band IoU, and ratio invariance are reported; reference endpoints + monotonicity are DESCRIPTIVE only; a flat/non-monotone curve is a valid honest outcome. See protocol_fidelity for the REPORTED teacher-labels seed deviation + the frozen-manifest inconsistency escalated to the owner."))
+                   acceptance_note="HONESTY over performance: pre_registered_outcome = NOT_ESTABLISHED (see protocol_fidelity). The per-k curve, ordering, band IoU, and ratio invariance are reported as AS-RUN descriptive evidence; reference endpoints + monotonicity are DESCRIPTIVE only; performance NEVER gates. The teacher-labels seed deviation + frozen-manifest inconsistency are escalated to the owner."))
     (MAN / "adaptation_curve_results.json").write_text(json.dumps(results, indent=2))
     # persist the RAW surfaces so the independent red-team can recompute every scalar
     flat = {}

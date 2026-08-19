@@ -204,7 +204,9 @@ def main() -> int:
             vals = [fn(surf[f"{b}__k{ac.K_AXIS[ki]}__{sid}"][si], sid) for sid in ac.TEST_GROUPS]
             per_seed.append(qa_aggregate(vals))
         arr = np.asarray(per_seed, float)
-        return None if np.all(np.isnan(arr)) else float(np.nanmean(arr))
+        if np.all(np.isnan(arr)):
+            return dict(mean=None, seed_std=None, n_seeds=len(tseeds))
+        return dict(mean=float(np.nanmean(arr)), seed_std=float(np.nanstd(arr)), n_seeds=len(tseeds))
     field_fns = {
         "map_rmse": lambda c, sid: qa_map_rmse(c, meas[sid]),
         "selection_regret": lambda c, sid: qa_selection_regret(c, meas[sid]),
@@ -212,15 +214,23 @@ def main() -> int:
         "band_iou": lambda c, sid: qa_band_iou(c, meas[sid]),
     }
     ell = np.array(json.loads((MAN / "hard_sweep_manifest.json").read_text())["grasp"]["ell"], float)
+    def near(a, b):
+        if (a is None) != (b is None):
+            return False
+        return a is None or abs(a - b) <= 1e-9
     mism = []
     for b in ("teacher", "blind", "student", "sysid"):
         for field, fn in field_fns.items():
             for ki in range(len(ac.K_AXIS)):
-                qa = qa_band_over_seeds(b, ki, fn); rep = curve[b][field][ki]["mean"]
-                if (qa is None) != (rep is None) or (qa is not None and rep is not None and abs(qa - rep) > 1e-9):
-                    mism.append(f"{b}.{field}.k{ac.K_AXIS[ki]} qa={qa} rep={rep}")
-    ck("committed scalars RECOMPUTED from raw surfaces (byte-match)", not mism,
-       f"mismatch {mism[:3]}" if mism else "all 4 baselines x 4 metrics x 7 k reproduced from surfaces within 1e-9")
+                qa = qa_band_over_seeds(b, ki, fn); rep = curve[b][field][ki]
+                if not near(qa["mean"], rep["mean"]):
+                    mism.append(f"{b}.{field}.k{ac.K_AXIS[ki]}.mean qa={qa['mean']} rep={rep['mean']}")
+                if not near(qa["seed_std"], rep.get("seed_std")):
+                    mism.append(f"{b}.{field}.k{ac.K_AXIS[ki]}.seed_std qa={qa['seed_std']} rep={rep.get('seed_std')}")
+                if qa["n_seeds"] != rep.get("n_seeds"):
+                    mism.append(f"{b}.{field}.k{ac.K_AXIS[ki]}.n_seeds qa={qa['n_seeds']} rep={rep.get('n_seeds')}")
+    ck("committed scalars+A16 BANDS recomputed from raw surfaces (mean+seed_std+n_seeds, byte-match)", not mism,
+       f"mismatch {mism[:3]}" if mism else "all 4 baselines x 4 metrics x 7 k: mean+seed_std+n_seeds reproduced from surfaces within 1e-9")
     ck("surfaces content-bound to C1 manifest sha", surf_c1 == sha256(MAN / "adaptation_curve_manifest.json"),
        f"surfaces c1_sha={surf_c1[:12]}")
     # k=0 student/sysid surfaces are byte-identical to blind (membership at the surface level)
@@ -253,6 +263,9 @@ def main() -> int:
        "results.protocol_fidelity discloses: oracle pinned+reused; teacher-labels from UNPINNED old-sel addendum_sweep_results; new sel/eval frozen-but-unused; escalated to owner")
     ck("lift selection-regret degeneracy reported", res.get("lift_selection_regret_degenerate") is True,
        "all lift regret 0.0 (committed degeneracy, reported honestly)")
+    ck("pre-registered outcome declared NOT_ESTABLISHED (as-run descriptive only)",
+       res.get("pre_registered_outcome") == "NOT_ESTABLISHED" and "pre_registered_outcome_note" in res,
+       "frozen seed protocol not fully executed -> outcome NOT ESTABLISHED; numbers are as-run descriptive evidence")
 
     # DESCRIPTIVE (NON-GATING) curve shape -- reported, never a survival condition per outcome_binding_rule
     stu = [c["mean"] for c in curve["student"]["map_rmse"]]
