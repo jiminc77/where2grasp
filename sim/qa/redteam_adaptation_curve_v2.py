@@ -126,6 +126,37 @@ def main():
                   and len(set(tmpl[(st == s) & (gr == g) & (bk == "evaluation")].tolist())) == 1 for s in ssids for g in range(ng))
     ck("evaluation sweep exact (5 eval-seeds per cell at single winner template)", eval_ok, "per (setting,cell): 5 eval rows, one template")
 
+    # 4b) FROZEN winner-template rule executed exactly for BOTH oracle and TEACHER labels (critic seam) #
+    J = sw["J"].astype(float); seltmpl = sw["selected_template"].astype(bool)
+    ntmpl = len(m["templates"])
+    conv_all = bool(np.all(sw["converged"].astype(bool)))
+    ck("all sweep rollouts converged (bound into exact-execution)", conv_all, f"converged={int(np.sum(sw['converged'].astype(bool)))}/{len(sw['converged'])}")
+    frozen_win = {}; eval_bad = []; pers_bad = []
+    for s in ssids:
+        for g in range(ng):
+            sel = (st == s) & (gr == g) & (bk == "selection")
+            if not sel.any():
+                continue
+            rates = [float(np.mean(suc[sel & (tmpl == t)])) if (sel & (tmpl == t)).any() else -1.0 for t in range(ntmpl)]
+            fw = int(np.argmax(rates))                        # success-only, lowest-index tie == frozen rule
+            frozen_win[(s, g)] = fw
+            if set(tmpl[(st == s) & (gr == g) & (bk == "evaluation")].tolist()) != {fw}:
+                eval_bad.append((s, g))
+            if set(tmpl[sel & seltmpl].tolist()) != {fw}:
+                pers_bad.append((s, g))
+    ck("evaluation template == frozen success-only winner (all 15x17 cells)", not eval_bad, f"bad={eval_bad[:3]}" if eval_bad else "every eval cell at the frozen winner")
+    ck("persisted selected_template == frozen winner (all cells)", not pers_bad, f"bad={pers_bad[:3]}" if pers_bad else "selected_template marks the frozen winner")
+    # the production teacher-label builder must consume the FROZEN winner's (success, J), not a re-derived tie-break
+    from sim.run_adaptation_curve_v2 import _teacher_rows as prod_tr
+    tr = prod_tr(sw, np.array(m["grasp"]["ell"], float), ng); tr_bad = []
+    for (sid, gvec, sp, jj, feas) in tr:
+        g = int(round(gvec[0] * (ng - 1))); fw = frozen_win.get((sid, g))
+        selw = (st == sid) & (gr == g) & (bk == "selection") & (tmpl == fw)
+        if abs(sp - float(np.mean(suc[selw]))) > 1e-9 or abs(jj - float(np.mean(J[selw]))) > 1e-9:
+            tr_bad.append((sid, g))
+    ck("TEACHER rows use the FROZEN winner labels (success,J byte-match)", not tr_bad and len(tr) == len(ac.TRAIN_GROUPS + ac.VAL_GROUPS) * ng,
+       f"bad={tr_bad[:3]}" if tr_bad else f"{len(tr)} TRAIN+VAL teacher rows = frozen-winner (success,J)")
+
     # 5) histories REUSED unchanged (identical bank + exact 2040 Cartesian) -- #
     hz = np.load(MAN / "adaptation_curve_lift_histories.npz", allow_pickle=True)
     Sh = hz["setting"].astype(str); Gh = hz["grasp"].astype(int); Th = hz["template"].astype(int); Dh = hz["seed"].astype(int)

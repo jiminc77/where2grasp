@@ -105,15 +105,22 @@ def stage_merge():
 # stage: ksweep (CPU torch) -- k-prefix pipeline vs the v2 oracle + v2 teacher
 # --------------------------------------------------------------------------- #
 def _teacher_rows(sw, ell, ng):
+    """Teacher labels = the FROZEN winner template's selection-bank (success, J).
+
+    The frozen selection rule (hard_sweep_manifest: maximize 3-draw mean success, ties -> lowest
+    template index) is applied in stage_sweep and persisted as `selected_template`. We CONSUME that
+    persisted winner rather than re-deriving it with any secondary key, so the teacher labels are the
+    EXACT frozen-winner labels (matching the evaluation oracle's winner cell-for-cell).
+    """
+    seltmpl = sw["selected_template"].astype(bool)
     rows = []
     for sid in (ac.TRAIN_GROUPS + ac.VAL_GROUPS):
         for gi in range(ng):
-            ix = (sw["bank"] == "selection") & (sw["setting"] == sid) & (sw["grasp"] == gi)
+            ix = (sw["bank"] == "selection") & (sw["setting"] == sid) & (sw["grasp"] == gi) & seltmpl
             if not ix.any():
                 continue
-            cand = [(float(sw["success"][ix & (sw["template"] == t)].mean()),
-                     float(sw["J"][ix & (sw["template"] == t)].mean()), int(t)) for t in sorted(set(sw["template"][ix].astype(int).tolist()))]
-            sp, jj, _ = max(cand, key=lambda x: (x[0], x[1], -x[2]))
+            assert len(set(sw["template"][ix].astype(int).tolist())) == 1, "selected_template not unique per cell"
+            sp = float(sw["success"][ix].mean()); jj = float(sw["J"][ix].mean())
             rows.append((sid, np.array([gi / (ng - 1), float(ell[gi])]), sp, jj, 1.0 if sp > 0 else 0.0))
     return rows
 
