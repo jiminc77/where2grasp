@@ -1,0 +1,55 @@
+=== SWEEP 12 12:17:29 ===
+{"grasp": 12, "rows": 255, "wall_clock_s": 109.2, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_sweep_g12.npz"}
+=== SWEEP 13 12:19:20 ===
+{"grasp": 13, "rows": 255, "wall_clock_s": 122.1, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_sweep_g13.npz"}
+=== SWEEP 14 12:21:25 ===
+{"grasp": 14, "rows": 255, "wall_clock_s": 130.7, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_sweep_g14.npz"}
+=== SWEEP 15 12:23:38 ===
+{"grasp": 15, "rows": 255, "wall_clock_s": 140.9, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_sweep_g15.npz"}
+=== SWEEP 16 12:26:02 ===
+{"grasp": 16, "rows": 255, "wall_clock_s": 141.5, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_sweep_g16.npz"}
+=== SWEEP 17 12:28:26 ===
+{"grasp": 17, "rows": 255, "wall_clock_s": 145.8, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_sweep_g17.npz"}
+=== SWEEP 18 12:30:54 ===
+{"grasp": 18, "rows": 255, "wall_clock_s": 143.3, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_sweep_g18.npz"}
+=== SWEEP 19 12:33:20 ===
+{"grasp": 19, "rows": 255, "wall_clock_s": 167.5, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_sweep_g19.npz"}
+=== SWEEP 20 12:36:10 ===
+{"grasp": 20, "rows": 255, "wall_clock_s": 178.9, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_sweep_g20.npz"}
+=== SWEEP 21 12:39:11 ===
+{"grasp": 21, "rows": 255, "wall_clock_s": 196.2, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_sweep_g21.npz"}
+=== SWEEP 22 12:42:30 ===
+{"grasp": 22, "rows": 255, "wall_clock_s": 239.0, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_sweep_g22.npz"}
+=== SWEEP 23 12:46:32 ===
+{"grasp": 23, "rows": 255, "wall_clock_s": 270.7, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_sweep_g23.npz"}
+=== SWEEP 24 12:51:05 ===
+{"grasp": 24, "rows": 255, "wall_clock_s": 307.7, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_sweep_g24.npz"}
+=== HIST 11 12:56:15 ===
+{"grasp": 11, "rollouts": 120, "wall_clock_s": 91.4, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_hist_g11.npz"}
+=== HIST 12 12:57:49 ===
+{"grasp": 12, "rollouts": 120, "wall_clock_s": 97.1, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_hist_g12.npz"}
+=== HIST 13 12:59:29 ===
+{"grasp": 13, "rollouts": 120, "wall_clock_s": 104.6, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_hist_g13.npz"}
+=== HIST 14 13:01:16 ===
+{"grasp": 14, "rollouts": 120, "wall_clock_s": 109.4, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_hist_g14.npz"}
+=== HIST 15 13:03:08 ===
+{"grasp": 15, "rollouts": 120, "wall_clock_s": 117.5, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_hist_g15.npz"}
+=== HIST 16 13:05:08 ===
+{"grasp": 16, "rollouts": 120, "wall_clock_s": 114.9, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_hist_g16.npz"}
+=== HIST 17 13:07:05 ===
+{"grasp": 17, "rollouts": 120, "wall_clock_s": 124.2, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_hist_g17.npz"}
+=== HIST 18 13:09:12 ===
+{"grasp": 18, "rollouts": 120, "wall_clock_s": 132.6, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_hist_g18.npz"}
+=== HIST 19 13:11:27 ===
+{"grasp": 19, "rollouts": 120, "wall_clock_s": 148.7, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_hist_g19.npz"}
+=== HIST 20 13:13:58 ===
+{"grasp": 20, "rollouts": 120, "wall_clock_s": 160.1, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_hist_g20.npz"}
+=== HIST 21 13:16:41 ===
+{"grasp": 21, "rollouts": 120, "wall_clock_s": 179.3, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_hist_g21.npz"}
+=== HIST 22 13:19:43 ===
+{"grasp": 22, "rollouts": 120, "wall_clock_s": 206.3, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_hist_g22.npz"}
+=== HIST 23 13:23:11 ===
+{"grasp": 23, "rollouts": 120, "wall_clock_s": 222.1, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_hist_g23.npz"}
+=== HIST 24 13:26:56 ===
+{"grasp": 24, "rollouts": 120, "wall_clock_s": 237.1, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_distal_hist_g24.npz"}
+ALL_DISTAL_SHARDS_DONE
