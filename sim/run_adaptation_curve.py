@@ -13,7 +13,7 @@ sim.distal_critic.{train_critic,Phi}, sim.sweep.settings) -- the k-prefix estima
 """
 from __future__ import annotations
 
-import argparse, json, time
+import argparse, hashlib, json, time
 from pathlib import Path
 
 import numpy as np
@@ -152,52 +152,47 @@ def sweep():
     schedule = ac.schedule_lift()                              # frozen S_lift: [(cell, ell, template), ...]
     hist_seeds = list(ac.SEED_BANKS["history"])
 
+    # ordered first-max(K) scheduled 42-D features per (setting, history seed); ac.prefix_summary slices first k
+    ORD = {}
+    kmax = max(ac.K_AXIS)
+    for sid in (TRAIN + VAL + TEST):
+        for sd in hist_seeds:
+            feats = []
+            for j in range(kmax):
+                cell, _, tmpl = schedule[j]
+                idx = np.where((S == sid) & (Gr == cell) & (Tp == tmpl) & (Sd == sd))[0]
+                if idx.size == 0:
+                    raise RuntimeError(f"missing history rollout {sid} cell={cell} tmpl={tmpl} seed={sd}")
+                feats.append(_full_feat(hz, idx[0]))
+            ORD[(sid, sd)] = np.asarray(feats)                 # (kmax, 42), schedule order
+
     def prefix_feat(sid, seed, k):
-        """MEAN-POOL of the first k scheduled interactions' 42-D features for (setting, history seed)."""
-        if k <= 0:
-            return None
-        feats = []
-        for j in range(k):
-            cell, _, tmpl = schedule[j]
-            idx = np.where((S == sid) & (Gr == cell) & (Tp == tmpl) & (Sd == seed))[0]
-            if idx.size == 0:
-                raise RuntimeError(f"missing history rollout {sid} cell={cell} tmpl={tmpl} seed={seed}")
-            feats.append(_full_feat(hz, idx[0]))
-        return np.mean(feats, axis=0)
+        """Frozen mean-pool k-prefix estimator via the C0 canonical helper (ac.prefix_summary)."""
+        return ac.prefix_summary(ORD[(sid, seed)], k)         # None for k<=0 -> caller uses blind
 
     def curve_from_z(q, z):
         with torch.no_grad():
             sl, _ = q(torch.tensor(gf, dtype=torch.double), torch.tensor(np.tile(z, (ng, 1)), dtype=torch.double))
             return torch.sigmoid(sl).numpy()
 
-    def metrics_for_curves(curve_of_setting):
-        rmses, berrs, regrets = [], [], []
-        for sid in TEST:
-            pS = curve_of_setting(sid); measS = np.array(land[sid]["success_rate"])
-            rmses.append(ac.map_rmse(pS, measS))
-            be = ac.boundary_index_error(pS, measS, ell)
-            if be is not None:
-                berrs.append(be)
-            regrets.append(ac.selection_regret(pS, measS))
-        return dict(map_rmse=ac.aggregate_unique_groups(rmses), boundary_err=ac.aggregate_unique_groups(berrs),
-                    selection_regret=ac.aggregate_unique_groups(regrets))
-
+    measured = {sid: np.asarray(land[sid]["success_rate"], float) for sid in TEST}
+    # per-(baseline, k-index, setting) predicted 17-cell curve, one row per training seed -- the RAW surfaces
+    surfaces = {b: {ki: {sid: [] for sid in TEST} for ki in range(len(ac.K_AXIS))} for b in ("teacher", "blind", "student", "sysid")}
     train_seeds = list(ac.SEED_BANKS["training"])
-    per_k = {k: {"teacher": [], "blind": [], "student": [], "sysid": []} for k in ac.K_AXIS}
     for tseed in train_seeds:
         phi, q = train_critic(rows, props, VAL, blind=False, train_ids=TRAIN, seed=tseed)
         _, qb = train_critic(rows, props, VAL, blind=True, train_ids=TRAIN, seed=tseed)
-        teacher_curves = {sid: curve_from_z(q, phi(torch.tensor(props[sid][None], dtype=torch.double)).detach().numpy()[0]) for sid in TEST}
-        blind_curves = {sid: curve_from_z(qb, np.zeros(4)) for sid in TEST}
-        tm = metrics_for_curves(lambda sid: teacher_curves[sid])
-        bm = metrics_for_curves(lambda sid: blind_curves[sid])
-        for k in ac.K_AXIS:
-            per_k[k]["teacher"].append(tm); per_k[k]["blind"].append(bm)
-        # per-k student (mean-pool k-prefix distillation) + leak-free sysID-per-k
-        for k in ac.K_AXIS:
-            if k == 0:                                          # k=0 == blind
-                per_k[k]["student"].append(bm); per_k[k]["sysid"].append(bm); continue
-            # build (setting, seed) k-prefix summaries
+        tcur = {sid: curve_from_z(q, phi(torch.tensor(props[sid][None], dtype=torch.double)).detach().numpy()[0]) for sid in TEST}
+        bcur = {sid: curve_from_z(qb, np.zeros(4)) for sid in TEST}
+        for ki, k in enumerate(ac.K_AXIS):
+            for sid in TEST:
+                surfaces["teacher"][ki][sid].append(tcur[sid])  # teacher/blind are k-INDEPENDENT (flat ceiling / prior)
+                surfaces["blind"][ki][sid].append(bcur[sid])
+        for ki, k in enumerate(ac.K_AXIS):
+            if k == 0:                                          # k=0 == blind (property-blind prior)
+                for sid in TEST:
+                    surfaces["student"][ki][sid].append(bcur[sid]); surfaces["sysid"][ki][sid].append(bcur[sid])
+                continue
             X = {sid: np.array([prefix_feat(sid, sd, k) for sd in hist_seeds]) for sid in (TRAIN + VAL + TEST)}
             Xtr = np.concatenate([X[s] for s in TRAIN]); Ytr = np.concatenate([np.tile(phi(torch.tensor(props[s][None], dtype=torch.double)).detach().numpy(), (len(hist_seeds), 1)) for s in TRAIN])
             Xv = np.concatenate([X[s] for s in VAL]); Yv = np.concatenate([np.tile(phi(torch.tensor(props[s][None], dtype=torch.double)).detach().numpy(), (len(hist_seeds), 1)) for s in VAL])
@@ -213,39 +208,97 @@ def sweep():
                 if vl < best[0]:
                     best = (vl, {kk: v.detach().clone() for kk, v in st.state_dict().items()})
             st.load_state_dict(best[1])
-            def student_curve(sid):
+            lam = 1.0; A = Xtrn.numpy(); W = np.linalg.solve(A.T @ A + lam * np.eye(A.shape[1]), A.T @ Ytr)  # leak-free sysID ridge
+            for sid in TEST:
                 with torch.no_grad():
-                    z = st(torch.tensor((X[sid] - hm) / hs, dtype=torch.double)).mean(0).numpy()
-                return curve_from_z(q, z)
-            per_k[k]["student"].append(metrics_for_curves(student_curve))
-            # leak-free sysID-per-k: ridge (closed form) from k-prefix features -> z, fit on TRAIN
-            lam = 1.0; A = Xtrn.numpy(); W = np.linalg.solve(A.T @ A + lam * np.eye(A.shape[1]), A.T @ Ytr)
-            def sysid_curve(sid):
-                z = ((X[sid] - hm) / hs) @ W
-                return curve_from_z(q, z.mean(0))
-            per_k[k]["sysid"].append(metrics_for_curves(sysid_curve))
+                    zst = st(torch.tensor((X[sid] - hm) / hs, dtype=torch.double)).mean(0).numpy()
+                surfaces["student"][ki][sid].append(curve_from_z(q, zst))
+                zsy = (((X[sid] - hm) / hs) @ W).mean(0)
+                surfaces["sysid"][ki][sid].append(curve_from_z(q, zsy))
 
-    def band(metric_dicts, field):
-        means = [m[field]["mean"] for m in metric_dicts]
-        return dict(mean=float(np.mean(means)), seed_std=float(np.std(means)), n_seeds=len(means))
+    # ---- metrics recomputed FROM the raw surfaces (single source of truth) ---- #
+    def band_iou(pred, meas, tau=0.5):
+        P = set(np.where(np.asarray(pred) >= tau)[0].tolist()); M = set(np.where(np.asarray(meas) >= tau)[0].tolist())
+        if not P and not M:
+            return 1.0
+        return float(len(P & M) / len(P | M)) if (P | M) else 1.0
 
-    curve = {b: {"map_rmse": [band(per_k[k][b], "map_rmse") for k in ac.K_AXIS],
-                 "selection_regret": [band(per_k[k][b], "selection_regret") for k in ac.K_AXIS],
-                 "boundary_err": [band(per_k[k][b], "boundary_err") for k in ac.K_AXIS]}
-             for b in ("teacher", "blind", "student", "sysid")}
-    results = dict(item="1_k_interaction_adaptation_curve", manifest_digest_of="adaptation_curve_manifest.json",
-                   k_axis=list(ac.K_AXIS), task="lift_and_clear_primary_17cell", train_seeds=train_seeds,
-                   history_seeds=hist_seeds, test_groups=TEST, curve=curve,
+    def agg_over_seeds(per_setting_metric):
+        """per_setting_metric(ki, si, sid) -> value|None. Aggregate over unique-(B,w) groups (A-15) per seed, then band over seeds."""
+        out = []
+        for ki in range(len(ac.K_AXIS)):
+            per_seed = []
+            for si in range(len(train_seeds)):
+                vals = [per_setting_metric(ki, si, sid) for sid in TEST]
+                per_seed.append(ac.aggregate_unique_groups(vals)["mean"])
+            arr = np.asarray(per_seed, float)
+            out.append(dict(mean=(None if np.all(np.isnan(arr)) else float(np.nanmean(arr))),
+                            seed_std=(None if np.all(np.isnan(arr)) else float(np.nanstd(arr))), n_seeds=len(train_seeds)))
+        return out
+
+    def make_curve(b):
+        return {"map_rmse": agg_over_seeds(lambda ki, si, sid: ac.map_rmse(surfaces[b][ki][sid][si], measured[sid])),
+                "selection_regret": agg_over_seeds(lambda ki, si, sid: ac.selection_regret(surfaces[b][ki][sid][si], measured[sid])),
+                "boundary_err": agg_over_seeds(lambda ki, si, sid: ac.boundary_index_error(surfaces[b][ki][sid][si], measured[sid], ell)),
+                "band_iou": agg_over_seeds(lambda ki, si, sid: band_iou(surfaces[b][ki][sid][si], measured[sid]))}
+
+    curve = {b: make_curve(b) for b in ("teacher", "blind", "student", "sysid")}
+
+    # ratio-pair invariance controls (A-15): R0<->B1_w1(c2.0) / R1<->B3_w2(c0.5) / R2<->B2_w1(c1.5) on the MEASURED oracle
+    ratio_ref = {"R0": "B1_w1", "R1": "B3_w2", "R2": "B2_w1"}
+    def argmax_meas(sid):
+        return int(np.argmax(np.asarray(land[sid]["success_rate"], float)))
+    ratio_invariance = {rid: dict(reference=ref, argmax_cell=argmax_meas(rid), reference_argmax_cell=argmax_meas(ref),
+                                  offset_cells=int(abs(argmax_meas(rid) - argmax_meas(ref))),
+                                  invariant=bool(abs(argmax_meas(rid) - argmax_meas(ref)) <= 1)) for rid, ref in ratio_ref.items()}
+
+    c1_sha = hashlib.sha256((MAN / "adaptation_curve_manifest.json").read_bytes()).hexdigest()
+    protocol_fidelity = dict(
+        oracle=dict(source="addendum_landscape.json", pinned_in_c1=True, note="the measured success-rate oracle is a C1-PINNED input artifact -> reuse is freeze-consistent"),
+        teacher_labels=dict(source="addendum_sweep_results.npz", bank="selection", pinned_in_c1=False,
+                            seeds_used="addendum committed selection bank (prior 2100-2102), NOT the frozen NEW selection {2300,2301,2302}",
+                            REPORTED_DEVIATION="teacher/student-target labels came from the UNPINNED committed addendum selection sweep, not a new-seed {2300-2302} sweep"),
+        frozen_but_unused_banks=dict(selection=list(ac.SEED_BANKS["selection"]), evaluation=list(ac.SEED_BANKS["evaluation"]),
+                                     note="C1 froze NEW selection/evaluation banks AND pinned addendum_landscape as the oracle -> internally inconsistent; the new sel/eval sweeps were NOT run. ESCALATED to owner at closure (run new-seed sweeps for exact fidelity vs accept the pinned-oracle reuse with a corrected re-freeze)."),
+        seeds_executed_exactly=dict(history=hist_seeds, training=train_seeds, note="history + training banks used exactly as frozen"),
+        estimator_arch=dict(k_prefix_summary="ac.prefix_summary mean-pool (42-D)", student_distiller="Linear(42,64)-ReLU-Linear(64,32)-ReLU-Linear(32,4) -> latent z",
+                            frozen_head="the frozen MLP[32,32] is the TEACHER q-head consuming (grasp, z); the student produces z which that frozen head maps -> matches estimator.spec"))
+
+    def clean(o):
+        if isinstance(o, float) and np.isnan(o):
+            return None
+        if isinstance(o, dict):
+            return {k: clean(v) for k, v in o.items()}
+        if isinstance(o, list):
+            return [clean(v) for v in o]
+        return o
+
+    results = clean(dict(item="1_k_interaction_adaptation_curve", manifest_digest_of="adaptation_curve_manifest.json",
+                   c1_manifest_sha256=c1_sha, k_axis=list(ac.K_AXIS), task="lift_and_clear_primary_17cell", train_seeds=train_seeds,
+                   history_seeds=hist_seeds, test_groups=TEST, curve=curve, ratio_invariance=ratio_invariance,
+                   protocol_fidelity=protocol_fidelity,
                    reference_endpoints_DESCRIPTIVE={"lift_map_rmse_task": 0.043304, "teacher": 0.122776, "blind": 0.327524},
                    lift_selection_regret_degenerate=True,
-                   acceptance_note="PROTOCOL + HONESTY: frozen protocol executed; ordering (blind=k0, teacher flat ceiling, sysID shown) reported; reference endpoints + monotonicity DESCRIPTIVE only; a flat/non-monotone curve is a valid honest outcome.")
-    (MAN / "adaptation_curve_results.json").write_text(json.dumps(results, indent=2, default=float))
+                   acceptance_note="PROTOCOL + HONESTY (NOT performance): the per-k curve, ordering (blind=k0, teacher flat ceiling, sysID shown), band IoU, and ratio invariance are reported; reference endpoints + monotonicity are DESCRIPTIVE only; a flat/non-monotone curve is a valid honest outcome. See protocol_fidelity for the REPORTED teacher-labels seed deviation + the frozen-manifest inconsistency escalated to the owner."))
+    (MAN / "adaptation_curve_results.json").write_text(json.dumps(results, indent=2))
+    # persist the RAW surfaces so the independent red-team can recompute every scalar
+    flat = {}
+    for b in surfaces:
+        for ki in range(len(ac.K_AXIS)):
+            for sid in TEST:
+                flat[f"{b}__k{ac.K_AXIS[ki]}__{sid}"] = np.asarray(surfaces[b][ki][sid])   # (n_seeds, 17)
+    for sid in TEST:
+        flat[f"measured__{sid}"] = measured[sid]
+    np.savez(MAN / "adaptation_curve_surfaces.npz", ell=ell, k_axis=np.array(list(ac.K_AXIS)),
+             train_seeds=np.array(train_seeds), test_groups=np.array(TEST), c1_manifest_sha256=c1_sha, **flat)
     np.savez(MAN / "adaptation_curve_sweep_results.npz",
-             **{f"{b}_map_rmse_mean": np.array([band(per_k[k][b], "map_rmse")["mean"] for k in ac.K_AXIS]) for b in curve})
+             **{f"{b}_map_rmse_mean": np.array([(x["mean"] if x["mean"] is not None else np.nan) for x in curve[b]["map_rmse"]]) for b in curve})
     _figure(curve)
     print("SWEEP done. k-axis:", list(ac.K_AXIS))
     for b in ("teacher", "blind", "student", "sysid"):
-        print(" ", b, "map_rmse:", [round(x["mean"], 4) for x in curve[b]["map_rmse"]])
+        print(" ", b, "map_rmse:", [None if x["mean"] is None else round(x["mean"], 4) for x in curve[b]["map_rmse"]])
+    print(" ratio_invariance:", {r: ratio_invariance[r]["offset_cells"] for r in ratio_invariance})
+    print(" PROTOCOL FIDELITY: teacher-labels seed DEVIATION reported (old sel bank); new sel/eval frozen-but-unused; oracle pinned+reused. Escalated to owner.")
     return results
 
 

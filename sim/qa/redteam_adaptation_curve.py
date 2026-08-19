@@ -139,21 +139,21 @@ def main() -> int:
     ck("k=0 estimator is None (-> blind)", k0_none, "prefix_summary(x,0) is None")
     ck("results k=0 student == blind", k0_eq_blind, f"student k0={curve['student']['map_rmse'][0]['mean']:.4f}")
 
-    # 6) NO cohort thinning: exact 2040-rollout inventory + schedule coverage - #
+    # 6) NO cohort thinning: EXACT-KEY Cartesian inventory (Counter vs full product) - #
+    from collections import Counter
     hz = np.load(MAN / "adaptation_curve_lift_histories.npz", allow_pickle=True)
-    n = int(hz["grasp"].shape[0])
-    universe = list(ac.TRAIN_GROUPS + ac.VAL_GROUPS + ac.TEST_GROUPS)
-    expect = len(universe) * ac.LIFT_N_CELLS * ac.N_TEMPLATES * len(ac.SEED_BANKS["history"])
-    ck("history inventory exact (no thinning)", n == expect == 2040, f"rollouts={n} expected={expect} (=15x17x4x2)")
     S = hz["setting"].astype(str); Gr = hz["grasp"].astype(int); Tp = hz["template"].astype(int); Sd = hz["seed"].astype(int)
+    universe = list(ac.TRAIN_GROUPS + ac.VAL_GROUPS + ac.TEST_GROUPS)
+    got = Counter(zip(S.tolist(), Gr.tolist(), Tp.tolist(), Sd.tolist()))
+    want = Counter((s, g, t, sd) for s in universe for g in range(ac.LIFT_N_CELLS)
+                   for t in range(ac.N_TEMPLATES) for sd in ac.SEED_BANKS["history"])
+    exact = got == want
+    dup = [key for key, c in got.items() if c > 1]
+    ck("history inventory EXACT Cartesian (no dup, no missing)", exact,
+       f"rows={sum(got.values())} unique_keys={len(got)} want={len(want)} dups={dup[:2]}" if not exact else f"exact 15x17x4x2={len(want)} keys, each x1")
     kmax = max(ac.K_AXIS)
-    missing = []
-    for sid in ac.TEST_GROUPS:
-        for j in range(kmax):
-            cell, _, tmpl = prod_sl[j]
-            for sd in ac.SEED_BANKS["history"]:
-                if not ((S == sid) & (Gr == cell) & (Tp == tmpl) & (Sd == sd)).any():
-                    missing.append((sid, cell, tmpl, sd))
+    missing = [(sid, prod_sl[j][0], prod_sl[j][2], sd) for sid in ac.TEST_GROUPS for j in range(kmax)
+               for sd in ac.SEED_BANKS["history"] if not ((S == sid) & (Gr == prod_sl[j][0]) & (Tp == prod_sl[j][2]) & (Sd == sd)).any()]
     ck("max-k(32) prefix fully covered for TEST", not missing, f"missing={missing[:3]}" if missing else "all first-32 present")
 
     # 7) mean-pool k-prefix: independent recompute selects EXACTLY the first-k schedule cells - #
@@ -190,14 +190,76 @@ def main() -> int:
         agree = False; details.append("aggregate")
     ck("FRESH scorers agree with production", agree, "map/regret/boundary/aggregate identical on raw inputs" if agree else str(details))
 
-    # 9) reported curve shape is honest (DESCRIPTIVE, non-gating) ------------- #
-    stu = [c["mean"] for c in curve["student"]["map_rmse"]]
-    tea = curve["teacher"]["map_rmse"][0]["mean"]; bli = curve["blind"]["map_rmse"][0]["mean"]
-    reaches = min(stu) <= tea + 0.03 and stu[0] == bli
-    ck("adaptation curve honest (blind->teacher-ceiling)", reaches,
-       f"student {[round(x,3) for x in stu]} teacher~{tea:.3f} blind~{bli:.3f}")
+    # 9) INDEPENDENT RECOMPUTE of EVERY committed scalar from the persisted RAW surfaces -- #
+    surf = np.load(MAN / "adaptation_curve_surfaces.npz", allow_pickle=True)
+    meas = {sid: np.asarray(surf[f"measured__{sid}"], float) for sid in ac.TEST_GROUPS}
+    tseeds = surf["train_seeds"].tolist()
+    surf_c1 = str(surf["c1_manifest_sha256"].item()) if surf["c1_manifest_sha256"].shape == () else str(surf["c1_manifest_sha256"])
+    def qa_band_iou(pred, m, tau=0.5):
+        P = set(np.where(np.asarray(pred) >= tau)[0].tolist()); M = set(np.where(np.asarray(m) >= tau)[0].tolist())
+        return 1.0 if (not P and not M) else (float(len(P & M) / len(P | M)) if (P | M) else 1.0)
+    def qa_band_over_seeds(b, ki, fn):
+        per_seed = []
+        for si in range(len(tseeds)):
+            vals = [fn(surf[f"{b}__k{ac.K_AXIS[ki]}__{sid}"][si], sid) for sid in ac.TEST_GROUPS]
+            per_seed.append(qa_aggregate(vals))
+        arr = np.asarray(per_seed, float)
+        return None if np.all(np.isnan(arr)) else float(np.nanmean(arr))
+    field_fns = {
+        "map_rmse": lambda c, sid: qa_map_rmse(c, meas[sid]),
+        "selection_regret": lambda c, sid: qa_selection_regret(c, meas[sid]),
+        "boundary_err": lambda c, sid: qa_boundary_err(c, meas[sid], ell),
+        "band_iou": lambda c, sid: qa_band_iou(c, meas[sid]),
+    }
+    ell = np.array(json.loads((MAN / "hard_sweep_manifest.json").read_text())["grasp"]["ell"], float)
+    mism = []
+    for b in ("teacher", "blind", "student", "sysid"):
+        for field, fn in field_fns.items():
+            for ki in range(len(ac.K_AXIS)):
+                qa = qa_band_over_seeds(b, ki, fn); rep = curve[b][field][ki]["mean"]
+                if (qa is None) != (rep is None) or (qa is not None and rep is not None and abs(qa - rep) > 1e-9):
+                    mism.append(f"{b}.{field}.k{ac.K_AXIS[ki]} qa={qa} rep={rep}")
+    ck("committed scalars RECOMPUTED from raw surfaces (byte-match)", not mism,
+       f"mismatch {mism[:3]}" if mism else "all 4 baselines x 4 metrics x 7 k reproduced from surfaces within 1e-9")
+    ck("surfaces content-bound to C1 manifest sha", surf_c1 == sha256(MAN / "adaptation_curve_manifest.json"),
+       f"surfaces c1_sha={surf_c1[:12]}")
+    # k=0 student/sysid surfaces are byte-identical to blind (membership at the surface level)
+    k0_surf = all(np.array_equal(surf[f"student__k0__{sid}"], surf[f"blind__k0__{sid}"]) and
+                  np.array_equal(surf[f"sysid__k0__{sid}"], surf[f"blind__k0__{sid}"]) for sid in ac.TEST_GROUPS)
+    ck("k=0 student/sysid surfaces == blind (surface membership)", k0_surf, "k0 predicted curves identical to blind")
+
+    # 10) band IoU + ratio-pair invariance are present + recomputed ---------- #
+    ri = res.get("ratio_invariance", {})
+    land2 = {x["id"]: x for x in json.loads((MAN / "addendum_landscape.json").read_text())["settings"]}
+    ref_map = {"R0": "B1_w1", "R1": "B3_w2", "R2": "B2_w1"}
+    ri_ok = all(rid in ri and ri[rid]["reference"] == ref and
+                ri[rid]["offset_cells"] == abs(int(np.argmax(land2[rid]["success_rate"])) - int(np.argmax(land2[ref]["success_rate"])))
+                for rid, ref in ref_map.items())
+    ck("ratio-pair invariance emitted + recomputed (A-15 control)", ri_ok,
+       f"offsets={{r: ri[r]['offset_cells'] for r in ri}}" if ri else "absent")
+    ck("band IoU emitted for all baselines", all("band_iou" in curve[b] and len(curve[b]["band_iou"]) == len(ac.K_AXIS) for b in curve),
+       "band_iou present at every k for teacher/blind/student/sysid")
+
+    # 11) PROTOCOL-FIDELITY audit: the seed deviation is HONESTLY DISCLOSED (reported, not hidden) - #
+    pf = res.get("protocol_fidelity", {})
+    honest_pf = (pf.get("oracle", {}).get("pinned_in_c1") is True
+                 and pf.get("teacher_labels", {}).get("pinned_in_c1") is False
+                 and "REPORTED_DEVIATION" in pf.get("teacher_labels", {})
+                 and "frozen_but_unused_banks" in pf)
+    # confirm the code path truly reads the UNPINNED addendum_sweep_results (not the frozen new sel bank)
+    src = (ROOT / "run_adaptation_curve.py").read_text()
+    uses_old = "addendum_sweep_results.npz" in src and "addendum_landscape.json" in src
+    ck("protocol-fidelity deviation HONESTLY disclosed", honest_pf and uses_old,
+       "results.protocol_fidelity discloses: oracle pinned+reused; teacher-labels from UNPINNED old-sel addendum_sweep_results; new sel/eval frozen-but-unused; escalated to owner")
     ck("lift selection-regret degeneracy reported", res.get("lift_selection_regret_degenerate") is True,
        "all lift regret 0.0 (committed degeneracy, reported honestly)")
+
+    # DESCRIPTIVE (NON-GATING) curve shape -- reported, never a survival condition per outcome_binding_rule
+    stu = [c["mean"] for c in curve["student"]["map_rmse"]]
+    tea = curve["teacher"]["map_rmse"][0]["mean"]; bli = curve["blind"]["map_rmse"][0]["mean"]
+    print(json.dumps(dict(DESCRIPTIVE_non_gating=dict(student_map_rmse=[round(x, 4) for x in stu],
+                     teacher_ceiling=round(tea, 4), blind=round(bli, 4),
+                     note="reported for orientation ONLY; performance + monotonicity NEVER gate (manifest outcome_binding_rule)"))))
 
     # -------------------------------------------------------------------- #
     npass = sum(1 for _, ok, _ in checks if ok)

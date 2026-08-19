@@ -1,6 +1,7 @@
 {
   "item": "1_k_interaction_adaptation_curve",
   "manifest_digest_of": "adaptation_curve_manifest.json",
+  "c1_manifest_sha256": "a8ef9dbc9a65ffa12b5b1d7b9885f5ab9f7ed9d4d9f9083f3e60e90f1185a6c3",
   "k_axis": [
     0,
     1,
@@ -140,6 +141,43 @@
           "seed_std": 0.20355324719008594,
           "n_seeds": 3
         }
+      ],
+      "band_iou": [
+        {
+          "mean": 0.9411375661375662,
+          "seed_std": 0.05128967187920978,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9411375661375662,
+          "seed_std": 0.05128967187920978,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9411375661375662,
+          "seed_std": 0.05128967187920978,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9411375661375662,
+          "seed_std": 0.05128967187920978,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9411375661375662,
+          "seed_std": 0.05128967187920978,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9411375661375662,
+          "seed_std": 0.05128967187920978,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9411375661375662,
+          "seed_std": 0.05128967187920978,
+          "n_seeds": 3
+        }
       ]
     },
     "blind": {
@@ -251,6 +289,43 @@
         {
           "mean": 3.063045847847947,
           "seed_std": 0.07988535330155383,
+          "n_seeds": 3
+        }
+      ],
+      "band_iou": [
+        {
+          "mean": 0.6666666666666666,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.6666666666666666,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.6666666666666666,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.6666666666666666,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.6666666666666666,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.6666666666666666,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.6666666666666666,
+          "seed_std": 0.0,
           "n_seeds": 3
         }
       ]
@@ -366,6 +441,43 @@
           "seed_std": 0.24338000470947363,
           "n_seeds": 3
         }
+      ],
+      "band_iou": [
+        {
+          "mean": 0.6666666666666666,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.8809523809523809,
+          "seed_std": 0.03367175148507363,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9182539682539682,
+          "seed_std": 0.0356525038812956,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9722222222222222,
+          "seed_std": 0.039283710065919325,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9433862433862433,
+          "seed_std": 0.04666294721767053,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9285714285714285,
+          "seed_std": 0.054119768638832756,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9314814814814815,
+          "seed_std": 0.05671626974486504,
+          "n_seeds": 3
+        }
       ]
     },
     "sysid": {
@@ -450,36 +562,142 @@
           "n_seeds": 3
         },
         {
-          "mean": NaN,
-          "seed_std": NaN,
+          "mean": 3.9422980217496093,
+          "seed_std": 0.6510089114404636,
           "n_seeds": 3
         },
         {
-          "mean": NaN,
-          "seed_std": NaN,
+          "mean": 5.200164536412573,
+          "seed_std": 0.0,
           "n_seeds": 3
         },
         {
-          "mean": NaN,
-          "seed_std": NaN,
+          "mean": 5.039104039604144,
+          "seed_std": 0.0,
           "n_seeds": 3
         },
         {
-          "mean": NaN,
-          "seed_std": NaN,
+          "mean": 4.835561510619053,
+          "seed_std": 0.0,
           "n_seeds": 3
         },
         {
-          "mean": NaN,
-          "seed_std": NaN,
+          "mean": 4.967299672236777,
+          "seed_std": 0.0,
           "n_seeds": 3
         },
         {
-          "mean": NaN,
-          "seed_std": NaN,
+          "mean": 4.999148429070148,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        }
+      ],
+      "band_iou": [
+        {
+          "mean": 0.6666666666666666,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.14814814814814814,
+          "seed_std": 0.11415581486979584,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.037037037037037035,
+          "seed_std": 0.05237828008789241,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.037037037037037035,
+          "seed_std": 0.05237828008789241,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.037037037037037035,
+          "seed_std": 0.05237828008789241,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.037037037037037035,
+          "seed_std": 0.05237828008789241,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.037037037037037035,
+          "seed_std": 0.05237828008789241,
           "n_seeds": 3
         }
       ]
+    }
+  },
+  "ratio_invariance": {
+    "R0": {
+      "reference": "B1_w1",
+      "argmax_cell": 0,
+      "reference_argmax_cell": 0,
+      "offset_cells": 0,
+      "invariant": true
+    },
+    "R1": {
+      "reference": "B3_w2",
+      "argmax_cell": 0,
+      "reference_argmax_cell": 0,
+      "offset_cells": 0,
+      "invariant": true
+    },
+    "R2": {
+      "reference": "B2_w1",
+      "argmax_cell": 0,
+      "reference_argmax_cell": 0,
+      "offset_cells": 0,
+      "invariant": true
+    }
+  },
+  "protocol_fidelity": {
+    "oracle": {
+      "source": "addendum_landscape.json",
+      "pinned_in_c1": true,
+      "note": "the measured success-rate oracle is a C1-PINNED input artifact -> reuse is freeze-consistent"
+    },
+    "teacher_labels": {
+      "source": "addendum_sweep_results.npz",
+      "bank": "selection",
+      "pinned_in_c1": false,
+      "seeds_used": "addendum committed selection bank (prior 2100-2102), NOT the frozen NEW selection {2300,2301,2302}",
+      "REPORTED_DEVIATION": "teacher/student-target labels came from the UNPINNED committed addendum selection sweep, not a new-seed {2300-2302} sweep"
+    },
+    "frozen_but_unused_banks": {
+      "selection": [
+        2300,
+        2301,
+        2302
+      ],
+      "evaluation": [
+        3300,
+        3301,
+        3302,
+        3303,
+        3304
+      ],
+      "note": "C1 froze NEW selection/evaluation banks AND pinned addendum_landscape as the oracle -> internally inconsistent; the new sel/eval sweeps were NOT run. ESCALATED to owner at closure (run new-seed sweeps for exact fidelity vs accept the pinned-oracle reuse with a corrected re-freeze)."
+    },
+    "seeds_executed_exactly": {
+      "history": [
+        2500,
+        2501
+      ],
+      "training": [
+        3500,
+        3510,
+        3520
+      ],
+      "note": "history + training banks used exactly as frozen"
+    },
+    "estimator_arch": {
+      "k_prefix_summary": "ac.prefix_summary mean-pool (42-D)",
+      "student_distiller": "Linear(42,64)-ReLU-Linear(64,32)-ReLU-Linear(32,4) -> latent z",
+      "frozen_head": "the frozen MLP[32,32] is the TEACHER q-head consuming (grasp, z); the student produces z which that frozen head maps -> matches estimator.spec"
     }
   },
   "reference_endpoints_DESCRIPTIVE": {
@@ -488,5 +706,5 @@
     "blind": 0.327524
   },
   "lift_selection_regret_degenerate": true,
-  "acceptance_note": "PROTOCOL + HONESTY: frozen protocol executed; ordering (blind=k0, teacher flat ceiling, sysID shown) reported; reference endpoints + monotonicity DESCRIPTIVE only; a flat/non-monotone curve is a valid honest outcome."
+  "acceptance_note": "PROTOCOL + HONESTY (NOT performance): the per-k curve, ordering (blind=k0, teacher flat ceiling, sysID shown), band IoU, and ratio invariance are reported; reference endpoints + monotonicity are DESCRIPTIVE only; a flat/non-monotone curve is a valid honest outcome. See protocol_fidelity for the REPORTED teacher-labels seed deviation + the frozen-manifest inconsistency escalated to the owner."
 }
