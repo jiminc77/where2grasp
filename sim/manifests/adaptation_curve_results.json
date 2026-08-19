@@ -1,0 +1,492 @@
+{
+  "item": "1_k_interaction_adaptation_curve",
+  "manifest_digest_of": "adaptation_curve_manifest.json",
+  "k_axis": [
+    0,
+    1,
+    2,
+    4,
+    8,
+    16,
+    32
+  ],
+  "task": "lift_and_clear_primary_17cell",
+  "train_seeds": [
+    3500,
+    3510,
+    3520
+  ],
+  "history_seeds": [
+    2500,
+    2501
+  ],
+  "test_groups": [
+    "B1_w1",
+    "R0",
+    "B3_w2",
+    "R1",
+    "B2_w1",
+    "R2"
+  ],
+  "curve": {
+    "teacher": {
+      "map_rmse": [
+        {
+          "mean": 0.0850794456299105,
+          "seed_std": 0.04318646657511426,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0850794456299105,
+          "seed_std": 0.04318646657511426,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0850794456299105,
+          "seed_std": 0.04318646657511426,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0850794456299105,
+          "seed_std": 0.04318646657511426,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0850794456299105,
+          "seed_std": 0.04318646657511426,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0850794456299105,
+          "seed_std": 0.04318646657511426,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0850794456299105,
+          "seed_std": 0.04318646657511426,
+          "n_seeds": 3
+        }
+      ],
+      "selection_regret": [
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        }
+      ],
+      "boundary_err": [
+        {
+          "mean": 0.32775381842939316,
+          "seed_std": 0.20355324719008594,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.32775381842939316,
+          "seed_std": 0.20355324719008594,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.32775381842939316,
+          "seed_std": 0.20355324719008594,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.32775381842939316,
+          "seed_std": 0.20355324719008594,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.32775381842939316,
+          "seed_std": 0.20355324719008594,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.32775381842939316,
+          "seed_std": 0.20355324719008594,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.32775381842939316,
+          "seed_std": 0.20355324719008594,
+          "n_seeds": 3
+        }
+      ]
+    },
+    "blind": {
+      "map_rmse": [
+        {
+          "mean": 0.33109471549219943,
+          "seed_std": 0.0028036020474766126,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.33109471549219943,
+          "seed_std": 0.0028036020474766126,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.33109471549219943,
+          "seed_std": 0.0028036020474766126,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.33109471549219943,
+          "seed_std": 0.0028036020474766126,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.33109471549219943,
+          "seed_std": 0.0028036020474766126,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.33109471549219943,
+          "seed_std": 0.0028036020474766126,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.33109471549219943,
+          "seed_std": 0.0028036020474766126,
+          "n_seeds": 3
+        }
+      ],
+      "selection_regret": [
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        }
+      ],
+      "boundary_err": [
+        {
+          "mean": 3.063045847847947,
+          "seed_std": 0.07988535330155383,
+          "n_seeds": 3
+        },
+        {
+          "mean": 3.063045847847947,
+          "seed_std": 0.07988535330155383,
+          "n_seeds": 3
+        },
+        {
+          "mean": 3.063045847847947,
+          "seed_std": 0.07988535330155383,
+          "n_seeds": 3
+        },
+        {
+          "mean": 3.063045847847947,
+          "seed_std": 0.07988535330155383,
+          "n_seeds": 3
+        },
+        {
+          "mean": 3.063045847847947,
+          "seed_std": 0.07988535330155383,
+          "n_seeds": 3
+        },
+        {
+          "mean": 3.063045847847947,
+          "seed_std": 0.07988535330155383,
+          "n_seeds": 3
+        },
+        {
+          "mean": 3.063045847847947,
+          "seed_std": 0.07988535330155383,
+          "n_seeds": 3
+        }
+      ]
+    },
+    "student": {
+      "map_rmse": [
+        {
+          "mean": 0.33109471549219943,
+          "seed_std": 0.0028036020474766126,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.17646356604968796,
+          "seed_std": 0.04889964721106371,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.12798239712120182,
+          "seed_std": 0.051648201484601496,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.06896780012127691,
+          "seed_std": 0.016050452420642593,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.09086353930385466,
+          "seed_std": 0.04594823514503873,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.11001763131566573,
+          "seed_std": 0.016373992576854714,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.09392810663454902,
+          "seed_std": 0.04559048557970281,
+          "n_seeds": 3
+        }
+      ],
+      "selection_regret": [
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        }
+      ],
+      "boundary_err": [
+        {
+          "mean": 3.063045847847947,
+          "seed_std": 0.07988535330155383,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.8972407116770706,
+          "seed_std": 0.4154763896376821,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.5536720798548593,
+          "seed_std": 0.33542328869413757,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.18350528989275897,
+          "seed_std": 0.0300210223211012,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.35391511145394555,
+          "seed_std": 0.20878942641991338,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.3709189475153299,
+          "seed_std": 0.1956449488867355,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.38159519802786407,
+          "seed_std": 0.24338000470947363,
+          "n_seeds": 3
+        }
+      ]
+    },
+    "sysid": {
+      "map_rmse": [
+        {
+          "mean": 0.33109471549219943,
+          "seed_std": 0.0028036020474766126,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.4840348542526624,
+          "seed_std": 0.04820435000882313,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.538745599579196,
+          "seed_std": 0.024614759639694894,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.5376111995014433,
+          "seed_std": 0.0268704871777834,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.5341825725860372,
+          "seed_std": 0.0313711948330282,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.535955932960206,
+          "seed_std": 0.02958694069589598,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.5363216394003142,
+          "seed_std": 0.029243744523560142,
+          "n_seeds": 3
+        }
+      ],
+      "selection_regret": [
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        }
+      ],
+      "boundary_err": [
+        {
+          "mean": 3.063045847847947,
+          "seed_std": 0.07988535330155383,
+          "n_seeds": 3
+        },
+        {
+          "mean": NaN,
+          "seed_std": NaN,
+          "n_seeds": 3
+        },
+        {
+          "mean": NaN,
+          "seed_std": NaN,
+          "n_seeds": 3
+        },
+        {
+          "mean": NaN,
+          "seed_std": NaN,
+          "n_seeds": 3
+        },
+        {
+          "mean": NaN,
+          "seed_std": NaN,
+          "n_seeds": 3
+        },
+        {
+          "mean": NaN,
+          "seed_std": NaN,
+          "n_seeds": 3
+        },
+        {
+          "mean": NaN,
+          "seed_std": NaN,
+          "n_seeds": 3
+        }
+      ]
+    }
+  },
+  "reference_endpoints_DESCRIPTIVE": {
+    "lift_map_rmse_task": 0.043304,
+    "teacher": 0.122776,
+    "blind": 0.327524
+  },
+  "lift_selection_regret_degenerate": true,
+  "acceptance_note": "PROTOCOL + HONESTY: frozen protocol executed; ordering (blind=k0, teacher flat ceiling, sysID shown) reported; reference endpoints + monotonicity DESCRIPTIVE only; a flat/non-monotone curve is a valid honest outcome."
+}
