@@ -1,0 +1,716 @@
+{
+  "item": "1b_k_interaction_adaptation_curve_GRADUATED",
+  "manifest": "adaptation_curve_manifest_v2.json",
+  "c1_v2_manifest_sha256": "d64469d1811f1a8a53aaa075a129b73872415a0d1a786c1086ab4c32505d81a5",
+  "k_axis": [
+    0,
+    1,
+    2,
+    4,
+    8,
+    16,
+    32
+  ],
+  "task": "lift_and_clear_primary_17cell",
+  "train_seeds": [
+    3500,
+    3510,
+    3520
+  ],
+  "history_seeds": [
+    2500,
+    2501
+  ],
+  "test_groups": [
+    "B1_w1",
+    "R0",
+    "B3_w2",
+    "R1",
+    "B2_w1",
+    "R2"
+  ],
+  "curve": {
+    "teacher": {
+      "map_rmse": [
+        {
+          "mean": 0.08755989334295776,
+          "seed_std": 0.04196371391574899,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.08755989334295776,
+          "seed_std": 0.04196371391574899,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.08755989334295776,
+          "seed_std": 0.04196371391574899,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.08755989334295776,
+          "seed_std": 0.04196371391574899,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.08755989334295776,
+          "seed_std": 0.04196371391574899,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.08755989334295776,
+          "seed_std": 0.04196371391574899,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.08755989334295776,
+          "seed_std": 0.04196371391574899,
+          "n_seeds": 3
+        }
+      ],
+      "selection_regret": [
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        }
+      ],
+      "boundary_err": [
+        {
+          "mean": 0.3137981732810254,
+          "seed_std": 0.19682970542405537,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.3137981732810254,
+          "seed_std": 0.19682970542405537,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.3137981732810254,
+          "seed_std": 0.19682970542405537,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.3137981732810254,
+          "seed_std": 0.19682970542405537,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.3137981732810254,
+          "seed_std": 0.19682970542405537,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.3137981732810254,
+          "seed_std": 0.19682970542405537,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.3137981732810254,
+          "seed_std": 0.19682970542405537,
+          "n_seeds": 3
+        }
+      ],
+      "band_iou": [
+        {
+          "mean": 0.9642857142857143,
+          "seed_std": 0.03504667010447561,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9642857142857143,
+          "seed_std": 0.03504667010447561,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9642857142857143,
+          "seed_std": 0.03504667010447561,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9642857142857143,
+          "seed_std": 0.03504667010447561,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9642857142857143,
+          "seed_std": 0.03504667010447561,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9642857142857143,
+          "seed_std": 0.03504667010447561,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9642857142857143,
+          "seed_std": 0.03504667010447561,
+          "n_seeds": 3
+        }
+      ]
+    },
+    "blind": {
+      "map_rmse": [
+        {
+          "mean": 0.33109484837908976,
+          "seed_std": 0.002803512582418135,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.33109484837908976,
+          "seed_std": 0.002803512582418135,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.33109484837908976,
+          "seed_std": 0.002803512582418135,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.33109484837908976,
+          "seed_std": 0.002803512582418135,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.33109484837908976,
+          "seed_std": 0.002803512582418135,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.33109484837908976,
+          "seed_std": 0.002803512582418135,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.33109484837908976,
+          "seed_std": 0.002803512582418135,
+          "n_seeds": 3
+        }
+      ],
+      "selection_regret": [
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        }
+      ],
+      "boundary_err": [
+        {
+          "mean": 3.063051318750139,
+          "seed_std": 0.07988137108172998,
+          "n_seeds": 3
+        },
+        {
+          "mean": 3.063051318750139,
+          "seed_std": 0.07988137108172998,
+          "n_seeds": 3
+        },
+        {
+          "mean": 3.063051318750139,
+          "seed_std": 0.07988137108172998,
+          "n_seeds": 3
+        },
+        {
+          "mean": 3.063051318750139,
+          "seed_std": 0.07988137108172998,
+          "n_seeds": 3
+        },
+        {
+          "mean": 3.063051318750139,
+          "seed_std": 0.07988137108172998,
+          "n_seeds": 3
+        },
+        {
+          "mean": 3.063051318750139,
+          "seed_std": 0.07988137108172998,
+          "n_seeds": 3
+        },
+        {
+          "mean": 3.063051318750139,
+          "seed_std": 0.07988137108172998,
+          "n_seeds": 3
+        }
+      ],
+      "band_iou": [
+        {
+          "mean": 0.6666666666666666,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.6666666666666666,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.6666666666666666,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.6666666666666666,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.6666666666666666,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.6666666666666666,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.6666666666666666,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        }
+      ]
+    },
+    "student": {
+      "map_rmse": [
+        {
+          "mean": 0.33109484837908976,
+          "seed_std": 0.002803512582418135,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.18164620799364237,
+          "seed_std": 0.04662184080420183,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.11863790854960647,
+          "seed_std": 0.06713852769695594,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.1007163944655514,
+          "seed_std": 0.03188058548682631,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.092066275783267,
+          "seed_std": 0.026973535018248396,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.11502581965747316,
+          "seed_std": 0.018336312962657964,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.08801983216392144,
+          "seed_std": 0.05946937016453084,
+          "n_seeds": 3
+        }
+      ],
+      "selection_regret": [
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        }
+      ],
+      "boundary_err": [
+        {
+          "mean": 3.063051318750139,
+          "seed_std": 0.07988137108172998,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9548116279402246,
+          "seed_std": 0.3962084602869575,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.5065218522305367,
+          "seed_std": 0.429419505858051,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.349935079031719,
+          "seed_std": 0.20155010853173586,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.30988053187278347,
+          "seed_std": 0.13671955401224944,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.4440935124934677,
+          "seed_std": 0.1760973325485569,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.3011061457704345,
+          "seed_std": 0.31358612832016214,
+          "n_seeds": 3
+        }
+      ],
+      "band_iou": [
+        {
+          "mean": 0.6666666666666666,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.8809523809523809,
+          "seed_std": 0.03367175148507363,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.934126984126984,
+          "seed_std": 0.05346403108920413,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9285714285714285,
+          "seed_std": 0.054119768638832756,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9619047619047619,
+          "seed_std": 0.053874802376117865,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9023809523809524,
+          "seed_std": 0.07017417053395426,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.9537037037037037,
+          "seed_std": 0.06547285010986553,
+          "n_seeds": 3
+        }
+      ]
+    },
+    "sysid": {
+      "map_rmse": [
+        {
+          "mean": 0.33109484837908976,
+          "seed_std": 0.002803512582418135,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.4724658872780707,
+          "seed_std": 0.05069561820234278,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.5362260370295164,
+          "seed_std": 0.023233097812972905,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.5358139632298338,
+          "seed_std": 0.02574320849603171,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.5322690201398169,
+          "seed_std": 0.030125447899849594,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.534554913870308,
+          "seed_std": 0.028657147013754065,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.5350883593915734,
+          "seed_std": 0.028395401244411606,
+          "n_seeds": 3
+        }
+      ],
+      "selection_regret": [
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.0,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        }
+      ],
+      "boundary_err": [
+        {
+          "mean": 3.063051318750139,
+          "seed_std": 0.07988137108172998,
+          "n_seeds": 3
+        },
+        {
+          "mean": 3.814108146359527,
+          "seed_std": 0.5180118313534079,
+          "n_seeds": 3
+        },
+        {
+          "mean": 5.196841956498627,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 5.038027420963787,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 4.83594578198609,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 4.967042240690783,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 4.999592489084618,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        }
+      ],
+      "band_iou": [
+        {
+          "mean": 0.6666666666666666,
+          "seed_std": 0.0,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.16666666666666666,
+          "seed_std": 0.12001371663718258,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.037037037037037035,
+          "seed_std": 0.05237828008789241,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.037037037037037035,
+          "seed_std": 0.05237828008789241,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.037037037037037035,
+          "seed_std": 0.05237828008789241,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.037037037037037035,
+          "seed_std": 0.05237828008789241,
+          "n_seeds": 3
+        },
+        {
+          "mean": 0.037037037037037035,
+          "seed_std": 0.05237828008789241,
+          "n_seeds": 3
+        }
+      ]
+    }
+  },
+  "ratio_invariance": {
+    "R0": {
+      "reference": "B1_w1",
+      "argmax_cell": 0,
+      "reference_argmax_cell": 0,
+      "offset_cells": 0,
+      "invariant": true
+    },
+    "R1": {
+      "reference": "B3_w2",
+      "argmax_cell": 0,
+      "reference_argmax_cell": 0,
+      "offset_cells": 0,
+      "invariant": true
+    },
+    "R2": {
+      "reference": "B2_w1",
+      "argmax_cell": 0,
+      "reference_argmax_cell": 0,
+      "offset_cells": 0,
+      "invariant": true
+    }
+  },
+  "protocol_fidelity": {
+    "executed_exactly": true,
+    "oracle": {
+      "source": "adaptation_curve_v2_landscape.json",
+      "built_from_evaluation_bank": [
+        3300,
+        3301,
+        3302,
+        3303,
+        3304
+      ],
+      "frozen_evaluation_bank": [
+        3300,
+        3301,
+        3302,
+        3303,
+        3304
+      ]
+    },
+    "teacher_labels": {
+      "source": "adaptation_curve_v2_sweep_results.npz",
+      "bank": "selection",
+      "built_from_selection_bank": [
+        2300,
+        2301,
+        2302
+      ],
+      "frozen_selection_bank": [
+        2300,
+        2301,
+        2302
+      ]
+    },
+    "history": {
+      "source": "adaptation_curve_lift_histories.npz reused unchanged",
+      "bank": [
+        2500,
+        2501
+      ]
+    },
+    "training": {
+      "bank": [
+        3500,
+        3510,
+        3520
+      ]
+    },
+    "note": "v2 executes the FROZEN sel/eval banks EXACTLY: oracle + teacher labels both built from the new {2300-2302}/{3300-3304} draws this phase; no addendum reuse. Internally consistent -> pre-registered outcome ESTABLISHED."
+  },
+  "pre_registered_outcome": "ESTABLISHED",
+  "pre_registered_outcome_note": "The frozen protocol executed EXACTLY: the new selection {2300-2302} + evaluation {3300-3304} banks were RUN this phase to build BOTH the teacher labels AND the oracle (verified: those exact seeds present in the v2 sweep artifacts). This GRADUATES the Item-1 headline k-interaction adaptation curve to a pre-registered result.",
+  "reference_endpoints_DESCRIPTIVE": {
+    "task": 0.043304,
+    "teacher": 0.122776,
+    "blind": 0.327524,
+    "source": "addendum_results.json:summary"
+  },
+  "lift_selection_regret_degenerate": true,
+  "acceptance_note": "PROTOCOL + HONESTY (NOT performance): frozen banks executed exactly; per-k curve + ordering + band IoU + ratio invariance reported; reference endpoints + monotonicity DESCRIPTIVE only."
+}

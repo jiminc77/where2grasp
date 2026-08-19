@@ -1,0 +1,49 @@
+=== START grasp 1 10:32:57 ===
+{"grasp": 1, "rows": 255, "wall_clock_s": 60.0, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_v2_sweep_g1.npz"}
+=== DONE grasp 1 rc=0 10:34:00 ===
+=== START grasp 2 10:34:00 ===
+{"grasp": 2, "rows": 255, "wall_clock_s": 65.0, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_v2_sweep_g2.npz"}
+=== DONE grasp 2 rc=0 10:35:07 ===
+=== START grasp 3 10:35:07 ===
+{"grasp": 3, "rows": 255, "wall_clock_s": 65.2, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_v2_sweep_g3.npz"}
+=== DONE grasp 3 rc=0 10:36:15 ===
+=== START grasp 4 10:36:15 ===
+{"grasp": 4, "rows": 255, "wall_clock_s": 65.2, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_v2_sweep_g4.npz"}
+=== DONE grasp 4 rc=0 10:37:23 ===
+=== START grasp 5 10:37:23 ===
+{"grasp": 5, "rows": 255, "wall_clock_s": 69.5, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_v2_sweep_g5.npz"}
+=== DONE grasp 5 rc=0 10:38:35 ===
+=== START grasp 6 10:38:35 ===
+{"grasp": 6, "rows": 255, "wall_clock_s": 75.3, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_v2_sweep_g6.npz"}
+=== DONE grasp 6 rc=0 10:39:53 ===
+=== START grasp 7 10:39:53 ===
+{"grasp": 7, "rows": 255, "wall_clock_s": 91.6, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_v2_sweep_g7.npz"}
+=== DONE grasp 7 rc=0 10:41:27 ===
+=== START grasp 8 10:41:27 ===
+{"grasp": 8, "rows": 255, "wall_clock_s": 113.0, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_v2_sweep_g8.npz"}
+=== DONE grasp 8 rc=0 10:43:22 ===
+=== START grasp 9 10:43:22 ===
+{"grasp": 9, "rows": 255, "wall_clock_s": 130.6, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_v2_sweep_g9.npz"}
+=== DONE grasp 9 rc=0 10:45:36 ===
+=== START grasp 10 10:45:36 ===
+{"grasp": 10, "rows": 255, "wall_clock_s": 144.4, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_v2_sweep_g10.npz"}
+=== DONE grasp 10 rc=0 10:48:03 ===
+=== START grasp 11 10:48:03 ===
+{"grasp": 11, "rows": 255, "wall_clock_s": 139.0, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_v2_sweep_g11.npz"}
+=== DONE grasp 11 rc=0 10:50:24 ===
+=== START grasp 12 10:50:24 ===
+{"grasp": 12, "rows": 255, "wall_clock_s": 146.7, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_v2_sweep_g12.npz"}
+=== DONE grasp 12 rc=0 10:52:53 ===
+=== START grasp 13 10:52:53 ===
+{"grasp": 13, "rows": 255, "wall_clock_s": 169.1, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_v2_sweep_g13.npz"}
+=== DONE grasp 13 rc=0 10:55:45 ===
+=== START grasp 14 10:55:45 ===
+{"grasp": 14, "rows": 255, "wall_clock_s": 199.8, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_v2_sweep_g14.npz"}
+=== DONE grasp 14 rc=0 10:59:07 ===
+=== START grasp 15 10:59:07 ===
+{"grasp": 15, "rows": 255, "wall_clock_s": 254.4, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_v2_sweep_g15.npz"}
+=== DONE grasp 15 rc=0 11:03:24 ===
+=== START grasp 16 11:03:24 ===
+{"grasp": 16, "rows": 255, "wall_clock_s": 311.1, "nonconverged": 0.0, "output": "/home/simx2204/where2grasp/sim/manifests/adaptation_curve_v2_sweep_g16.npz"}
+=== DONE grasp 16 rc=0 11:08:37 ===
+ALL_SWEEP_SHARDS_DONE
