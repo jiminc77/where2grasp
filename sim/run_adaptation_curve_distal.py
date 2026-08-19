@@ -183,6 +183,22 @@ def stage_histmerge():
 # --------------------------------------------------------------------------- #
 # stage: ksweep (CPU) -- mean-pool k-prefix distal student: regret-vs-k + map-vs-k
 # --------------------------------------------------------------------------- #
+def frozen_teacher_rows(sw, grid, ng, TRAIN, VAL):
+    """Teacher labels = the FROZEN winner template's selection-bank (success, J), consumed from the
+    persisted `selected_template` (success-only argmax, lowest-index tie). One row per TRAIN+VAL cell."""
+    st = sw["setting"].astype(str); gr = sw["grasp"].astype(int); bk = sw["bank"].astype(str)
+    suc = sw["success"].astype(float); Js = sw["J"].astype(float); seltmpl = sw["selected_template"].astype(bool)
+    rows = []
+    for sid in (list(TRAIN) + list(VAL)):
+        for gi in range(ng):
+            ix = (bk == "selection") & (st == sid) & (gr == gi) & seltmpl
+            if not ix.any():
+                continue
+            assert len(set(sw["template"][ix].astype(int).tolist())) == 1, "selected_template not unique per cell"
+            rows.append((sid, np.array([gi / (ng - 1), float(grid[gi])]), float(suc[ix].mean()), float(Js[ix].mean()), 1.0 if suc[ix].mean() > 0 else 0.0))
+    return rows
+
+
 def stage_ksweep():
     m = json.loads((MAN / DMAN).read_text()); c1 = sha256(MAN / DMAN)
     TRAIN, VAL, TEST = m["splits"]["train"], m["splits"]["val"], m["splits"]["test"]
@@ -192,17 +208,9 @@ def stage_ksweep():
     raw = {k: np.log10([v[0], v[1]]) for k, v in prop.items()}
     a = np.array([raw[k] for k in TRAIN]); pm, psd = a.mean(0), a.std(0); props = {k: (v - pm) / psd for k, v in raw.items()}
     sw = np.load(SWEEP, allow_pickle=True); assert str(sw["manifest_digest"].item()) == c1, "distal sweep not bound to C1-distal"
-    st = sw["setting"].astype(str); gr = sw["grasp"].astype(int); bk = sw["bank"].astype(str)
-    suc = sw["success"].astype(float); Js = sw["J"].astype(float); seltmpl = sw["selected_template"].astype(bool)
+    bk = sw["bank"].astype(str)
     # teacher labels = FROZEN winner (persisted selected_template) selection-bank (success, J)
-    rows = []
-    for sid in (TRAIN + VAL):
-        for gi in range(ng):
-            ix = (bk == "selection") & (st == sid) & (gr == gi) & seltmpl
-            if not ix.any():
-                continue
-            assert len(set(sw["template"][ix].astype(int).tolist())) == 1
-            rows.append((sid, np.array([gi / (ng - 1), float(grid[gi])]), float(suc[ix].mean()), float(Js[ix].mean()), 1.0 if suc[ix].mean() > 0 else 0.0))
+    rows = frozen_teacher_rows(sw, grid, ng, TRAIN, VAL)
     gf = np.c_[np.arange(ng) / (ng - 1), grid]
     land = {x["id"]: x for x in json.loads(LAND.read_text())["settings"]}
     def meas(sid):

@@ -108,6 +108,20 @@ def main():
                 pers_bad.append((s, g))
     ck("evaluation template == frozen success-only winner (all 15x25)", not eval_bad, f"bad={eval_bad[:3]}" if eval_bad else "all cells at frozen winner")
     ck("persisted selected_template == frozen winner", not pers_bad, f"bad={pers_bad[:3]}" if pers_bad else "ok")
+    evc = Counter(zip(st[bk == "evaluation"].tolist(), gr[bk == "evaluation"].tolist(), seed[bk == "evaluation"].tolist()))
+    want_ev = Counter((s, g, sd) for s in ssids for g in range(ng) for sd in ac.SEED_BANKS["evaluation"])
+    ck("evaluation sweep EXACT Cartesian (15x25x5 (setting,cell,eval_seed))", evc == want_ev, f"rows={sum(evc.values())} want={sum(want_ev.values())}")
+    # production teacher-row builder must emit the FROZEN winner's (success, J) for all 225 TRAIN+VAL cells
+    from sim.run_adaptation_curve_distal import frozen_teacher_rows
+    tr = frozen_teacher_rows(sw, grid, ng, man["splits"]["train"], man["splits"]["val"]); tr_bad = []
+    for (sid, gvec, sp, jj, feas) in tr:
+        g = int(round(gvec[0] * (ng - 1))); fw = frozen_win.get((sid, g))
+        selw = (st == sid) & (gr == g) & (bk == "selection") & (tmpl == fw)
+        if abs(sp - float(np.mean(suc[selw]))) > 1e-9 or abs(jj - float(np.mean(J[selw]))) > 1e-9:
+            tr_bad.append((sid, g))
+    ntv = (len(man["splits"]["train"]) + len(man["splits"]["val"])) * ng
+    ck("TEACHER rows use FROZEN winner (success,J) byte-match (9x25=225 cells)", not tr_bad and len(tr) == ntv,
+       f"bad={tr_bad[:3]}" if tr_bad else f"{len(tr)} TRAIN+VAL rows = frozen-winner (success,J)")
 
     # 3) distal ORACLE (success + J) recomputed from the eval bank ------------ #
     land = {x["id"]: x for x in json.loads((MAN / "adaptation_curve_distal_landscape.json").read_text())["settings"]}
@@ -166,13 +180,22 @@ def main():
                np.array_equal(surf[f"sysid__k0__{sid}__pS"], surf[f"blind__k0__{sid}__pS"]) for sid in TEST)
     ck("k=0 student/sysid curves == blind (membership)", k0ok, "k0 predicted curves identical to blind")
 
-    # 7) ratio invariance + outcome + honesty -------------------------------- #
+    # 7) ratio invariance RECOMPUTED from the distal oracle + outcome + honesty #
     ri = res.get("ratio_invariance", {})
-    ck("ratio invariance emitted (A-15 controls)", all(k in ri for k in ("R0", "R1", "R2")), f"{ {k: ri[k]['offset_cells'] for k in ri} }" if ri else "absent")
+    prop_all = {c["id"]: (c["B_eff"], c["w"]) for c in man["grid"]}; prop_all.update({r["id"]: (r["B_eff"], r["w"]) for r in man["ratio_pairs"]})
+    def qa_amx(sid):
+        mjv = np.asarray(land[sid]["J"], float); B, w = prop_all[sid]; inr = tm.pi_g(grid, B, w) <= tm.PI_G_MAX
+        return int(np.where(inr)[0][np.argmax(mjv[inr])]) if inr.any() else int(np.argmax(mjv))
+    ref_map = {r["id"]: r["reference"] for r in man["ratio_pairs"]}
+    ri_bad = [rid for rid, ref in ref_map.items() if rid not in ri or ri[rid]["offset_cells"] != abs(qa_amx(rid) - qa_amx(ref))]
+    ck("ratio-pair invariance offsets RECOMPUTED from distal oracle (byte-match)", not ri_bad,
+       f"bad={ri_bad}" if ri_bad else f"offsets={ {k: ri[k]['offset_cells'] for k in ri} } recomputed")
     ck("pre-registered outcome ESTABLISHED (frozen banks executed exactly)",
        res.get("pre_registered_outcome") == "ESTABLISHED" and res.get("protocol_fidelity", {}).get("executed_exactly") is True, "distal executed the frozen banks exactly")
-    ck("selection regret DISCRIMINATES (teacher < blind, honest report)", res.get("selection_regret_discriminates") in (True, False),
-       f"teacher_regret={curve['teacher']['selection_regret'][0]['mean']:.4f} blind={curve['blind']['selection_regret'][0]['mean']:.4f}")
+    tr_reg = curve["teacher"]["selection_regret"][0]["mean"]; bl_reg = curve["blind"]["selection_regret"][0]["mean"]
+    disc = bool(tr_reg < bl_reg)
+    ck("selection_regret_discriminates RECOMPUTED (teacher<blind) == stored flag", disc == res.get("selection_regret_discriminates"),
+       f"recomputed={disc} (teacher={tr_reg:.4f} blind={bl_reg:.4f}) stored={res.get('selection_regret_discriminates')}")
 
     tr = [c["mean"] for c in curve["student"]["selection_regret"]]
     print(json.dumps(dict(DESCRIPTIVE_non_gating=dict(student_regret=[round(x, 4) for x in tr],
